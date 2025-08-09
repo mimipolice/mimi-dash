@@ -1,7 +1,7 @@
 {
   "appName": "Lolidactyl",
   "common": {
-    "droplets": "露凝",
+    "droplets": "油幣",
     "languages": "语言",
     "login": "登录",
     "logout": "登出",
@@ -166,7 +166,7 @@
     "create": "创建",
     "manage": "管理",
     "overview": "概览",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "coupons": "兑换代码",
     "transfer": "转账",
     "store": "商店",
@@ -420,26 +420,19 @@
     "title": "用户信息",
     "unknownUser": "未知用户",
     "unknownId": "未知",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "dropletsDescription": "您的货币余额",
     "servers": "服务器",
     "serversDescription": "您目前拥有的服务器数量",
     "goToPanel": "前往面板",
-    "resetPassword": "重设密码",
-    "resettingPassword": "重设中...",
-    "confirmResetTitle": "确认重设密码",
-    "confirmResetDescription": "您确定要重设密码吗？这将会产生一个新的密码，旧密码将无法使用。",
-    "cancel": "取消",
-    "confirmReset": "确认重设",
-    "passwordResetSuccess": "密码重设成功",
-    "passwordResetDescription": "您的新密码如下，请妥善保存:",
     "userId": "Discord ID",
-    "newPassword": "新密码",
-    "close": "关闭"
+    "close": "关闭",
+    "copyUserId": "复制 ID",
+    "copied": "已复制"
   },
   "navUser": {
     "logout": "登出",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "language": "语言"
   },
   "adCard": {
@@ -532,7 +525,7 @@
       "backups": "备份",
       "allocations": "网络分配",
       "totalCost": "总费用：",
-      "droplets": "露凝"
+      "droplets": "油幣"
     },
     "balance": {
       "change": "余额变化:",
@@ -580,7 +573,7 @@
       "description": "您已成功兑换代码",
       "rewardReceived": "获得奖励",
       "currentBalance": "当前余额",
-      "droplets": "露凝"
+      "droplets": "油幣"
     },
     "errors": {
       "alreadyUsed": "该兑换代码已被兑换过",
@@ -591,25 +584,26 @@
   },
   "transfer": {
     "breadcrumbs": "转账",
-    "title": "转账露凝",
-    "description": "将您的露凝转账给其他用户",
+    "title": "转账油幣",
+    "description": "将您的油幣转账给其他用户",
     "form": {
       "processing": "处理中...",
       "recipientLabel": "收款人 Discord ID",
       "recipientPlaceholder": "输入 Discord ID",
       "amountLabel": "金额",
       "amountPlaceholder": "输入转账金额",
-      "submit": "转账"
+      "submit": "转账",
+      "feeNotice": "转账将收取 3% 手续费。"
     },
     "success": {
       "title": "转账成功！",
-      "description": "您的露凝已成功转账",
+      "description": "您的油幣已成功转账",
       "details": "转账详情",
       "yourBalance": "您的余额",
       "recipientBalance": "收款人余额",
       "fee": "手续费",
       "actualTransfer": "实际收款",
-      "droplets": "露凝",
+      "droplets": "油幣",
       "close": "完成"
     },
     "errors": {

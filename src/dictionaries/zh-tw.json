@@ -1,7 +1,7 @@
 {
   "appName": "Lolidactyl",
   "common": {
-    "droplets": "露凝",
+    "droplets": "油幣",
     "languages": "語言",
     "login": "登入",
     "logout": "登出",
@@ -166,7 +166,7 @@
     "create": "創建",
     "manage": "管理",
     "overview": "概覽",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "coupons": "兌換代碼",
     "transfer": "轉帳",
     "store": "商店",
@@ -420,26 +420,19 @@
     "title": "使用者資訊",
     "unknownUser": "未知使用者",
     "unknownId": "未知",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "dropletsDescription": "您的貨幣餘額",
     "servers": "伺服器",
     "serversDescription": "您目前擁有的伺服器數量",
     "goToPanel": "前往面板",
-    "resetPassword": "重設密碼",
-    "resettingPassword": "重設中...",
-    "confirmResetTitle": "確認重設密碼",
-    "confirmResetDescription": "您確定要重設密碼嗎？這將會產生一個新的密碼，舊密碼將無法使用。",
-    "cancel": "取消",
-    "confirmReset": "確認重設",
-    "passwordResetSuccess": "密碼重設成功",
-    "passwordResetDescription": "您的新密碼如下，請妥善保存:",
     "userId": "Discord ID",
-    "newPassword": "新密碼",
-    "close": "關閉"
+    "close": "關閉",
+    "copyUserId": "複製 ID",
+    "copied": "已複製"
   },
   "navUser": {
     "logout": "登出",
-    "droplets": "露凝",
+    "droplets": "油幣",
     "language": "語言"
   },
   "adCard": {
@@ -532,7 +525,7 @@
       "backups": "備份",
       "allocations": "網路分配",
       "totalCost": "總費用：",
-      "droplets": "露凝"
+      "droplets": "油幣"
     },
     "balance": {
       "change": "餘額變化:",
@@ -569,7 +562,7 @@
   "coupons": {
     "breadcrumbs": "兌換代碼",
     "title": "兌換代碼",
-    "description": "輸入兌換代碼以兌換露凝",
+    "description": "輸入兌換代碼以兌換油幣",
     "form": {
       "label": "兌換代碼",
       "placeholder": "請輸入您的兌換代碼",
@@ -580,7 +573,7 @@
       "description": "您已成功兌換代碼",
       "rewardReceived": "獲得獎勵",
       "currentBalance": "目前餘額",
-      "droplets": "露凝"
+      "droplets": "油幣"
     },
     "errors": {
       "alreadyUsed": "該兌換代碼已被兌換過",
@@ -591,25 +584,26 @@
   },
   "transfer": {
     "breadcrumbs": "轉帳",
-    "title": "轉帳露凝",
-    "description": "將您的露凝轉帳給其他使用者",
+    "title": "轉帳油幣",
+    "description": "將您的油幣轉帳給其他使用者",
     "form": {
       "processing": "處理中...",
       "recipientLabel": "收款人 Discord ID",
       "recipientPlaceholder": "輸入 Discord ID",
       "amountLabel": "金額",
       "amountPlaceholder": "輸入轉帳金額",
-      "submit": "轉帳"
+      "submit": "轉帳",
+      "feeNotice": "轉帳將收取 3% 手續費。"
     },
     "success": {
       "title": "轉帳成功！",
-      "description": "您的露凝已成功轉帳",
+      "description": "您的油幣已成功轉帳",
       "details": "轉帳詳情",
       "yourBalance": "您的餘額",
       "recipientBalance": "收款人餘額",
       "fee": "手續費",
       "actualTransfer": "實際收款",
-      "droplets": "露凝",
+      "droplets": "油幣",
       "close": "完成"
     },
     "errors": {

@@ -220,6 +220,9 @@ export default function TransferPage() {
                     {isLoading ? t("form.processing") : t("form.submit")}
                   </Button>
                 </Cover>
+                <p className="text-xs text-center text-muted-foreground pt-2">
+                  {t("form.feeNotice")}
+                </p>
               </div>
             </CardContent>
           </Card>
