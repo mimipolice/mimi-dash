@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-/*
 export async function GET() {
   const apiKey = process.env.BACKEND_API_KEY;
   const apiUrl = new URL(process.env.BACKEND_API_URL as string);
@@ -25,4 +24,3 @@ export async function GET() {
     );
   }
 }
-*/

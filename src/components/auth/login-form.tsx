@@ -1,8 +1,12 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { signIn } from "@/auth";
 import { FaDiscord } from "react-icons/fa6";
+import { getTranslations } from "next-intl/server";
+import { Link } from "next-view-transitions";
 import Image from "next/image";
 export async function LoginForm({
   className,
@@ -12,6 +16,7 @@ export async function LoginForm({
     "use server";
     await signIn("discord", { redirectTo: "/dashboard" });
   }
+  const t = await getTranslations("loginForm");
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0 w-full">
@@ -19,14 +24,14 @@ export async function LoginForm({
           <div className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Welcome Back</h1>
+                <h1 className="text-2xl font-bold">{t("welcomeBack")}</h1>
                 <p className="text-muted-foreground text-balance">
-                  Sign in to continue.
+                  {t("description")}
                 </p>
               </div>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
-                  Continue with
+                  {t("continueWith")}
                 </span>
               </div>
 
@@ -41,7 +46,7 @@ export async function LoginForm({
                   <span>Discord</span>
                 </Button>
                 <Button variant="outline" disabled>
-                  Coming Soon
+                  {t("comingSoon")}
                 </Button>
               </div>
             </div>
@@ -57,7 +62,7 @@ export async function LoginForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By continuing, you agree to our Terms of Service and Privacy Policy.
+        {t("agreement")}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -39,6 +40,8 @@ interface RedeemResponse {
 }
 
 export default function CouponsPage() {
+  const t = useTranslations("coupons");
+  const tCommon = useTranslations("common");
   const [couponCode, setCouponCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [successDialog, setSuccessDialog] = useState<{
@@ -57,7 +60,7 @@ export default function CouponsPage() {
     e.preventDefault();
 
     if (!couponCode.trim()) {
-      toast.error("Please enter a coupon code.");
+      toast.error(t("errors.redeemFailed"));
       return;
     }
 
@@ -83,7 +86,7 @@ export default function CouponsPage() {
         });
         setCouponCode("");
       } else {
-        toast.error("Failed to redeem coupon.");
+        toast.error(t("errors.redeemFailed"));
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data) {
@@ -93,19 +96,19 @@ export default function CouponsPage() {
           const errorMessage = errorData.errors[0];
 
           if (errorMessage === "Coupon already used by this user") {
-            toast.error("You have already used this coupon.");
+            toast.error(t("errors.alreadyUsed"));
           } else if (errorMessage === "Coupon not found") {
-            toast.error("Coupon code not found.");
+            toast.error(t("errors.notFound"));
           } else if (errorMessage === "Coupon usage limit reached") {
-            toast.error("This coupon has reached its usage limit.");
+            toast.error(t("errors.limitReached"));
           } else {
-            toast.error("Failed to redeem coupon.");
+            toast.error(t("errors.redeemFailed"));
           }
         } else {
-          toast.error("Failed to redeem coupon.");
+          toast.error(t("errors.redeemFailed"));
         }
       } else {
-        toast.error("Failed to redeem coupon.");
+        toast.error(t("errors.redeemFailed"));
       }
     } finally {
       setIsLoading(false);
@@ -121,15 +124,19 @@ export default function CouponsPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {tCommon("dashboard")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Droplets</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {tCommon("droplets")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Coupons</BreadcrumbPage>
+                <BreadcrumbPage>{t("breadcrumbs")}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -144,10 +151,10 @@ export default function CouponsPage() {
                 <Gift className="h-10 w-10 text-primary" />
               </div>
               <CardTitle className="text-3xl font-bold text-primary">
-                Redeem a Coupon
+                {t("title")}
               </CardTitle>
               <CardDescription className="text-lg mt-3 max-w-md mx-auto text-muted-foreground">
-                Enter your coupon code below to claim your reward.
+                {t("description")}
               </CardDescription>
             </CardHeader>
             <CardContent className="px-12 pb-12">
@@ -157,13 +164,13 @@ export default function CouponsPage() {
                     htmlFor="coupon-code"
                     className="text-lg font-medium text-foreground"
                   >
-                    Coupon Code
+                    {t("form.label")}
                   </Label>
                   <div className="relative">
                     <Input
                       id="coupon-code"
                       type="text"
-                      placeholder="Enter your code"
+                      placeholder={t("form.placeholder")}
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value)}
                       disabled={isLoading}
@@ -184,12 +191,12 @@ export default function CouponsPage() {
                     {isLoading ? (
                       <div className="flex items-center gap-3">
                         <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                        <span>Redeeming...</span>
+                        <span>{t("form.submit")}...</span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-3">
                         <Gift className="h-5 w-5" />
-                        <span>Redeem</span>
+                        <span>{t("form.submit")}</span>
                       </div>
                     )}
                   </Button>
@@ -210,29 +217,29 @@ export default function CouponsPage() {
               <Gift className="h-10 w-10 text-green-600 dark:text-green-400" />
             </div>
             <DialogTitle className="text-center text-2xl font-bold text-green-600 dark:text-green-400">
-              Success!
+              {t("success.title")}
             </DialogTitle>
             <DialogDescription className="text-center text-base mt-2">
-              You have successfully redeemed the coupon.
+              {t("success.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6 pt-4">
             <div className="rounded-xl bg-green-50 dark:bg-green-900/20 p-6 text-center border border-green-200 dark:border-green-800 shadow-inner">
               <div className="text-sm font-medium text-green-700 dark:text-green-300 mb-2">
-                Reward Received
+                {t("success.rewardReceived")}
               </div>
               <div className="text-3xl font-bold text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
                 <Droplets className="h-7 w-7" />+
-                {successDialog.added.toFixed(2)} Droplets
+                {successDialog.added.toFixed(2)} {t("success.droplets")}
               </div>
             </div>
             <div className="rounded-xl border-2 border-dashed border-muted-foreground/20 p-6 text-center bg-muted/30">
               <div className="text-sm font-medium text-muted-foreground mb-2">
-                Your New Balance
+                {t("success.currentBalance")}
               </div>
               <div className="text-2xl font-bold flex items-center justify-center gap-2">
                 <Droplets className="h-6 w-6" />
-                {successDialog.totalCoins.toFixed(2)} Droplets
+                {successDialog.totalCoins.toFixed(2)} {t("success.droplets")}
               </div>
             </div>
             <Button

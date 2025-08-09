@@ -8,9 +8,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
       async profile(profile) {
-        const bannerUrl = profile.banner
-          ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=1024`
-          : null;
         return {
           id: profile.id,
           name: profile.username,
@@ -18,7 +15,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           image: profile.avatar
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
             : null,
-          banner: bannerUrl,
         };
       },
     }),
@@ -39,24 +35,42 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub as string;
-        // @ts-expect-error -- banner is a custom property
-        session.user.banner = token.banner as string | null;
-      }
+    async session({ session }) {
+      if (session.user.image == null || session.user.image == undefined)
+        return session;
+      const url = new URL(session.user.image);
+      const userId = url.pathname.split("/")[2];
+      session.user.id = userId;
       return session;
     },
-    async jwt({ token, profile }) {
-      if (profile) {
-        const bannerUrl = profile.banner
-          ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=1024`
-          : null;
-        token.banner = bannerUrl;
-      }
-      return token;
-    },
     async signIn({ user, account, profile }) {
+      try {
+        const { headers } = await import("next/headers");
+        const headersList = await headers();
+        const ip =
+          headersList.get("x-forwarded-for") ||
+          headersList.get("x-real-ip") ||
+          "";
+        const apiKey = process.env.BACKEND_API_KEY;
+        const apiUrl = new URL(process.env.BACKEND_API_URL as string);
+        apiUrl.pathname = "/ipcheck";
+        apiUrl.searchParams.append("id", profile?.id as string);
+        apiUrl.searchParams.append("ip", ip);
+        const response = await axios.get(apiUrl.toString(), {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            "Content-Type": "application/json",
+          },
+        });
+      } catch (error) {
+        if (
+          axios.isAxiosError(error) &&
+          (error.response?.status === 403 || error.response?.status === 409)
+        ) {
+          throw new Error("AccessDenied");
+        }
+      }
+
       return true;
     },
   },

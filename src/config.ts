@@ -1,8 +1,10 @@
+import { metadata } from "./app/layout";
+
 const appConfig = {
   metadata: {
-    title: "mimiDLC",
+    title: "Lolidactyl",
     description:
-      "mimiDLC is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features.",
+      "Lolidactyl is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features.",
   },
   limit: {
     cpu: {

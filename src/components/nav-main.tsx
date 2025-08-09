@@ -17,7 +17,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
+import { useTranslations } from "next-intl";
 export function NavMain({
   items,
 }: {
@@ -33,9 +34,10 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const t = useTranslations("sidebar");
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("platform")}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
