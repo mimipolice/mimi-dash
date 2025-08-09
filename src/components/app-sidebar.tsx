@@ -66,11 +66,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         isActive: isPathActive("/dashboard/servers"),
         items: [
           {
-            title: t("create"),
-            url: "/dashboard/servers/create",
-            isActive: isPathActive("/dashboard/servers/create"),
-          },
-          {
             title: t("manage"),
             url: "/dashboard/servers/manage",
             isActive: isPathActive("/dashboard/servers/manage"),

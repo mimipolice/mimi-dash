@@ -89,66 +89,10 @@
   ```
 
 
-## 3. 伺服器
 
+## 3. 狀態
 
-### 3.1 `PATCH /api/servers`
-
-- **方法**: `PATCH`
-- **說明**: 修改現有伺服器的設定。
-- **請求Body**:
-  ```json
-  {
-    "serverId": "YOUR_SERVER_ID",
-    "locationId": 1,
-    "serverType": 1,
-    "nestId": 1,
-    "cpu": 150,
-    "ram": 2048,
-    "disk": 10240,
-    "databases": 2,
-    "allocations": 2,
-    "backups": 2,
-    "autoRenew": false
-  }
-  ```
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "id": "YOUR_SERVER_ID",
-      "name": "My Awesome Server"
-    }
-  }
-  ```
-- **失敗回應 (400 Bad Request)**:
-  ```json
-  {
-    "success": false,
-    "error": "Server ID is required"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "success": false,
-    "error": "Unauthorized"
-  }
-  ```
-- **失敗回應 (404 Not Found)**:
-  ```json
-  {
-    "success": false,
-    "error": "Server not found"
-  }
-  ```
-
----
-
-## 4. 狀態
-
-### 4.1 `GET /api/status`
+### 3.1 `GET /api/status`
 
 - **方法**: `GET`
 - **說明**: 獲取後端服務的運行狀態。
@@ -171,9 +115,9 @@
 
 ---
 
-## 5. 轉帳
+## 4. 轉帳
 
-### 5.1 `POST /api/transfer`
+### 4.1 `POST /api/transfer`
 
 - **方法**: `POST`
 - **說明**: 將點數轉移給其他使用者。
@@ -206,9 +150,9 @@
 
 ---
 
-## 6. 使用者資訊
+## 5. 使用者資訊
 
-### 6.1 `GET /api/userinfo`
+### 5.1 `GET /api/userinfo`
 
 - **方法**: `GET`
 - **說明**: 獲取當前登入使用者的詳細資訊。

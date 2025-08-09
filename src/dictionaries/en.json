@@ -425,17 +425,10 @@
     "servers": "Servers",
     "serversDescription": "Number of servers you currently own",
     "goToPanel": "Go to Panel",
-    "resetPassword": "Reset Password",
-    "resettingPassword": "Resetting...",
-    "confirmResetTitle": "Confirm Password Reset",
-    "confirmResetDescription": "Are you sure you want to reset your password? This will generate a new password and the old password will no longer work.",
-    "cancel": "Cancel",
-    "confirmReset": "Confirm Reset",
-    "passwordResetSuccess": "Password Reset Successful",
-    "passwordResetDescription": "Your new password is shown below, please save it securely:",
     "userId": "User ID",
-    "newPassword": "New Password",
-    "close": "Close"
+    "close": "Close",
+    "copyUserId": "Copy ID",
+    "copied": "Copied"
   },
   "navUser": {
     "logout": "Log out",
@@ -599,7 +592,8 @@
       "recipientPlaceholder": "Enter Discord ID",
       "amountLabel": "Amount",
       "amountPlaceholder": "Enter amount to transfer",
-      "submit": "Transfer"
+      "submit": "Transfer",
+      "feeNotice": "A 3% fee will be charged for the transfer."
     },
     "success": {
       "title": "Transfer Completed Successfully!",
