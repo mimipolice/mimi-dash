@@ -1,0 +1,63 @@
+import NextAuth from "next-auth";
+import Discord from "next-auth/providers/discord";
+import { NextResponse } from "next/server";
+import axios from "axios";
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [
+    Discord({
+      clientId: process.env.AUTH_DISCORD_ID,
+      clientSecret: process.env.AUTH_DISCORD_SECRET,
+      async profile(profile) {
+        const bannerUrl = profile.banner
+          ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=1024`
+          : null;
+        return {
+          id: profile.id,
+          name: profile.username,
+          email: profile.email,
+          image: profile.avatar
+            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+            : null,
+          banner: bannerUrl,
+        };
+      },
+    }),
+  ],
+
+  pages: {
+    error: "/auth/error",
+  },
+
+  callbacks: {
+    authorized: async ({ auth, request }) => {
+      const isLoggedIn = !!auth?.user;
+      const isOnDashboard = request.nextUrl.pathname.startsWith("/dashboard");
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return NextResponse.redirect(new URL("/auth/login", request.url));
+      }
+      return true;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string;
+        // @ts-expect-error -- banner is a custom property
+        session.user.banner = token.banner as string | null;
+      }
+      return session;
+    },
+    async jwt({ token, profile }) {
+      if (profile) {
+        const bannerUrl = profile.banner
+          ? `https://cdn.discordapp.com/banners/${profile.id}/${profile.banner}.png?size=1024`
+          : null;
+        token.banner = bannerUrl;
+      }
+      return token;
+    },
+    async signIn({ user, account, profile }) {
+      return true;
+    },
+  },
+});
