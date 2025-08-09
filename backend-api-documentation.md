@@ -43,139 +43,10 @@
 
 ---
 
-## 2. Eggs
 
-### 2.1 `GET /api/eggs` (**棄用**)
+## 2. 兌換
 
-- **方法**: `GET`
-- **說明**: 獲取所有可用的伺服器核心 (Eggs) 列表。
-- **請求參數**: 無
-- **成功回應 (200 OK)**:
-  ```json
-  [
-    {
-      "id": 1,
-      "name": "Minecraft (Java)",
-      "nest": 1
-    },
-    {
-      "id": 2,
-      "name": "Minecraft (Bedrock)",
-      "nest": 1
-    }
-  ]
-  ```
-- **失敗回應 (500 Internal Server Error)**:
-  ```json
-  {
-    "success": false,
-    "error": "Failed to fetch eggs list"
-  }
-  ```
-
----
-
-## 3. IP
-
-### 3.1 `GET /api/ip` (**棄用**)
-
-- **方法**: `GET`
-- **說明**: 檢查使用者的 IP 地址，並驗證其是否合法。
-- **請求參數**:
-  - `id` (string, required): 使用者 ID。
-  - `ip` (string, required): 使用者 IP 地址。
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "ip": "123.123.123.123",
-      "is_valid": true
-    }
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "success": false,
-    "error": "User not authenticated"
-  }
-  ```
-- **失敗回應 (500 Internal Server Error)**:
-  ```json
-  {
-    "success": false,
-    "error": "Unknown error"
-  }
-  ```
-
----
-
-## 4. 地區
-
-### 4.1 `GET /api/locations`(**棄用**)
-
-- **方法**: `GET`
-- **說明**: 獲取所有可用的伺服器地區列表。
-- **請求參數**: 無
-- **成功回應 (200 OK)**:
-  ```json
-  [
-    {
-      "id": 1,
-      "name": "Taiwan (TPE)"
-    },
-    {
-      "id": 2,
-      "name": "Japan (NRT)"
-    }
-  ]
-  ```
-- **失敗回應 (500 Internal Server Error)**:
-  ```json
-  {
-    "success": false,
-    "error": "Failed to fetch locations list"
-  }
-  ```
-
----
-
-## 5. 價格
-
-### 5.1 `GET /api/pricing` (**棄用**)
-
-- **方法**: `GET`
-- **說明**: 獲取伺服器資源的價格資訊。
-- **請求參數**: 無
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "base": 10,
-      "cpu": 5,
-      "ram": 2,
-      "disk": 1,
-      "databases": 3,
-      "allocations": 2,
-      "backups": 5
-    }
-  }
-  ```
-- **失敗回應 (500 Internal Server Error)**:
-  ```json
-  {
-    "success": false,
-    "error": "Failed to fetch pricing"
-  }
-  ```
-
----
-
-## 6. 兌換
-
-### 6.1 `POST /api/redeem`
+### 2.1 `POST /api/redeem`
 
 - **方法**: `POST`
 - **說明**: 兌換優惠碼。
@@ -217,156 +88,11 @@
   }
   ```
 
----
 
-## 7. 續約
-
-### 7.1 `POST /api/renew` (**棄用**)
+## 3. 伺服器
 
 
-- **方法**: `POST`
-- **說明**: 續約指定的伺服器。
-- **請求Body**:
-  ```json
-  {
-    "serverId": "YOUR_SERVER_ID"
-  }
-  ```
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "message": "Server renewed successfully"
-  }
-  ```
-- **失敗回應 (400 Bad Request)**:
-  ```json
-  {
-    "error": "Server ID is required"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "error": "Unauthorized"
-  }
-  ```
-- **失敗回應 (404 Not Found)**:
-  ```json
-  {
-    "error": "Server not found"
-  }
-  ```
-
----
-
-## 8. 重設密碼
-
-### 8.1 `PATCH /api/resetpassword` (**棄用**)
-
-- **方法**: `PATCH`
-- **說明**: 重設使用者密碼。
-- **請求參數**:
-  - `id` (string, required): 使用者 ID。
-  - `email` (string, required): 使用者信箱。
-  - `name` (string, required): 使用者名稱。
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "message": "Password reset email sent"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "error": "Unauthorized"
-  }
-  ```
-
----
-
-## 9. 伺服器
-
-### 9.1 `POST /api/servers` (**棄用**)
-
-
-- **方法**: `POST`
-- **說明**: 創建一個新的伺服器。
-- **請求Body**:
-  ```json
-  {
-    "name": "My Awesome Server",
-    "locationId": 1,
-    "serverType": 1,
-    "nestId": 1,
-    "cpu": 100,
-    "ram": 1024,
-    "disk": 5120,
-    "databases": 1,
-    "allocations": 1,
-    "backups": 1,
-    "autoRenew": true
-  }
-  ```
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "id": "new-server-id",
-      "name": "My Awesome Server"
-    }
-  }
-  ```
-- **失敗回應 (400 Bad Request)**:
-  ```json
-  {
-    "success": false,
-    "error": "Missing required fields"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "success": false,
-    "error": "Unauthorized"
-  }
-  ```
-
-### 9.2 `DELETE /api/servers` (**棄用**)
-
-
-- **方法**: `DELETE`
-- **說明**: 刪除指定的伺服器。
-- **請求參數**:
-  - `id` (string, optional): 單一伺服器 ID。
-  - `serverIds` (string, optional): 多個伺服器 ID，以逗號分隔。
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "data": {
-      "message": "Server(s) deleted successfully"
-    }
-  }
-  ```
-- **失敗回應 (400 Bad Request)**:
-  ```json
-  {
-    "success": false,
-    "error": "Server ID(s) required"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "success": false,
-    "error": "Unauthorized"
-  }
-  ```
-
-### 9.3 `PATCH /api/servers`
+### 3.1 `PATCH /api/servers`
 
 - **方法**: `PATCH`
 - **說明**: 修改現有伺服器的設定。
@@ -420,9 +146,9 @@
 
 ---
 
-## 10. 狀態
+## 4. 狀態
 
-### 10.1 `GET /api/status`
+### 4.1 `GET /api/status`
 
 - **方法**: `GET`
 - **說明**: 獲取後端服務的運行狀態。
@@ -445,9 +171,9 @@
 
 ---
 
-## 11. 轉帳
+## 5. 轉帳
 
-### 11.1 `POST /api/transfer`
+### 5.1 `POST /api/transfer`
 
 - **方法**: `POST`
 - **說明**: 將點數轉移給其他使用者。
@@ -480,9 +206,9 @@
 
 ---
 
-## 12. 使用者資訊
+## 6. 使用者資訊
 
-### 12.1 `GET /api/userinfo`
+### 6.1 `GET /api/userinfo`
 
 - **方法**: `GET`
 - **說明**: 獲取當前登入使用者的詳細資訊。
@@ -490,7 +216,6 @@
   - `id` (string, required): 使用者 ID。
   - `name` (string, required): 使用者名稱。
   - `email` (string, required): 使用者信箱。
-  - `ip` (string, required): 使用者 IP 地址。
 - **成功回應 (200 OK)**:
   ```json
   {
