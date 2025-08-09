@@ -52,7 +52,6 @@ function validateResourceLimits(resources: {
   return null;
 }
 
-/*
 export async function POST(request: Request) {
   try {
     const session = await auth();
@@ -157,9 +156,7 @@ export async function POST(request: Request) {
     );
   }
 }
-*/
 
-/*
 export async function DELETE(request: Request) {
   try {
     const session = await auth();
@@ -221,9 +218,7 @@ export async function DELETE(request: Request) {
     );
   }
 }
-*/
 
-/*
 export async function PATCH(request: Request) {
   try {
     const session = await auth();
@@ -412,4 +407,3 @@ export async function PATCH(request: Request) {
     );
   }
 }
-*/

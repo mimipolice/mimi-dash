@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -103,10 +104,10 @@ const safeToFixed = (
 
 const formSchema = z.object({
   serverType: z.number({
-    message: "Please select a server type.",
+    required_error: "Please select a server type.",
   }),
   nestId: z.number({
-    message: "Please select a server type.",
+    required_error: "Please select a server type.",
   }),
   cpu: z.number().min(appConfig.limit.cpu.min).max(appConfig.limit.cpu.max),
   ram: z.number().min(appConfig.limit.ram.min).max(appConfig.limit.ram.max),
@@ -194,6 +195,10 @@ interface UserInfo {
 const ITEMS_PER_PAGE = 5;
 
 export default function DashboardServersManage() {
+  const t = useTranslations("servers.manage");
+  const tCommon = useTranslations("common");
+  const tBreadcrumbs = useTranslations("servers.breadcrumbs");
+
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedServers, setSelectedServers] = useState<Set<number>>(
@@ -419,7 +424,7 @@ export default function DashboardServersManage() {
       case "Active":
         return (
           <Badge variant="default" className="bg-green-500 hover:bg-green-600">
-            Active
+            {t("status.active")}
           </Badge>
         );
       case "Suspended":
@@ -428,7 +433,7 @@ export default function DashboardServersManage() {
             variant="secondary"
             className="bg-orange-500 hover:bg-orange-600 text-white"
           >
-            Suspended
+            {t("status.suspended")}
           </Badge>
         );
       case "Deleted":
@@ -437,7 +442,7 @@ export default function DashboardServersManage() {
             variant="outline"
             className="bg-gray-400 text-gray-600 border-gray-400"
           >
-            Deleted
+            {t("status.deleted")}
           </Badge>
         );
       default:
@@ -506,11 +511,11 @@ export default function DashboardServersManage() {
         setServerToDelete(null);
       } else {
         console.error("Delete failed:", result.error);
-        toast.error(`Error deleting server: ${result.error}`);
+        toast.error(t("notifications.deleteError", { error: result.error }));
       }
     } catch (error) {
       console.error("Error deleting server:", error);
-      toast.error("An unexpected error occurred while deleting the server.");
+      toast.error(t("notifications.deleteErrorGeneric"));
     } finally {
       setIsDeleting(false);
     }
@@ -534,11 +539,13 @@ export default function DashboardServersManage() {
         setSelectedServers(new Set());
       } else {
         console.error("Bulk delete failed:", result.error);
-        toast.error(`Error during bulk deletion: ${result.error}`);
+        toast.error(
+          t("notifications.bulkDeleteError", { error: result.error })
+        );
       }
     } catch (error) {
       console.error("Error bulk deleting servers:", error);
-      toast.error("An unexpected error occurred during bulk deletion.");
+      toast.error(t("notifications.bulkDeleteErrorGeneric"));
     } finally {
       setIsBulkDeleting(false);
     }
@@ -582,18 +589,18 @@ export default function DashboardServersManage() {
       });
 
       if (response.data.status == "success") {
-        toast.success("Server renewed successfully.");
+        toast.success(t("dialogs.renew.success"));
         setRenewDialogOpen(false);
         await fetchUserInfo();
       } else {
-        toast.error(response.data.message || "Failed to renew server.");
+        toast.error(response.data.message || t("dialogs.renew.failed"));
       }
     } catch (error) {
       console.error("Renew error:", error);
       if (axios.isAxiosError(error) && error.response?.data?.error) {
         toast.error(error.response.data.error);
       } else {
-        toast.error("Failed to renew server.");
+        toast.error(t("dialogs.renew.failed"));
       }
     } finally {
       setIsRenewing(false);
@@ -636,7 +643,7 @@ export default function DashboardServersManage() {
       }
     } catch (error) {
       console.error("Error fetching eggs:", error);
-      toast.error("Error loading data.");
+      toast.error(t("notifications.loadError"));
     } finally {
       setIsLoadingEggs(false);
     }
@@ -663,12 +670,12 @@ export default function DashboardServersManage() {
       } else {
         console.error("Failed to fetch pricing:", response.data.error);
         setPricing(DEFAULT_PRICING);
-        toast.error("Error fetching pricing.");
+        toast.error(t("notifications.priceError"));
       }
     } catch (error) {
       console.error("Error fetching pricing:", error);
       setPricing(DEFAULT_PRICING);
-      toast.error("Error fetching pricing.");
+      toast.error(t("notifications.priceError"));
     } finally {
       setIsLoadingPricing(false);
     }
@@ -680,9 +687,10 @@ export default function DashboardServersManage() {
     try {
       setIsModifying(true);
       const loadingToast = toast.loading(
-        `Modifying server: ${serverToEdit.name || "Unnamed"} (${
-          serverToEdit.identifier
-        })`
+        t("notifications.modifying", {
+          name: serverToEdit.name || t("table.unnamed"),
+          identifier: serverToEdit.identifier,
+        })
       );
 
       const response = await axios.patch("/api/servers", {
@@ -702,27 +710,28 @@ export default function DashboardServersManage() {
 
       if (response.data.success) {
         toast.success(
-          `Successfully modified: ${serverToEdit.name || "Unnamed"} (${
-            serverToEdit.identifier
-          })`
+          t("notifications.modifySuccess", {
+            name: serverToEdit.name || t("table.unnamed"),
+            identifier: serverToEdit.identifier,
+          })
         );
         setEditDialogOpen(false);
         setServerToEdit(null);
         await fetchUserInfo();
       } else {
-        toast.error(response.data.error || "Failed to modify server.");
+        toast.error(response.data.error || t("notifications.modifyError"));
       }
     } catch (error) {
       console.error("Error modifying server:", error);
       if (axios.isAxiosError(error)) {
         const errorMessage = error.response?.data?.error;
         if (errorMessage && errorMessage.includes("Insufficient balance")) {
-          toast.error("Insufficient balance.");
+          toast.error(t("notifications.insufficientBalance"));
         } else {
-          toast.error(errorMessage || "Failed to modify server.");
+          toast.error(errorMessage || t("notifications.modifyError"));
         }
       } else {
-        toast.error("Failed to modify server.");
+        toast.error(t("notifications.modifyError"));
       }
     } finally {
       setIsModifying(false);
@@ -734,7 +743,7 @@ export default function DashboardServersManage() {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <LoaderCircle className="h-8 w-8 animate-spin mx-auto mb-2" />
-          <p>Loading...</p>
+          <p>{t("loading")}</p>
         </div>
       </div>
     );
@@ -743,7 +752,7 @@ export default function DashboardServersManage() {
   if (!userInfo) {
     return (
       <div className="text-center py-8">
-        <p>Error loading data.</p>
+        <p>{t("error")}</p>
       </div>
     );
   }
@@ -776,15 +785,19 @@ export default function DashboardServersManage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {tCommon("dashboard")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Servers</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {tBreadcrumbs("servers")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Manage</BreadcrumbPage>
+                <BreadcrumbPage>{tBreadcrumbs("manage")}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -793,10 +806,8 @@ export default function DashboardServersManage() {
       <div className="p-4 sm:p-6 lg:p-10 space-y-6">
         <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
           <div>
-            <h1 className="text-3xl font-bold">Manage Servers</h1>
-            <p className="text-muted-foreground">
-              View and manage your servers.
-            </p>
+            <h1 className="text-3xl font-bold">{t("title")}</h1>
+            <p className="text-muted-foreground">{t("description")}</p>
           </div>
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             {selectedServers.size > 0 && (
@@ -807,7 +818,7 @@ export default function DashboardServersManage() {
               >
                 <Trash2 className="h-4 w-4 flex-shrink-0" />
                 <span className="truncate">
-                  Delete Selected ({selectedServers.size})
+                  {t("actions.deleteSelected")} ({selectedServers.size})
                 </span>
               </Button>
             )}
@@ -816,7 +827,7 @@ export default function DashboardServersManage() {
               className="flex items-center justify-center gap-2 text-sm sm:text-base whitespace-nowrap"
             >
               <Plus className="h-4 w-4 flex-shrink-0" />
-              <span>Create Server</span>
+              <span>{t("actions.create")}</span>
             </Button>
           </div>
         </div>
@@ -825,7 +836,7 @@ export default function DashboardServersManage() {
           <Card className="relative overflow-hidden">
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-semibold">
-                Total Servers
+                {t("statistics.total")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -837,7 +848,9 @@ export default function DashboardServersManage() {
           </Card>
           <Card className="relative overflow-hidden">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base font-semibold">Active</CardTitle>
+              <CardTitle className="text-base font-semibold">
+                {t("statistics.active")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-green-600">
@@ -851,7 +864,7 @@ export default function DashboardServersManage() {
           <Card className="relative overflow-hidden">
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-semibold">
-                Suspended
+                {t("statistics.suspended")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -865,7 +878,9 @@ export default function DashboardServersManage() {
           </Card>
           <Card className="relative overflow-hidden">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base font-semibold">Deleted</CardTitle>
+              <CardTitle className="text-base font-semibold">
+                {t("statistics.deleted")}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-gray-500">
@@ -880,7 +895,7 @@ export default function DashboardServersManage() {
         <Card>
           <CardContent className="">
             <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-y-0 gap-4">
-              <span className="text-sm font-medium">Filter by status:</span>
+              <span className="text-sm font-medium">{t("filter.label")}:</span>
               <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -889,7 +904,9 @@ export default function DashboardServersManage() {
                       className="flex items-center gap-2 w-full sm:w-auto"
                     >
                       <Funnel className="h-4 w-4 flex-shrink-0" />
-                      <span className="truncate">Filter by status</span>
+                      <span className="truncate">
+                        {t("filter.placeholder")}
+                      </span>
                       <span className="ml-auto sm:ml-2 text-xs bg-primary text-primary-foreground px-2 py-1 rounded-full flex-shrink-0">
                         {statusFilter.length}
                       </span>
@@ -926,7 +943,7 @@ export default function DashboardServersManage() {
                         />
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                          <span className="text-sm">Active</span>
+                          <span className="text-sm">{t("status.active")}</span>
                         </div>
                       </div>
                       <div
@@ -958,7 +975,9 @@ export default function DashboardServersManage() {
                         />
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          <span className="text-sm">Suspended</span>
+                          <span className="text-sm">
+                            {t("status.suspended")}
+                          </span>
                         </div>
                       </div>
                       <div
@@ -990,7 +1009,7 @@ export default function DashboardServersManage() {
                         />
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                          <span className="text-sm">Deleted</span>
+                          <span className="text-sm">{t("status.deleted")}</span>
                         </div>
                       </div>
                       <div className="border-t pt-2 mt-2 flex items-center gap-2">
@@ -1003,7 +1022,7 @@ export default function DashboardServersManage() {
                           }}
                           className="flex-1 bg-blue-500/30"
                         >
-                          Select All
+                          {t("filter.selectAll")}
                         </Button>
                         <Button
                           variant="ghost"
@@ -1014,7 +1033,7 @@ export default function DashboardServersManage() {
                           }}
                           className="flex-1 bg-destructive/30"
                         >
-                          Clear
+                          {t("filter.clear")}
                         </Button>
                       </div>
                     </div>
@@ -1037,7 +1056,15 @@ export default function DashboardServersManage() {
                             : "bg-gray-400"
                         }`}
                       ></div>
-                      <span className="truncate">{status}</span>
+                      <span className="truncate">
+                        {status === "Active"
+                          ? t("status.active")
+                          : status === "Suspended"
+                          ? t("status.suspended")
+                          : status === "Deleted"
+                          ? t("status.deleted")
+                          : status}
+                      </span>
                       <button
                         onClick={() => {
                           setStatusFilter(
@@ -1069,7 +1096,15 @@ export default function DashboardServersManage() {
                           : "bg-gray-400"
                       }`}
                     ></div>
-                    <span className="truncate">{status}</span>
+                    <span className="truncate">
+                      {status === "Active"
+                        ? t("status.active")
+                        : status === "Suspended"
+                        ? t("status.suspended")
+                        : status === "Deleted"
+                        ? t("status.deleted")
+                        : status}
+                    </span>
                     <button
                       onClick={() => {
                         setStatusFilter(
@@ -1085,14 +1120,17 @@ export default function DashboardServersManage() {
                 ))}
               </div>
               <span className="text-sm text-muted-foreground text-center sm:text-left">
-                {`Showing ${filteredServers.length} of ${servers.length} servers.`}
+                {t("stats.showing", {
+                  count: filteredServers.length,
+                  total: servers.length,
+                })}
               </span>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Server List</CardTitle>
+            <CardTitle>{t("table.title")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -1111,18 +1149,18 @@ export default function DashboardServersManage() {
                       />
                     </TableHead>
                     <TableHead>ID</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>CPU</TableHead>
-                    <TableHead>Memory</TableHead>
-                    <TableHead>Disk</TableHead>
-                    <TableHead>Databases</TableHead>
-                    <TableHead>Allocations</TableHead>
-                    <TableHead>Backups</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Auto Renew</TableHead>
-                    <TableHead>Expiration</TableHead>
-                    <TableHead>Days Remaining</TableHead>
-                    <TableHead className="w-12">Actions</TableHead>
+                    <TableHead>{t("table.name")}</TableHead>
+                    <TableHead>{t("table.cpu")}</TableHead>
+                    <TableHead>{t("table.memory")}</TableHead>
+                    <TableHead>{t("table.disk")}</TableHead>
+                    <TableHead>{t("table.databases")}</TableHead>
+                    <TableHead>{t("table.allocations")}</TableHead>
+                    <TableHead>{t("table.backups")}</TableHead>
+                    <TableHead>{t("table.status")}</TableHead>
+                    <TableHead>{t("table.autoRenew")}</TableHead>
+                    <TableHead>{t("table.expiration")}</TableHead>
+                    <TableHead>{t("table.daysRemaining")}</TableHead>
+                    <TableHead className="w-12">{t("table.actions")}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -1132,8 +1170,8 @@ export default function DashboardServersManage() {
                         <div className="flex flex-col items-center gap-2">
                           <p className="text-muted-foreground">
                             {statusFilter.length === 0
-                              ? "Please select a status to filter."
-                              : "No servers match the current filter."}
+                              ? t("filter.noSelection")
+                              : t("empty.description")}
                           </p>
                           {statusFilter.length === 0 && (
                             <Button
@@ -1148,7 +1186,7 @@ export default function DashboardServersManage() {
                                 setCurrentPage(1);
                               }}
                             >
-                              Show All Servers
+                              {t("filter.showAll")}
                             </Button>
                           )}
                         </div>
@@ -1196,7 +1234,7 @@ export default function DashboardServersManage() {
                                 : ""
                             }`}
                           >
-                            {server.name || "Unnamed"}
+                            {server.name || t("table.unnamed")}
                           </TableCell>
                           <TableCell
                             className={
@@ -1268,7 +1306,9 @@ export default function DashboardServersManage() {
                                   : ""
                               }
                             >
-                              {server.autoRenew ? "Enabled" : "Disabled"}
+                              {server.autoRenew
+                                ? t("status.autoRenewEnabled")
+                                : t("status.autoRenewDisabled")}
                             </Badge>
                           </TableCell>
                           <TableCell
@@ -1302,8 +1342,8 @@ export default function DashboardServersManage() {
                               }
                             >
                               {daysUntilExpiry > 0
-                                ? `${daysUntilExpiry} days`
-                                : "Expired"}
+                                ? `${daysUntilExpiry} ${t("table.days")}`
+                                : t("table.expired")}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -1330,7 +1370,7 @@ export default function DashboardServersManage() {
                                   className="flex items-center gap-2"
                                 >
                                   <ExternalLink className="h-4 w-4" />
-                                  Manage
+                                  {t("actions.manage")}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() =>
@@ -1339,21 +1379,21 @@ export default function DashboardServersManage() {
                                   className="flex items-center gap-2"
                                 >
                                   <ClockPlus className="h-4 w-4" />
-                                  Renew
+                                  {t("actions.renew")}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => handleEditServer(server.id)}
                                   className="flex items-center gap-2"
                                 >
                                   <Edit className="h-4 w-4" />
-                                  Edit
+                                  {t("actions.edit")}
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   onClick={() => handleDeleteServer(server)}
                                   className="flex items-center gap-2 text-destructive"
                                 >
                                   <Trash2 className="h-4 w-4" />
-                                  Delete
+                                  {t("actions.delete")}
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -1369,12 +1409,15 @@ export default function DashboardServersManage() {
             {totalPages > 1 && (
               <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 mt-4">
                 <div className="text-sm text-muted-foreground order-2 sm:order-1">
-                  {`Showing ${
-                    (currentPage - 1) * ITEMS_PER_PAGE + 1
-                  } to ${Math.min(
-                    currentPage * ITEMS_PER_PAGE,
-                    filteredServers.length
-                  )} of ${filteredServers.length} servers`}
+                  {t("stats.filtered", {
+                    start: (currentPage - 1) * ITEMS_PER_PAGE + 1,
+                    end: Math.min(
+                      currentPage * ITEMS_PER_PAGE,
+                      filteredServers.length
+                    ),
+                    total: filteredServers.length,
+                    totalServers: servers.length,
+                  })}
                 </div>
                 <div className="flex items-center justify-center gap-2 order-1 sm:order-2">
                   <Button
@@ -1387,10 +1430,15 @@ export default function DashboardServersManage() {
                     className="flex-shrink-0"
                   >
                     <ChevronLeft className="h-4 w-4" />
-                    <span className="hidden sm:inline">Previous</span>
+                    <span className="hidden sm:inline">
+                      {t("stats.previous")}
+                    </span>
                   </Button>
                   <span className="text-sm whitespace-nowrap">
-                    {`Page ${currentPage} of ${totalPages}`}
+                    {t("stats.pagination", {
+                      current: currentPage,
+                      total: totalPages,
+                    })}
                   </span>
                   <Button
                     variant="outline"
@@ -1401,7 +1449,7 @@ export default function DashboardServersManage() {
                     disabled={currentPage === totalPages}
                     className="flex-shrink-0"
                   >
-                    <span className="hidden sm:inline">Next</span>
+                    <span className="hidden sm:inline">{t("stats.next")}</span>
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -1413,11 +1461,11 @@ export default function DashboardServersManage() {
         <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Delete Server</DialogTitle>
+              <DialogTitle>{t("dialogs.delete.title")}</DialogTitle>
               <DialogDescription>
-                {`Are you sure you want to delete server ${
-                  serverToDelete?.identifier || ""
-                }? This action cannot be undone.`}
+                {t("dialogs.delete.description", {
+                  identifier: serverToDelete?.identifier || "",
+                })}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -1426,7 +1474,7 @@ export default function DashboardServersManage() {
                 onClick={() => setDeleteDialogOpen(false)}
                 disabled={isDeleting}
               >
-                Cancel
+                {t("dialogs.delete.cancel")}
               </Button>
               <Button
                 variant="destructive"
@@ -1436,7 +1484,9 @@ export default function DashboardServersManage() {
                 {isDeleting && (
                   <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
                 )}
-                {isDeleting ? "Deleting..." : "Delete"}
+                {isDeleting
+                  ? t("dialogs.delete.deleting")
+                  : t("dialogs.delete.confirm")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -1448,9 +1498,11 @@ export default function DashboardServersManage() {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Bulk Delete Servers</DialogTitle>
+              <DialogTitle>{t("dialogs.bulkDelete.title")}</DialogTitle>
               <DialogDescription>
-                {`Are you sure you want to delete ${selectedServers.size} selected servers? This action cannot be undone.`}
+                {t("dialogs.bulkDelete.description", {
+                  count: selectedServers.size,
+                })}
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -1459,7 +1511,7 @@ export default function DashboardServersManage() {
                 onClick={() => setBulkDeleteDialogOpen(false)}
                 disabled={isBulkDeleting}
               >
-                Cancel
+                {t("dialogs.bulkDelete.cancel")}
               </Button>
               <Button
                 variant="destructive"
@@ -1469,7 +1521,9 @@ export default function DashboardServersManage() {
                 {isBulkDeleting && (
                   <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
                 )}
-                {isBulkDeleting ? "Deleting..." : "Delete"}
+                {isBulkDeleting
+                  ? t("dialogs.bulkDelete.deleting")
+                  : t("dialogs.bulkDelete.confirm")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -1479,11 +1533,11 @@ export default function DashboardServersManage() {
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                Edit Server - {serverToEdit?.name || "Unnamed"} (
+                {t("edit.title")} - {serverToEdit?.name || t("table.unnamed")} (
                 {serverToEdit?.identifier})
               </DialogTitle>
               <DialogDescription>
-                Modify your servers resources and settings.
+                {t("dialogs.edit.description")}
               </DialogDescription>
             </DialogHeader>
 
@@ -1498,9 +1552,11 @@ export default function DashboardServersManage() {
                     name="serverType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Server Type</FormLabel>
+                        <FormLabel>
+                          {t("dialogs.edit.serverType.label")}
+                        </FormLabel>
                         <FormDescription>
-                          Select the type of server you want to create.
+                          {t("dialogs.edit.serverType.description")}
                         </FormDescription>
                         <Select
                           onValueChange={(value) => {
@@ -1522,8 +1578,12 @@ export default function DashboardServersManage() {
                               <SelectValue
                                 placeholder={
                                   isLoadingEggs
-                                    ? "Loading types..."
-                                    : "Select a server type"
+                                    ? t(
+                                        "dialogs.edit.serverType.loadingPlaceholder"
+                                      )
+                                    : t(
+                                        "dialogs.edit.serverType.selectPlaceholder"
+                                      )
                                 }
                               />
                             </SelectTrigger>
@@ -1552,8 +1612,12 @@ export default function DashboardServersManage() {
 
                 <Tabs defaultValue="resources" className="w-full">
                   <TabsList className="grid grid-cols-2 mb-4">
-                    <TabsTrigger value="resources">Resources</TabsTrigger>
-                    <TabsTrigger value="databases">Advanced</TabsTrigger>
+                    <TabsTrigger value="resources">
+                      {t("dialogs.edit.tabs.resources")}
+                    </TabsTrigger>
+                    <TabsTrigger value="databases">
+                      {t("dialogs.edit.tabs.databases")}
+                    </TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="resources" className="space-y-4">
@@ -1564,10 +1628,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              CPU
+                              {t("dialogs.edit.form.cpu.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.cpu)} per %
+                              ${safeToFixed(pricing.cpu)}{" "}
+                              {t("dialogs.edit.form.cpu.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1588,11 +1653,11 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${
-                              isNaN(priceBreakdown.cpu)
+                            {t("dialogs.edit.form.cpu.costDescription", {
+                              amount: isNaN(priceBreakdown.cpu)
                                 ? "0.00"
-                                : safeToFixed(priceBreakdown.cpu)
-                            }`}
+                                : safeToFixed(priceBreakdown.cpu),
+                            })}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1606,10 +1671,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Memory
+                              {t("dialogs.edit.form.memory.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.ram)} per MiB
+                              ${safeToFixed(pricing.ram)}{" "}
+                              {t("dialogs.edit.form.memory.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1630,11 +1696,11 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${
-                              isNaN(priceBreakdown.ram)
+                            {t("dialogs.edit.form.memory.costDescription", {
+                              amount: isNaN(priceBreakdown.ram)
                                 ? "0.00"
-                                : safeToFixed(priceBreakdown.ram)
-                            }`}
+                                : safeToFixed(priceBreakdown.ram),
+                            })}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1648,10 +1714,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Disk
+                              {t("dialogs.edit.form.disk.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.disk)} per MiB
+                              ${safeToFixed(pricing.disk)}{" "}
+                              {t("dialogs.edit.form.disk.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1672,11 +1739,11 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${
-                              isNaN(priceBreakdown.disk)
+                            {t("dialogs.edit.form.disk.costDescription", {
+                              amount: isNaN(priceBreakdown.disk)
                                 ? "0.00"
-                                : safeToFixed(priceBreakdown.disk)
-                            }`}
+                                : safeToFixed(priceBreakdown.disk),
+                            })}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1690,10 +1757,10 @@ export default function DashboardServersManage() {
                         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                           <div className="space-y-0.5">
                             <FormLabel className="text-base">
-                              Auto Renew
+                              {t("dialogs.edit.form.autoRenew.label")}
                             </FormLabel>
                             <FormDescription>
-                              Automatically renew your server before it expires.
+                              {t("dialogs.edit.form.autoRenew.description")}
                             </FormDescription>
                           </div>
                           <FormControl>
@@ -1715,10 +1782,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Databases
+                              {t("dialogs.edit.form.databases.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.databases)} per database
+                              ${safeToFixed(pricing.databases)}{" "}
+                              {t("dialogs.edit.form.databases.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1739,9 +1807,9 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${safeToFixed(
-                              priceBreakdown.databases
-                            )}`}
+                            {t("dialogs.edit.form.databases.costDescription", {
+                              amount: safeToFixed(priceBreakdown.databases),
+                            })}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1755,10 +1823,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Allocations
+                              {t("dialogs.edit.form.allocations.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.allocations)} per allocation
+                              ${safeToFixed(pricing.allocations)}{" "}
+                              {t("dialogs.edit.form.allocations.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1779,9 +1848,12 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${safeToFixed(
-                              priceBreakdown.allocations
-                            )}`}
+                            {t(
+                              "dialogs.edit.form.allocations.costDescription",
+                              {
+                                amount: safeToFixed(priceBreakdown.allocations),
+                              }
+                            )}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1795,10 +1867,11 @@ export default function DashboardServersManage() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Backups
+                              {t("dialogs.edit.form.backups.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.backups)} per backup
+                              ${safeToFixed(pricing.backups)}{" "}
+                              {t("dialogs.edit.form.backups.unitPrice")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -1819,9 +1892,9 @@ export default function DashboardServersManage() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            {`Additional cost: $${safeToFixed(
-                              priceBreakdown.backups
-                            )}`}
+                            {t("dialogs.edit.form.backups.costDescription", {
+                              amount: safeToFixed(priceBreakdown.backups),
+                            })}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -1836,10 +1909,10 @@ export default function DashboardServersManage() {
                       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-lg flex items-center justify-center z-10">
                         <div className="text-center p-6">
                           <h3 className="text-lg font-semibold mb-2">
-                            Pricing Error
+                            {t("dialogs.edit.pricing.error.title")}
                           </h3>
                           <p className="text-sm text-muted-foreground">
-                            Could not calculate the price. Please try again.
+                            {t("dialogs.edit.pricing.error.description")}
                           </p>
                         </div>
                       </div>
@@ -1847,9 +1920,11 @@ export default function DashboardServersManage() {
 
                     <div className="flex justify-between items-center">
                       <div>
-                        <h1 className="font-bold text-xl">Total Cost</h1>
+                        <h1 className="font-bold text-xl">
+                          {t("dialogs.edit.pricing.title")}
+                        </h1>
                         <p className="text-sm text-muted-foreground">
-                          This is the additional cost for the new resources.
+                          {t("dialogs.edit.pricing.description")}
                         </p>
                       </div>
                       <div
@@ -1860,46 +1935,74 @@ export default function DashboardServersManage() {
                         }`}
                       >
                         {isLoadingPricing
-                          ? "Loading..."
+                          ? t("dialogs.edit.pricing.loading")
                           : `${safeToFixed(totalPrice)} Droplets`}
                       </div>
                     </div>
 
                     <div className="border-t mt-4 pt-4">
                       <div className="flex justify-between mb-2">
-                        <span className="font-medium">Price Breakdown</span>
+                        <span className="font-medium">
+                          {t("dialogs.edit.pricing.breakdown.title")}
+                        </span>
                         <span className="text-sm text-muted-foreground">
-                          Cost for each resource
+                          {t("dialogs.edit.pricing.breakdown.subtitle")}
                         </span>
                       </div>
 
                       <div className="grid grid-cols-1 gap-2 mt-2">
                         <div className="flex justify-between items-center">
-                          <span>Base Price</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.base")}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.base)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`CPU (${cpu}%)`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.cpu", {
+                              amount: cpu,
+                            })}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.cpu)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`Memory (${ram} MiB)`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.memory", {
+                              amount: ram,
+                            })}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.ram)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`Disk (${disk} MiB)`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.disk", {
+                              amount: disk,
+                            })}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.disk)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`Databases (${databases})`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.databases", {
+                              amount: databases,
+                            })}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.databases)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`Backups (${backups})`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.backups", {
+                              amount: backups,
+                            })}
+                          </span>
                           <span>${safeToFixed(priceBreakdown.backups)}</span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span>{`Allocations (${allocations})`}</span>
+                          <span>
+                            {t("dialogs.edit.pricing.breakdown.allocations", {
+                              amount: allocations,
+                            })}
+                          </span>
                           <span>
                             ${safeToFixed(priceBreakdown.allocations)}
                           </span>
@@ -1908,7 +2011,9 @@ export default function DashboardServersManage() {
 
                       <div className="flex justify-between items-center mt-4 pt-4 border-t">
                         <span className="font-semibold text-lg">
-                          Total Modification Cost
+                          {t(
+                            "dialogs.edit.pricing.balance.totalModificationCost"
+                          )}
                         </span>
                         <span className="font-bold text-lg text-primary">
                           ${safeToFixed(totalPrice)} Droplets
@@ -1918,23 +2023,23 @@ export default function DashboardServersManage() {
                       <div className="border-t mt-4 pt-4 space-y-2">
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-muted-foreground">
-                            Balance Change
+                            {t("dialogs.edit.pricing.balance.change")}
                           </span>
                           <span className="font-medium">
                             {loading
-                              ? "Loading..."
+                              ? t("dialogs.edit.pricing.balance.loading")
                               : !isNaN(totalPrice) && userInfo
                               ? `${safeToFixed(userInfo.coins)} → ${safeToFixed(
                                   getRemainingDroplets()
                                 )} Droplets`
-                              : "Calculating..."}
+                              : t("dialogs.edit.pricing.balance.calculating")}
                           </span>
                         </div>
 
                         {!isNaN(totalPrice) && (
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">
-                              Status
+                              {t("dialogs.edit.pricing.balance.status")}
                             </span>
                             <span
                               className={`font-medium ${
@@ -1944,8 +2049,10 @@ export default function DashboardServersManage() {
                               }`}
                             >
                               {hasEnoughDroplets()
-                                ? "Sufficient"
-                                : "Insufficient"}
+                                ? t("dialogs.edit.pricing.balance.sufficient")
+                                : t(
+                                    "dialogs.edit.pricing.balance.insufficient"
+                                  )}
                             </span>
                           </div>
                         )}
@@ -1956,13 +2063,20 @@ export default function DashboardServersManage() {
                           <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                             <span className="text-sm font-medium text-red-800">
-                              Insufficient Balance
+                              {t(
+                                "dialogs.edit.pricing.balance.insufficientBalanceMessage"
+                              )}
                             </span>
                           </div>
                           <p className="text-xs text-red-600 mt-1">
-                            {`You need ${safeToFixed(
-                              Math.abs(getRemainingDroplets())
-                            )} more Droplets.`}
+                            {t(
+                              "dialogs.edit.pricing.balance.additionalDropletsNeeded",
+                              {
+                                amount: safeToFixed(
+                                  Math.abs(getRemainingDroplets())
+                                ),
+                              }
+                            )}
                           </p>
                         </div>
                       )}
@@ -1977,7 +2091,7 @@ export default function DashboardServersManage() {
                     onClick={() => setEditDialogOpen(false)}
                     disabled={isModifying}
                   >
-                    Cancel
+                    {t("edit.cancel")}
                   </Button>
                   <Button
                     type="submit"
@@ -1992,10 +2106,10 @@ export default function DashboardServersManage() {
                       <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
                     )}
                     {isModifying
-                      ? "Modifying..."
+                      ? t("dialogs.edit.pricing.balance.modifying")
                       : !hasEnoughDroplets()
-                      ? "Insufficient Funds"
-                      : "Save Changes"}
+                      ? t("dialogs.edit.pricing.balance.insufficientFunds")
+                      : t("edit.save")}
                   </Button>
                 </DialogFooter>
               </form>
@@ -2006,27 +2120,28 @@ export default function DashboardServersManage() {
         <Dialog open={renewDialogOpen} onOpenChange={setRenewDialogOpen}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Renew Server</DialogTitle>
+              <DialogTitle>{t("dialogs.renew.title")}</DialogTitle>
               <DialogDescription>
-                {`You are about to renew the server ${
-                  serverToRenew?.name || "Unnamed"
-                } (${
-                  serverToRenew?.identifier || ""
-                }). Please review the details below.`}
+                {t("dialogs.renew.description", {
+                  serverName: serverToRenew?.name || t("table.unnamed"),
+                  identifier: serverToRenew?.identifier || "",
+                })}
               </DialogDescription>
             </DialogHeader>
 
             {serverToRenew && (
               <div className="space-y-4">
                 <div className="bg-muted/30 p-4 rounded-lg">
-                  <h3 className="font-semibold mb-3">Server Information</h3>
+                  <h3 className="font-semibold mb-3">
+                    {t("dialogs.renew.serverInfo")}
+                  </h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Name:
+                        {t("table.name")}:
                       </span>
                       <p className="font-medium">
-                        {serverToRenew.name || "Unnamed"}
+                        {serverToRenew.name || t("table.unnamed")}
                       </p>
                     </div>
                     <div>
@@ -2037,7 +2152,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        CPU:
+                        {t("table.cpu")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.cpu}%
@@ -2045,7 +2160,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Memory:
+                        {t("table.memory")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.ram} MiB
@@ -2053,7 +2168,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Disk:
+                        {t("table.disk")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.disk} MiB
@@ -2061,7 +2176,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Databases:
+                        {t("table.databases")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.databases}
@@ -2069,7 +2184,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Allocations:
+                        {t("table.allocations")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.allocations}
@@ -2077,7 +2192,7 @@ export default function DashboardServersManage() {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">
-                        Backups:
+                        {t("table.backups")}:
                       </span>
                       <p className="font-medium">
                         {serverToRenew.resources.backups}
@@ -2087,9 +2202,13 @@ export default function DashboardServersManage() {
                 </div>
 
                 <div className="bg-muted/30 p-4 rounded-lg">
-                  <h3 className="font-semibold mb-3">Pricing</h3>
+                  <h3 className="font-semibold mb-3">
+                    {t("dialogs.renew.pricing")}
+                  </h3>
                   <div className="flex justify-between items-center">
-                    <span className="text-lg">Renewal Cost</span>
+                    <span className="text-lg">
+                      {t("dialogs.renew.renewalCost")}
+                    </span>
                     <span className="text-2xl font-bold text-primary">
                       {safeToFixed(renewCost)} Droplets
                     </span>
@@ -2099,7 +2218,7 @@ export default function DashboardServersManage() {
                     <div className="mt-4 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">
-                          Current Balance
+                          {t("dialogs.renew.currentBalance")}
                         </span>
                         <span className="font-medium">
                           {safeToFixed(userInfo.coins)} Droplets
@@ -2107,7 +2226,7 @@ export default function DashboardServersManage() {
                       </div>
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">
-                          Balance After Renewal
+                          {t("dialogs.renew.afterRenewal")}
                         </span>
                         <span
                           className={`font-medium ${
@@ -2127,13 +2246,13 @@ export default function DashboardServersManage() {
                       <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                         <span className="text-sm font-medium text-red-800">
-                          Insufficient Balance
+                          {t("dialogs.renew.insufficientBalance")}
                         </span>
                       </div>
                       <p className="text-xs text-red-600 mt-1">
-                        {`You need ${safeToFixed(
-                          renewCost - userInfo.coins
-                        )} more Droplets to renew.`}
+                        {t("dialogs.renew.needMoreDroplets", {
+                          amount: safeToFixed(renewCost - userInfo.coins),
+                        })}
                       </p>
                     </div>
                   )}
@@ -2147,7 +2266,7 @@ export default function DashboardServersManage() {
                 onClick={() => setRenewDialogOpen(false)}
                 disabled={isRenewing}
               >
-                Cancel
+                {t("dialogs.renew.cancel")}
               </Button>
               <Button
                 onClick={confirmRenew}
@@ -2157,10 +2276,10 @@ export default function DashboardServersManage() {
                   <LoaderCircle className="h-4 w-4 mr-2 animate-spin" />
                 )}
                 {isRenewing
-                  ? "Renewing..."
+                  ? t("dialogs.renew.renewing")
                   : !userInfo || userInfo.coins < renewCost
-                  ? "Insufficient Funds"
-                  : "Confirm Renewal"}
+                  ? t("dialogs.renew.insufficientFunds")
+                  : t("dialogs.renew.confirm")}
               </Button>
             </DialogFooter>
           </DialogContent>

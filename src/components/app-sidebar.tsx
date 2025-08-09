@@ -1,8 +1,25 @@
 "use client";
 
 import * as React from "react";
-import { Cloud, Home, Server, CircleGauge, Droplet } from "lucide-react";
-import Link from "next/link";
+import {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  Map,
+  PieChart,
+  Settings2,
+  SquareTerminal,
+  Cloud,
+  Home,
+  Server,
+  CircleGauge,
+  Droplet,
+  Store,
+} from "lucide-react";
+import { Link } from "next-view-transitions";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -23,8 +40,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import appConfig from "@/config";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
   const pathname = usePathname();
@@ -32,6 +51,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (url === "#") return false;
     return pathname.startsWith(url);
   };
+  const t = useTranslations("sidebar");
   const data = {
     user: {
       name: session?.user?.name as string,
@@ -40,36 +60,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     navMain: [
       {
-        title: "Servers",
+        title: t("servers"),
         url: "#",
         icon: Server,
         isActive: isPathActive("/dashboard/servers"),
         items: [
           {
-            title: "Create",
+            title: t("create"),
             url: "/dashboard/servers/create",
             isActive: isPathActive("/dashboard/servers/create"),
           },
           {
-            title: "Manage",
+            title: t("manage"),
             url: "/dashboard/servers/manage",
             isActive: isPathActive("/dashboard/servers/manage"),
           },
         ],
       },
       {
-        title: "油幣",
+        title: t("droplets"),
         url: "#",
         icon: Droplet,
         isActive: isPathActive("/dashboard/droplets"),
         items: [
           {
-            title: "Coupons",
+            title: t("coupons"),
             url: "/dashboard/droplets/coupons",
             isActive: isPathActive("/dashboard/droplets/coupons"),
           },
           {
-            title: "Transfer",
+            title: t("transfer"),
             url: "/dashboard/droplets/transfer",
             isActive: isPathActive("/dashboard/droplets/transfer"),
           },
@@ -104,13 +124,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <Cloud />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">mimiDLC</span>
+                      <span className="truncate font-medium">Lolidactyl</span>
                       <div className="relative h-4 overflow-hidden">
                         <span className="absolute truncate text-xs transition-transform duration-300 ease-in-out group-hover/home:-translate-y-4 group-hover/home:opacity-0">
-                          Dashboard
+                          {t("dashboard")}
                         </span>
                         <span className="absolute truncate text-xs transition-transform duration-300 ease-in-out translate-y-4 opacity-0 group-hover/home:translate-y-0 group-hover/home:opacity-100">
-                          Gay
+                          {t("go")}
                         </span>
                       </div>
                     </div>
@@ -123,7 +143,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 sideOffset={4}
               >
                 <DropdownMenuLabel className="text-muted-foreground text-xs">
-                  Destination
+                  {t("destination")}
                 </DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
@@ -135,7 +155,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex size-6 items-center justify-center rounded-md border">
                       <CircleGauge className="size-3.5 shrink-0" />
                     </div>
-                    <span>Index</span>
+                    <span>{t("index")}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2 p-2">
@@ -146,7 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex size-6 items-center justify-center rounded-md border">
                       <Home className="size-3.5 shrink-0" />
                     </div>
-                    <span>Home</span>
+                    <span>{t("home")}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2 p-2">
@@ -157,7 +177,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex size-6 items-center justify-center rounded-md border">
                       <Server className="size-4" />
                     </div>
-                    <span>Panel</span>
+                    <span>{t("panel")}</span>
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>

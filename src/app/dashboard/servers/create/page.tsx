@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
@@ -56,13 +57,13 @@ const formSchema = z.object({
     message: "Server name must be at least 2 characters.",
   }),
   serverType: z.number({
-    message: "Please select a server type.",
+    required_error: "Please select a server type.",
   }),
   nestId: z.number({
-    message: "Please select a server type.",
+    required_error: "Please select a server type.",
   }),
   locationId: z.number({
-    message: "Please select a location.",
+    required_error: "Please select a location.",
   }),
   cpu: z.number().min(appConfig.limit.cpu.min).max(appConfig.limit.cpu.max),
   ram: z.number().min(appConfig.limit.ram.min).max(appConfig.limit.ram.max),
@@ -140,6 +141,7 @@ const safeToFixed = (
 
 export default function DashboardServersCreate() {
   const router = useTransitionRouter();
+  const t = useTranslations("serverCreate");
   const [pricing, setPricing] = useState<ResourcePricing>(DEFAULT_PRICING);
   const [totalPrice, setTotalPrice] = useState(0);
   const [priceBreakdown, setPriceBreakdown] = useState({
@@ -211,12 +213,12 @@ export default function DashboardServersCreate() {
         } else {
           console.error("Failed to fetch pricing:", response.data.error);
           setPricing(DEFAULT_PRICING);
-          toast.error("Error fetching pricing information.");
+          toast.error(t("messages.pricingError"));
         }
       } catch (error) {
         console.error("Error fetching pricing:", error);
         setPricing(DEFAULT_PRICING);
-        toast.error("Error fetching pricing information.");
+        toast.error(t("messages.pricingError"));
       } finally {
         setIsLoadingPricing(false);
       }
@@ -233,7 +235,7 @@ export default function DashboardServersCreate() {
         setUserInfo(response.data);
       } catch (error) {
         console.error("Failed to fetch user info:", error);
-        toast.error("Failed to fetch user information.");
+        toast.error(t("toasts.userInfoError"));
       } finally {
         setIsLoadingUserInfo(false);
       }
@@ -272,11 +274,11 @@ export default function DashboardServersCreate() {
           setNests(response.data.data);
         } else {
           console.error("Invalid eggs data format:", response.data);
-          toast.error("Error loading server types.");
+          toast.error(t("messages.serverTypesError"));
         }
       } catch (error) {
         console.error("Error fetching eggs:", error);
-        toast.error("Error loading server types.");
+        toast.error(t("messages.serverTypesError"));
       } finally {
         setIsLoadingEggs(false);
       }
@@ -298,11 +300,11 @@ export default function DashboardServersCreate() {
           setLocations(response.data.data);
         } else {
           console.error("Invalid locations data format:", response.data);
-          toast.error("Error loading locations.");
+          toast.error(t("messages.locationsError"));
         }
       } catch (error) {
         console.error("Error fetching locations:", error);
-        toast.error("Error loading locations.");
+        toast.error(t("messages.locationsError"));
       } finally {
         setIsLoadingLocations(false);
       }
@@ -401,9 +403,12 @@ export default function DashboardServersCreate() {
       try {
         setIsCreatingServer(true);
 
-        loadingToast = toast.loading(`Creating server ${values.name}...`, {
-          duration: Infinity,
-        });
+        loadingToast = toast.loading(
+          t("toasts.creatingServer") + ` ${values.name}...`,
+          {
+            duration: Infinity,
+          }
+        );
 
         const response = await axios.post("/api/servers", {
           name: values.name,
@@ -423,9 +428,9 @@ export default function DashboardServersCreate() {
 
         if (response.data.success) {
           toast.success(
-            `${values.name} created successfully for ${safeToFixed(
+            `${values.name} ${t("messages.createSuccess")} ${safeToFixed(
               totalPrice
-            )} Droplets.`,
+            )} ${t("pricing.droplets")}.`,
             {
               duration: 4000,
             }
@@ -435,7 +440,7 @@ export default function DashboardServersCreate() {
             router.push("/dashboard/servers/manage");
           }, 1500);
         } else {
-          toast.error(response.data.error || "Failed to create server.");
+          toast.error(response.data.error || t("messages.createError"));
         }
       } catch (error) {
         console.error("Error creating server:", error);
@@ -449,16 +454,14 @@ export default function DashboardServersCreate() {
             error.response?.data?.error.errors[0].code ==
               "NoViableNodeException"
           ) {
-            toast.error(
-              "The selected node is full, please try another location."
-            );
+            toast.error(t("messages.nodeFullError"));
           } else {
             toast.error(
-              error.response?.data?.error || "Failed to create server."
+              error.response?.data?.error || t("messages.createError")
             );
           }
         } else {
-          toast.error("Failed to create server.");
+          toast.error(t("messages.createError"));
         }
       } finally {
         setIsCreatingServer(false);
@@ -477,15 +480,21 @@ export default function DashboardServersCreate() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {useTranslations("common")("dashboard")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">Servers</BreadcrumbLink>
+                <BreadcrumbLink href="/dashboard">
+                  {useTranslations("servers.breadcrumbs")("servers")}
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Create</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {useTranslations("servers.breadcrumbs")("create")}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -497,10 +506,10 @@ export default function DashboardServersCreate() {
             <div className="flex justify-between items-center">
               <div>
                 <CardTitle className="text-2xl font-bold">
-                  Create a New Server
+                  {t("title")}
                 </CardTitle>
                 <CardDescription className="text-sm mt-2">
-                  Configure and launch your server.
+                  {t("description")}
                 </CardDescription>
               </div>
               <Badge
@@ -509,15 +518,15 @@ export default function DashboardServersCreate() {
               >
                 {isLoadingStatus ? (
                   <span className="font-semibold text-gray-500">
-                    - Checking Status -
+                    - {t("status.checking")} -
                   </span>
                 ) : serviceStatus ? (
                   <span className="font-semibold text-green-500">
-                    - Service Available -
+                    - {t("status.available")} -
                   </span>
                 ) : (
                   <span className="font-semibold text-red-500">
-                    - Service Suspended -
+                    - {t("status.suspended")} -
                   </span>
                 )}
               </Badge>
@@ -536,17 +545,17 @@ export default function DashboardServersCreate() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-base font-medium">
-                          Server Name
+                          {t("form.serverName.label")}
                         </FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="My Awesome Server"
+                            placeholder={t("form.serverName.placeholder")}
                             className="h-10"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription className="text-xs">
-                          Choose a name for your server.
+                          {t("form.serverName.description")}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -561,7 +570,7 @@ export default function DashboardServersCreate() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-base font-medium">
-                          Location
+                          {t("form.location.label")}
                         </FormLabel>
                         <Select
                           onValueChange={(value) =>
@@ -575,8 +584,8 @@ export default function DashboardServersCreate() {
                               <SelectValue
                                 placeholder={
                                   isLoadingLocations
-                                    ? "Loading locations..."
-                                    : "Select a location"
+                                    ? t("form.location.loadingPlaceholder")
+                                    : t("form.location.placeholder")
                                 }
                               />
                             </SelectTrigger>
@@ -593,7 +602,7 @@ export default function DashboardServersCreate() {
                           </SelectContent>
                         </Select>
                         <FormDescription className="text-xs">
-                          Choose the servers physical location.
+                          {t("form.location.description")}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -606,7 +615,7 @@ export default function DashboardServersCreate() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-base font-medium">
-                          Server Type
+                          {t("form.serverType.label")}
                         </FormLabel>
                         <Select
                           onValueChange={(value) => {
@@ -628,8 +637,8 @@ export default function DashboardServersCreate() {
                               <SelectValue
                                 placeholder={
                                   isLoadingEggs
-                                    ? "Loading types..."
-                                    : "Select a server type"
+                                    ? t("form.serverType.loadingPlaceholder")
+                                    : t("form.serverType.placeholder")
                                 }
                               />
                             </SelectTrigger>
@@ -651,7 +660,7 @@ export default function DashboardServersCreate() {
                           </SelectContent>
                         </Select>
                         <FormDescription className="text-xs">
-                          Select the type of server you want to create.
+                          {t("form.serverType.description")}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -662,10 +671,10 @@ export default function DashboardServersCreate() {
                 <Tabs defaultValue="resources" className="w-full">
                   <TabsList className="grid grid-cols-2 mb-6">
                     <TabsTrigger value="resources" className="text-sm">
-                      Resources
+                      {t("tabs.resources")}
                     </TabsTrigger>
                     <TabsTrigger value="databases" className="text-sm">
-                      Advanced
+                      {t("tabs.advanced")}
                     </TabsTrigger>
                   </TabsList>
 
@@ -677,10 +686,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              CPU
+                              {t("form.cpu.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.cpu)} per %
+                              ${safeToFixed(pricing.cpu)}{" "}
+                              {t("form.cpu.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -690,7 +700,7 @@ export default function DashboardServersCreate() {
                               max={appConfig.limit.cpu.max}
                               step={appConfig.limit.cpu.step}
                               className="w-full h-10"
-                              placeholder="e.g., 100"
+                              placeholder={t("form.cpu.placeholder")}
                               value={field.value}
                               onChange={(e) => {
                                 const inputValue = e.target.value;
@@ -717,11 +727,11 @@ export default function DashboardServersCreate() {
                             />
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
+                            {t("form.cpu.description")} $
                             {isNaN(priceBreakdown.cpu)
                               ? "0.00"
                               : safeToFixed(priceBreakdown.cpu)}{" "}
-                            Droplets
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -735,10 +745,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Memory
+                              {t("form.ram.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.ram)} per MiB
+                              ${safeToFixed(pricing.ram)}{" "}
+                              {t("form.ram.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -748,7 +759,7 @@ export default function DashboardServersCreate() {
                               max={appConfig.limit.ram.max}
                               step={appConfig.limit.ram.step}
                               className="w-full h-10"
-                              placeholder="e.g., 1024"
+                              placeholder={t("form.ram.placeholder")}
                               value={field.value}
                               onChange={(e) => {
                                 const inputValue = e.target.value;
@@ -775,11 +786,11 @@ export default function DashboardServersCreate() {
                             />
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
+                            {t("form.ram.description")} $
                             {isNaN(priceBreakdown.ram)
                               ? "0.00"
                               : safeToFixed(priceBreakdown.ram)}{" "}
-                            Droplets
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -793,10 +804,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Disk
+                              {t("form.disk.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.disk)} per MiB
+                              ${safeToFixed(pricing.disk)}{" "}
+                              {t("form.disk.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -806,7 +818,7 @@ export default function DashboardServersCreate() {
                               max={appConfig.limit.disk.max}
                               step={appConfig.limit.disk.step}
                               className="w-full h-10"
-                              placeholder="e.g., 5120"
+                              placeholder={t("form.disk.placeholder")}
                               value={field.value}
                               onChange={(e) => {
                                 const inputValue = e.target.value;
@@ -833,11 +845,11 @@ export default function DashboardServersCreate() {
                             />
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
+                            {t("form.disk.description")} $
                             {isNaN(priceBreakdown.disk)
                               ? "0.00"
                               : safeToFixed(priceBreakdown.disk)}{" "}
-                            Droplets
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -852,11 +864,10 @@ export default function DashboardServersCreate() {
                           <div className="flex items-center justify-between">
                             <div className="space-y-0.5">
                               <FormLabel className="text-base font-medium">
-                                Auto Renew
+                                {t("form.autoRenew.label")}
                               </FormLabel>
                               <FormDescription className="text-xs">
-                                Automatically renew your server before it
-                                expires.
+                                {t("form.autoRenew.description")}
                               </FormDescription>
                             </div>
                             <FormControl>
@@ -880,10 +891,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Databases
+                              {t("form.databases.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.databases)} per database
+                              ${safeToFixed(pricing.databases)}{" "}
+                              {t("form.databases.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -904,8 +916,9 @@ export default function DashboardServersCreate() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
-                            {safeToFixed(priceBreakdown.databases)} Droplets
+                            {t("form.databases.description")} $
+                            {safeToFixed(priceBreakdown.databases)}{" "}
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -919,10 +932,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Allocations
+                              {t("form.allocations.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.allocations)} per allocation
+                              ${safeToFixed(pricing.allocations)}{" "}
+                              {t("form.allocations.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -943,8 +957,9 @@ export default function DashboardServersCreate() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
-                            {safeToFixed(priceBreakdown.allocations)} Droplets
+                            {t("form.allocations.description")} $
+                            {safeToFixed(priceBreakdown.allocations)}{" "}
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -958,10 +973,11 @@ export default function DashboardServersCreate() {
                         <FormItem className="bg-card p-4 rounded-lg border">
                           <div className="flex justify-between items-center">
                             <FormLabel className="text-base font-medium">
-                              Backups
+                              {t("form.backups.label")}
                             </FormLabel>
                             <Badge variant="secondary">
-                              ${safeToFixed(pricing.backups)} per backup
+                              ${safeToFixed(pricing.backups)}{" "}
+                              {t("form.backups.pricePerUnit")}
                             </Badge>
                           </div>
                           <FormControl>
@@ -982,8 +998,9 @@ export default function DashboardServersCreate() {
                             </div>
                           </FormControl>
                           <FormDescription className="text-xs mt-2">
-                            Additional cost: $
-                            {safeToFixed(priceBreakdown.backups)} Droplets
+                            {t("form.backups.description")} $
+                            {safeToFixed(priceBreakdown.backups)}{" "}
+                            {t("pricing.droplets")}
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -999,10 +1016,10 @@ export default function DashboardServersCreate() {
                         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm rounded-lg flex items-center justify-center z-10">
                           <div className="text-center p-6">
                             <h3 className="text-lg font-semibold mb-2">
-                              Pricing Error
+                              {t("messages.NaNError")}
                             </h3>
                             <p className="text-sm text-muted-foreground">
-                              Could not calculate the price. Please try again.
+                              {t("messages.NaNErrorDescription")}
                             </p>
                           </div>
                         </div>
@@ -1010,9 +1027,11 @@ export default function DashboardServersCreate() {
 
                       <div className="flex justify-between items-center">
                         <div>
-                          <h1 className="font-bold text-xl">Total Cost</h1>
+                          <h1 className="font-bold text-xl">
+                            {t("pricing.title")}
+                          </h1>
                           <p className="text-sm text-muted-foreground">
-                            This is the total cost for the new server.
+                            {t("pricing.description")}
                           </p>
                         </div>
                         <div
@@ -1023,64 +1042,80 @@ export default function DashboardServersCreate() {
                           }`}
                         >
                           {isLoadingPricing
-                            ? "Loading..."
-                            : `${safeToFixed(totalPrice)} Droplets`}
+                            ? t("buttons.loading")
+                            : `${safeToFixed(totalPrice)} ${t(
+                                "pricing.droplets"
+                              )}`}
                         </div>
                       </div>
 
                       <div className="border-t mt-4 pt-4">
                         <div className="flex justify-between mb-2">
-                          <span className="font-medium">Price Breakdown</span>
+                          <span className="font-medium">
+                            {t("pricing.cost")}
+                          </span>
                           <span className="text-sm text-muted-foreground">
-                            Cost for each resource
+                            {t("pricing.resourceToCost")}
                           </span>
                         </div>
 
                         <div className="grid grid-cols-1 gap-2 mt-2">
                           <div className="flex justify-between items-center">
-                            <span>Base Price</span>
+                            <span>{t("pricing.baseCost")}</span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.base)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>CPU ({cpu}%):</span>
+                            <span>
+                              {t("pricing.cpu")} ({cpu}%):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.cpu)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>Memory ({ram} MiB):</span>
+                            <span>
+                              {t("pricing.ram")} ({ram} MiB):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.ram)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>Disk ({disk} MiB):</span>
+                            <span>
+                              {t("pricing.disk")} ({disk} MiB):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.disk)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>Databases ({databases}):</span>
+                            <span>
+                              {t("pricing.databases")} ({databases}):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.databases)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>Backups ({backups}):</span>
+                            <span>
+                              {t("pricing.backups")} ({backups}):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.backups)}
                             </span>
                           </div>
 
                           <div className="flex justify-between items-center">
-                            <span>Allocations ({allocations}):</span>
+                            <span>
+                              {t("pricing.allocations")} ({allocations}):
+                            </span>
                             <span className="text-yellow-600">
                               ${safeToFixed(priceBreakdown.allocations)}
                             </span>
@@ -1089,30 +1124,30 @@ export default function DashboardServersCreate() {
 
                         <div className="flex justify-between items-center mt-4 pt-4 border-t">
                           <span className="font-semibold text-lg">
-                            Total Cost
+                            {t("pricing.totalCost")}
                           </span>
                           <span className="font-bold text-lg text-primary">
-                            ${safeToFixed(totalPrice)} Droplets
+                            ${safeToFixed(totalPrice)} {t("pricing.droplets")}
                           </span>
                         </div>
 
                         <div className="border-t mt-4 pt-4 space-y-2">
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">
-                              Balance Change
+                              {t("balance.change")}
                             </span>
                             <span className="font-medium">
                               {isLoadingUserInfo
-                                ? "Loading..."
+                                ? t("buttons.loading")
                                 : !isNaN(totalPrice) && userInfo
                                 ? `${safeToFixed(
                                     userInfo.coins
                                   )} → ${safeToFixed(
                                     getRemainingDroplets()
-                                  )} Droplets`
-                                : `${safeToFixed(
-                                    userInfo?.coins ?? 0
-                                  )} Droplets`}
+                                  )} ${t("pricing.droplets")}`
+                                : `${safeToFixed(userInfo?.coins ?? 0)} ${t(
+                                    "pricing.droplets"
+                                  )}`}
                             </span>
                           </div>
 
@@ -1121,7 +1156,7 @@ export default function DashboardServersCreate() {
                             !isNaN(totalPrice) && (
                               <div className="flex justify-between items-center text-sm">
                                 <span className="text-muted-foreground">
-                                  Status
+                                  {t("balance.status")}
                                 </span>
                                 <span
                                   className={`font-medium ${
@@ -1131,20 +1166,21 @@ export default function DashboardServersCreate() {
                                   }`}
                                 >
                                   {hasEnoughDroplets()
-                                    ? "Sufficient"
-                                    : "Insufficient"}
+                                    ? t("balance.sufficient")
+                                    : t("balance.insufficient")}
                                 </span>
                               </div>
                             )}
 
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-muted-foreground">
-                              Expiration Date
+                              {t("balance.expiration")}
                             </span>
                             <span className="font-medium text-blue-600">
                               {getExpirationDate().formatted} (
+                              {t("balance.daysRemain")}
                               {getExpirationDate().daysRemaining}
-                              days remaining)
+                              {t("balance.daysRemaining")})
                             </span>
                           </div>
                         </div>
@@ -1170,16 +1206,18 @@ export default function DashboardServersCreate() {
                       isLoadingLocations ||
                       isLoadingUserInfo ||
                       isLoadingStatus
-                        ? "Loading..."
+                        ? t("buttons.loading")
                         : isCreatingServer
-                        ? "Creating..."
+                        ? t("buttons.creating")
                         : !serviceStatus
-                        ? "Service Suspended"
+                        ? t("buttons.serviceSuspended")
                         : isNaN(totalPrice)
-                        ? "Please complete the form"
+                        ? t("buttons.pleaseComplete")
                         : !hasEnoughDroplets()
-                        ? "Insufficient Balance"
-                        : `Create Server - ${safeToFixed(totalPrice)} Droplets`}
+                        ? t("buttons.insufficientBalance")
+                        : `${t("buttons.create")} - ${safeToFixed(
+                            totalPrice
+                          )} ${t("pricing.droplets")}`}
                     </Button>
                   </div>
                 </div>
