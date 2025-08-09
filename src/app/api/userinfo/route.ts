@@ -26,16 +26,11 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
-    const ip =
-      request.headers.get("x-forwarded-for") ||
-      request.headers.get("x-real-ip") ||
-      "";
     const apiUrl = new URL(process.env.BACKEND_API_URL as string);
     apiUrl.pathname = "/userinfo";
     apiUrl.searchParams.append("id", id);
     apiUrl.searchParams.append("name", name);
     apiUrl.searchParams.append("email", email);
-    apiUrl.searchParams.append("ip", ip);
     const response = await axios.get(apiUrl.toString(), {
       headers: {
         Authorization: `Bearer ${apiKey}`,
