@@ -4,38 +4,41 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import useSWR from "swr";
+
+interface UserInfoData {
+  balance: number;
+  assets: {
+    oil_ticket: number;
+    total_card_value: number;
+    total_stock_value: number;
+  };
+  main_statistics: {
+    total_draw: number;
+    total_game_played: number;
+    card_collection_rate: number;
+  };
+  addAt: string;
+}
 
 interface UserInfo {
-  coins: number;
-  panelId: number;
-  servers: Array<{
-    id: number;
-    identifier: string;
-    status: string;
-    resources: {
-      cpu: number;
-      ram: number;
-      disk: number;
-      databases: number;
-      allocations: number;
-      backups: number;
-    };
-    expireAt: string;
-    autoRenew: boolean;
-    createAt: string;
-    _id: string;
-  }>;
+  userinfo: UserInfoData[];
 }
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function UserCard() {
   const { data: session } = useSession();
+  const { data: userInfo, error } = useSWR<UserInfo>("/api/userinfo", fetcher);
   const [copiedUserId, setCopiedUserId] = useState(false);
 
   const copyUserIdToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(user.id || "");
-      setCopiedUserId(true);
-      setTimeout(() => setCopiedUserId(false), 2000);
+      if (session?.user?.id) {
+        await navigator.clipboard.writeText(session.user.id);
+        setCopiedUserId(true);
+        setTimeout(() => setCopiedUserId(false), 2000);
+      }
     } catch (error) {
       console.error("Failed to copy user ID to clipboard:", error);
     }
@@ -48,6 +51,26 @@ export function UserCard() {
   const { user } = session;
   // @ts-expect-error -- banner is a custom property
   const bannerUrl = user.banner;
+
+  const renderUserInfo = () => {
+    if (error) return <div>無法載入使用者資訊</div>;
+    if (!userInfo) return <div>載入中...</div>;
+
+    const userData = userInfo.userinfo?.[0];
+
+    if (!userData) return <div>沒有可用的使用者資訊</div>;
+
+    return (
+      <>
+        <p className="text-sm text-muted-foreground">
+          油幣餘額: {userData.balance.toLocaleString()}
+        </p>
+        <p className="text-sm text-muted-foreground">
+          油票: {userData.assets.oil_ticket.toLocaleString()}
+        </p>
+      </>
+    );
+  };
 
   return (
     <Card className="w-full max-w-md overflow-hidden transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1">
@@ -105,10 +128,11 @@ export function UserCard() {
           </div>
         )}
 
-        <div className="border-t pt-4">
+        <div className="border-t pt-4 space-y-2">
           <p className="text-sm text-muted-foreground">
             Discord ID: {user.id || "未知"}
           </p>
+          {renderUserInfo()}
         </div>
       </CardContent>
     </Card>
