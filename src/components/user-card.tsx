@@ -63,9 +63,7 @@ export function UserCard() {
 
   const copyUserIdToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(
-        "https://www.youtube.com/watch?v=ymYFqNUt05g"
-      );
+      await navigator.clipboard.writeText(user.id || "");
       setCopiedUserId(true);
       setTimeout(() => setCopiedUserId(false), 2000);
     } catch (error) {
@@ -239,7 +237,9 @@ export function UserCard() {
                 variant="default"
                 size="sm"
                 className="w-full bg-gradient-to-r from-blue-400 to-blue-700 hover:from-blue-600 hover:to-blue-700 text-white"
-                onClick={() => window.open("/go/panel", "_blank")}
+                onClick={() =>
+                  window.open("https://youtu.be/zFBgde9m72Y", "_blank")
+                }
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
                 {t("goToPanel", { defaultValue: "前往面板" })}
