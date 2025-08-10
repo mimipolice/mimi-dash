@@ -440,7 +440,15 @@
     "userId": "User ID",
     "close": "Close",
     "copyUserId": "Copy ID",
-    "copied": "Copied"
+    "copied": "Copied",
+    "assets": "Assets",
+    "oilTicket": "Oil Ticket",
+    "totalCardValue": "Total Card Value",
+    "totalStockValue": "Total Stock Value",
+    "statistics": "Main Statistics",
+    "totalDraw": "Total Draws",
+    "totalGamePlayed": "Total Games Played",
+    "cardCollectionRate": "Card Collection Rate"
   },
   "navUser": {
     "logout": "Log out",

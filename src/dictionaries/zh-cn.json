@@ -440,7 +440,15 @@
     "userId": "Discord ID",
     "close": "关闭",
     "copyUserId": "复制 ID",
-    "copied": "已复制"
+    "copied": "已复制",
+    "assets": "资产",
+    "oilTicket": "油票",
+    "totalCardValue": "卡片总价值",
+    "totalStockValue": "股票总价值",
+    "statistics": "主要统计",
+    "totalDraw": "总抽卡数",
+    "totalGamePlayed": "总游戏次数",
+    "cardCollectionRate": "卡片收集率"
   },
   "navUser": {
     "logout": "登出",
