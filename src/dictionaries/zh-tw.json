@@ -185,6 +185,18 @@
     "manage": {
       "title": "伺服器管理",
       "description": "管理和監控您的伺服器",
+      "tabs": {
+        "myServers": "我的伺服器",
+        "discordServers": "Discord 伺服器"
+      },
+      "discordTable": {
+        "title": "Discord 伺服器列表",
+        "serverName": "伺服器名稱",
+        "owner": "擁有者",
+        "yes": "是",
+        "no": "否",
+        "noServers": "找不到 Discord 伺服器。"
+      },
       "statistics": {
         "active": "運行中",
         "suspended": "已暫停",

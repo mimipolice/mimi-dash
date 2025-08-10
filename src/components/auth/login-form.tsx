@@ -1,12 +1,9 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { signIn } from "@/auth";
 import { FaDiscord } from "react-icons/fa6";
 import { getTranslations } from "next-intl/server";
-import { Link } from "next-view-transitions";
 import Image from "next/image";
 export async function LoginForm({
   className,

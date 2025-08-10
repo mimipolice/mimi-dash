@@ -51,8 +51,7 @@ import { useTransitionRouter } from "next-view-transitions";
 import { getCookie, setCookie } from "cookies-next";
 
 interface UserInfo {
-  coins: number;
-  panelId: number;
+  balance: number;
 }
 
 export function NavUser({
@@ -171,7 +170,7 @@ export function NavUser({
                     {loading ? (
                       <LoaderCircle className="h-3 w-3 animate-spin inline" />
                     ) : (
-                      `${userInfo?.coins?.toFixed(2) || "0.00"}`
+                      `${userInfo?.balance?.toFixed(2) || "0.00"}`
                     )}
                   </span>
                 </div>

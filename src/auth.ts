@@ -7,6 +7,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Discord({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
+      authorization:
+        "https://discord.com/api/oauth2/authorize?scope=identify+email+guilds",
       async profile(profile) {
         return {
           id: profile.id,
@@ -35,13 +37,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    async session({ session }) {
-      if (session.user.image == null || session.user.image == undefined)
-        return session;
-      const url = new URL(session.user.image);
-      const userId = url.pathname.split("/")[2];
-      session.user.id = userId;
+    async session({ session, token }) {
+      if (session.user) {
+        if (session.user.image) {
+          const url = new URL(session.user.image);
+          const userId = url.pathname.split("/")[2];
+          session.user.id = userId;
+        }
+        (session as any).accessToken = token.accessToken;
+      }
       return session;
+    },
+    async jwt({ token, account }) {
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
     },
     async signIn({ user, account, profile }) {
       return true;

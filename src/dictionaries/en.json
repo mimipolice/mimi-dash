@@ -185,6 +185,18 @@
     "manage": {
       "title": "Server Management",
       "description": "Manage and monitor your servers",
+      "tabs": {
+        "myServers": "My Servers",
+        "discordServers": "Discord Servers"
+      },
+      "discordTable": {
+        "title": "Discord Server List",
+        "serverName": "Server Name",
+        "owner": "Owner",
+        "yes": "Yes",
+        "no": "No",
+        "noServers": "No Discord servers found."
+      },
       "statistics": {
         "active": "Active",
         "suspended": "Suspended",

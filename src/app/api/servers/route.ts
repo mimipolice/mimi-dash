@@ -52,6 +52,47 @@ function validateResourceLimits(resources: {
   return null;
 }
 
+export async function GET() {
+  try {
+    const session = await auth();
+    const accessToken = (session as any)?.accessToken;
+
+    if (!accessToken) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const response = await axios.get(
+      "https://discord.com/api/users/@me/guilds",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error("Error fetching servers:", error);
+    if (axios.isAxiosError(error)) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.response?.data || "Failed to fetch servers",
+        },
+        { status: error.response?.status || 500 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch servers" },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PATCH(request: Request) {
   try {
     const session = await auth();

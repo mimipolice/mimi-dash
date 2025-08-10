@@ -192,6 +192,14 @@ interface UserInfo {
   __v: number;
 }
 
+interface Guild {
+  id: string;
+  name: string;
+  icon: string;
+  owner: boolean;
+  permissions: string;
+}
+
 const ITEMS_PER_PAGE = 5;
 
 export default function DashboardServersManage() {
@@ -200,7 +208,9 @@ export default function DashboardServersManage() {
   const tBreadcrumbs = useTranslations("servers.breadcrumbs");
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [guilds, setGuilds] = useState<Guild[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingGuilds, setLoadingGuilds] = useState(true);
   const [selectedServers, setSelectedServers] = useState<Set<number>>(
     new Set()
   );
@@ -315,6 +325,7 @@ export default function DashboardServersManage() {
   const router = useTransitionRouter();
   useEffect(() => {
     fetchUserInfo();
+    fetchGuilds();
   }, []);
 
   useEffect(() => {
@@ -408,6 +419,21 @@ export default function DashboardServersManage() {
       console.error("Error fetching user info:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchGuilds = async () => {
+    try {
+      setLoadingGuilds(true);
+      const response = await axios.get("/api/servers");
+      if (Array.isArray(response.data)) {
+        setGuilds(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching guilds:", error);
+      toast.error("Failed to fetch Discord servers.");
+    } finally {
+      setLoadingGuilds(false);
     }
   };
 
@@ -1453,6 +1479,57 @@ export default function DashboardServersManage() {
                     <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>{t("discordTable.title")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loadingGuilds ? (
+              <div className="flex items-center justify-center h-64">
+                <div className="text-center">
+                  <LoaderCircle className="h-8 w-8 animate-spin mx-auto mb-2" />
+                  <p>{t("loading")}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                {guilds.length > 0 ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>{t("discordTable.serverName")}</TableHead>
+                        <TableHead>{t("discordTable.owner")}</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {guilds.map((guild) => (
+                        <TableRow key={guild.id}>
+                          <TableCell className="flex items-center gap-2">
+                            <img
+                              src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
+                              alt={guild.name}
+                              className="w-8 h-8 rounded-full"
+                            />
+                            {guild.name}
+                          </TableCell>
+                          <TableCell>
+                            {guild.owner
+                              ? t("discordTable.yes")
+                              : t("discordTable.no")}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <div className="text-center py-8">
+                    <p>{t("discordTable.noServers")}</p>
+                  </div>
+                )}
               </div>
             )}
           </CardContent>

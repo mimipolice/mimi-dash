@@ -4,7 +4,7 @@
 
 ## API 通用設定
 
-- **基礎 URL**: `https://your-backend-api-url.com`
+- **基礎 URL**: `https://your-backend-api-url.com` 暫時先以 `http://localhost:2000` 為例
 - **認證**: 所有需要授權的請求都必須在標頭中包含 `Authorization: Bearer <API_KEY>`。
 
 ---
@@ -50,43 +50,31 @@
 
 - **方法**: `POST`
 - **說明**: 兌換優惠碼。
-- **請求Body**:
-  ```json
-  {
-    "code": "YOUR_COUPON_CODE"
-  }
-  ```
-- **成功回應 (200 OK)**:
-  ```json
-  {
-    "success": true,
-    "message": "Coupon redeemed successfully"
-  }
-  ```
-- **失敗回應 (400 Bad Request)**:
-  ```json
-  {
-    "error": "Missing coupon code"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "error": "Unauthorized"
-  }
-  ```
-- **失敗回應 (409 Conflict)**:
-  ```json
-  {
-    "error": "Coupon has already been redeemed"
-  }
-  ```
-- **失敗回應 (410 Gone)**:
-  ```json
-  {
-    "error": "Coupon is expired"
-  }
-  ```
+-   **請求 Body**:
+    ```json
+    {
+      "code": "SUMMER2025" // 優惠券代碼 (string)
+    }
+    ```
+-   **成功回應 (200 OK)**:
+    ```json
+    {
+      "status": "success",
+      "added": 50075, // 本次兌換增加的油幣
+      "coins": 175025 // 兌換後用戶的總油幣
+    }
+    ```
+-   **錯誤回應 (400 Bad Request / 404 Not Found)**:
+    ```json
+    {
+      "status": "error",
+      "errors": [
+        "Coupon not found", // 優惠券不存在
+        "Coupon already used by this user", // 已使用過
+        "Coupon usage limit reached" // 優惠券已達使用上限
+      ]
+    }
+    ```
 
 
 
@@ -121,30 +109,33 @@
 
 - **方法**: `POST`
 - **說明**: 將點數轉移給其他使用者。
-- **請求Body**:
+- **請求 Body**:
   ```json
   {
-    "to": "RECIPIENT_DISCORD_ID",
-    "coins": 100
+    "to": "RECIPIENT_DISCORD_ID", // 接收者的 Discord ID (string)
+    "coins": 100.50 // 轉移的金額 (number)
   }
   ```
 - **成功回應 (200 OK)**:
   ```json
   {
-    "success": true,
-    "message": "Transfer successful"
+    "status": "success",
+    "from": 115075, // 轉帳後，發送者的餘額
+    "to": 25050,   // 轉帳後，接收者的餘額
+    "fee": 502,    // 手續費
+    "actualTransfer": 10050 // 實際到帳金額
   }
   ```
-- **失敗回應 (400 Bad Request)**:
+- **錯誤回應 (400 Bad Request / 404 Not Found)**:
   ```json
   {
-    "error": "Missing recipient Discord ID"
-  }
-  ```
-- **失敗回應 (401 Unauthorized)**:
-  ```json
-  {
-    "error": "Unauthorized"
+    "status": "error",
+    "errors": [
+      "Receiver not found", // 接收者不存在
+      "Insufficient balance", // 餘額不足
+      "Transfer amount too low", // 金額過低
+      "Same user transfer is not allowed" // 不能轉給自己
+    ]
   }
   ```
 
@@ -158,22 +149,23 @@
 - **說明**: 獲取當前登入使用者的詳細資訊。
 - **請求參數**:
   - `id` (string, required): 使用者 ID。
-  - `name` (string, required): 使用者名稱。
-  - `email` (string, required): 使用者信箱。
 - **成功回應 (200 OK)**:
   ```json
   {
     "id": "user-id",
     "name": "John Doe",
-    "email": "john.doe@example.com",
-    "coins": 500,
-    "servers": [
-      {
-        "id": "server-id-1",
-        "name": "My First Server",
-        "status": "Running"
-      }
-    ]
+    "balance": 500,
+    "assets": {
+      "oil_ticket": 1250.75,
+      "total_card_value": 223178,
+      "total_stock_value": 10054712
+    },
+    "main_statistics": {
+      "total_draw": 123,
+      "total_game_played": 123,
+      "card_collection_rate": 70.35
+    },
+    "addAt": "2025-09-26T10:00:00Z"
   }
   ```
 - **失敗回應 (401 Unauthorized)**:
