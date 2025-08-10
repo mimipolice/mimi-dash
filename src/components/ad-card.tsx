@@ -51,7 +51,7 @@ export function AdCard() {
 
   return (
     <>
-      <Card className="w-full max-w-md mx-auto cursor-pointer group hover:shadow-lg transition-shadow duration-200">
+      <Card className="w-full max-w-md mx-auto cursor-pointer group hover:shadow-lg transition-shadow duration-200 h-full">
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2">
             <Megaphone className="h-5 w-5 text-orange-500" />
