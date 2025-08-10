@@ -52,7 +52,7 @@ export default function Dashboard() {
         </div>
       </header>
       <div className="p-6 flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
           <UserCard />
           <AdCard />
         </div>
