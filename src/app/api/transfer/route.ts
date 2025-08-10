@@ -52,7 +52,6 @@ export async function POST(request: NextRequest) {
     const response = await axios.post(
       apiUrl.toString(),
       {
-        from: id,
         to: to,
         coins: coins,
       },

@@ -17,6 +17,8 @@ import {
   ExternalLink,
   Copy,
   Check,
+  Library,
+  BarChart,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -24,25 +26,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 interface UserInfo {
-  coins: number;
-  panelId: number;
-  servers: Array<{
-    id: number;
-    identifier: string;
-    status: string;
-    resources: {
-      cpu: number;
-      ram: number;
-      disk: number;
-      databases: number;
-      allocations: number;
-      backups: number;
-    };
-    expireAt: string;
-    autoRenew: boolean;
-    createAt: string;
-    _id: string;
-  }>;
+  id: string;
+  name: string;
+  balance: number;
+  assets: {
+    oil_ticket: number;
+    total_card_value: number;
+    total_stock_value: number;
+  };
+  main_statistics: {
+    total_draw: number;
+    total_game_played: number;
+    card_collection_rate: number;
+  };
+  addAt: string;
 }
 
 export function UserCard() {
@@ -112,11 +109,6 @@ export function UserCard() {
                 Discord ID:{" "}
                 {user.id || t("unknownId", { defaultValue: "未知" })}
               </p>
-              {userInfo?.panelId && (
-                <p className="text-sm text-muted-foreground">
-                  Panel ID: {userInfo.panelId}
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -133,13 +125,13 @@ export function UserCard() {
               variant="secondary"
               className="bg-blue-500/10 text-blue-700 dark:text-blue-300"
             >
-              {loading ? "..." : userInfo?.coins?.toLocaleString() || "0"}
+              {loading ? "..." : userInfo?.balance?.toLocaleString() || "0"}
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             {t("dropletsDescription", {
               defaultValue: "您的貨幣餘額",
-              balance: userInfo?.coins || 0,
+              balance: userInfo?.balance || 0,
             })}
           </p>
         </div>
@@ -156,15 +148,75 @@ export function UserCard() {
               variant="secondary"
               className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
             >
-              {loading ? "..." : userInfo?.servers?.length || 0}
+              {loading ? "..." : "N/A"}
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground mt-1">
             {t("serversDescription", {
               defaultValue: "您目前擁有的伺服器數量",
-              count: userInfo?.servers?.length || 0,
+              count: "N/A",
             })}
           </p>
+        </div>
+
+        <div className="border-t pt-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Library className="h-4 w-4 text-orange-500" />
+              <span className="text-sm font-medium">
+                {t("assets", { defaultValue: "資產" })}
+              </span>
+            </div>
+          </div>
+          <div className="space-y-1 text-xs text-muted-foreground pl-6">
+            <p>
+              {t("oilTicket", { defaultValue: "油票" })}:{" "}
+              {loading ? "..." : userInfo?.assets?.oil_ticket.toLocaleString()}
+            </p>
+            <p>
+              {t("totalCardValue", { defaultValue: "卡片總價值" })}:{" "}
+              {loading
+                ? "..."
+                : userInfo?.assets?.total_card_value.toLocaleString()}
+            </p>
+            <p>
+              {t("totalStockValue", { defaultValue: "股票總價值" })}:{" "}
+              {loading
+                ? "..."
+                : userInfo?.assets?.total_stock_value.toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        <div className="border-t pt-4">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <BarChart className="h-4 w-4 text-purple-500" />
+              <span className="text-sm font-medium">
+                {t("statistics", { defaultValue: "主要統計" })}
+              </span>
+            </div>
+          </div>
+          <div className="space-y-1 text-xs text-muted-foreground pl-6">
+            <p>
+              {t("totalDraw", { defaultValue: "總抽卡數" })}:{" "}
+              {loading
+                ? "..."
+                : userInfo?.main_statistics?.total_draw.toLocaleString()}
+            </p>
+            <p>
+              {t("totalGamePlayed", { defaultValue: "總遊戲次數" })}:{" "}
+              {loading
+                ? "..."
+                : userInfo?.main_statistics?.total_game_played.toLocaleString()}
+            </p>
+            <p>
+              {t("cardCollectionRate", { defaultValue: "卡片收集率" })}:{" "}
+              {loading
+                ? "..."
+                : `${userInfo?.main_statistics?.card_collection_rate}%`}
+            </p>
+          </div>
         </div>
 
         <div className="border-t pt-4">

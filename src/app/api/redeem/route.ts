@@ -33,12 +33,11 @@ export async function POST(request: NextRequest) {
     }
 
     const apiUrl = new URL(process.env.BACKEND_API_URL as string);
-    apiUrl.pathname = "/coupons/redeem";
+    apiUrl.pathname = "/api/redeem";
 
     const response = await axios.post(
       apiUrl.toString(),
       {
-        id: id,
         code: code,
       },
       {

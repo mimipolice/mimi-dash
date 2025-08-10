@@ -10,9 +10,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id, name, email } = session.user;
+    const { id } = session.user;
 
-    if (!id || !name || !email) {
+    if (!id) {
       return NextResponse.json(
         { error: "Missing required user information" },
         { status: 400 }
@@ -29,8 +29,6 @@ export async function GET(request: NextRequest) {
     const apiUrl = new URL(process.env.BACKEND_API_URL as string);
     apiUrl.pathname = "/userinfo";
     apiUrl.searchParams.append("id", id);
-    apiUrl.searchParams.append("name", name);
-    apiUrl.searchParams.append("email", email);
     const response = await axios.get(apiUrl.toString(), {
       headers: {
         Authorization: `Bearer ${apiKey}`,
