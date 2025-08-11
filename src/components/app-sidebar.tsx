@@ -50,7 +50,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: t("users"),
-            url: "/dashboard/manage/users",
+            url: "/dashboard/manage/users/my-profile",
             isActive: isPathActive("/dashboard/manage/users"),
           },
           {
