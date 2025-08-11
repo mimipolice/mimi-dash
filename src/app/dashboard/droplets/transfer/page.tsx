@@ -33,12 +33,19 @@ import axios from "axios";
 import { ArrowRightLeft, Droplets, Send } from "lucide-react";
 import { Cover } from "@/components/ui/cover";
 interface TransferResponse {
-  status: "success" | "error";
-  from?: number;
-  to?: number;
-  fee?: number;
-  actualTransfer?: number;
+  success: boolean;
+  message?: string;
+  transfer_details?: {
+    sender_id: string;
+    receiver_id: string;
+    gross_amount: number;
+    fee_amount: number;
+    net_amount: number;
+    sender_balance_after: number;
+    receiver_balance_after: number;
+  };
   errors?: string[];
+  error?: string; // For backend proxy errors
 }
 
 export default function TransferPage() {
@@ -83,48 +90,55 @@ export default function TransferPage() {
 
       const data: TransferResponse = response.data;
 
-      if (data.status === "success") {
+      if (data.success && data.transfer_details) {
         setSuccessDialog({
           open: true,
-          from: data.from!,
-          to: data.to!,
-          fee: data.fee!,
-          actualTransfer: data.actualTransfer!,
+          from: data.transfer_details.sender_balance_after,
+          to: data.transfer_details.receiver_balance_after,
+          fee: data.transfer_details.fee_amount,
+          actualTransfer: data.transfer_details.net_amount,
         });
         setRecipientId("");
         setAmount("");
-      } else if (data.status === "error" && data.errors) {
-        const errorMessage = data.errors[0];
-        if (errorMessage === "Receiver not found") {
-          toast.error(t("errors.receiverNotFound"));
-        } else if (errorMessage === "Insufficient balance") {
-          toast.error(t("errors.insufficientBalance"));
-        } else if (errorMessage === "Transfer amount too low") {
-          toast.error(t("errors.amountTooLow"));
-        } else if (errorMessage === "Same user transfer is not allowed") {
-          toast.error(t("errors.sameUserTransfer"));
+      } else {
+        // Handle errors from the backend API
+        const errorMessage =
+          data.message || data.error || (data.errors && data.errors[0]);
+        if (errorMessage) {
+          if (errorMessage.includes("not found")) {
+            toast.error(t("errors.receiverNotFound"));
+          } else if (errorMessage.includes("Insufficient balance")) {
+            toast.error(t("errors.insufficientBalance"));
+          } else if (errorMessage.includes("too low")) {
+            toast.error(t("errors.amountTooLow"));
+          } else if (errorMessage.includes("Same user")) {
+            toast.error(t("errors.sameUserTransfer"));
+          } else {
+            toast.error(errorMessage);
+          }
         } else {
           toast.error(t("errors.transferFailed"));
         }
-      } else {
-        toast.error(t("errors.transferFailed"));
       }
     } catch (error) {
-      console.error("Transfer error:", error);
+      // The error is displayed to the user via toast, no need to log to console
       if (axios.isAxiosError(error) && error.response?.data) {
-        const data: TransferResponse = error.response.data;
-        if (data.status === "error" && data.errors) {
-          const errorMessage = data.errors[0];
-          if (errorMessage === "Receiver not found") {
+        const errorData = error.response.data;
+        const errorMessage =
+          errorData.message ||
+          errorData.error ||
+          (errorData.errors && errorData.errors[0]);
+        if (errorMessage) {
+          if (errorMessage.includes("not found")) {
             toast.error(t("errors.receiverNotFound"));
-          } else if (errorMessage === "Insufficient balance") {
+          } else if (errorMessage.includes("Insufficient balance")) {
             toast.error(t("errors.insufficientBalance"));
-          } else if (errorMessage === "Transfer amount too low") {
+          } else if (errorMessage.includes("too low")) {
             toast.error(t("errors.amountTooLow"));
-          } else if (errorMessage === "Same user transfer is not allowed") {
+          } else if (errorMessage.includes("Same user")) {
             toast.error(t("errors.sameUserTransfer"));
           } else {
-            toast.error(t("errors.transferFailed"));
+            toast.error(errorMessage);
           }
         } else {
           toast.error(t("errors.transferFailed"));
