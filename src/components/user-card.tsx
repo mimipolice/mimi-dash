@@ -35,7 +35,7 @@ interface UserInfo {
   addAt: string;
 }
 
-export function UserCard() {
+export function UserCard({ userId }: { userId?: string }) {
   const { data: session } = useSession();
   const t = useTranslations("userCard");
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -46,7 +46,8 @@ export function UserCard() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await axios.get("/api/userinfo");
+        const url = userId ? `/api/admin/user-info/${userId}` : "/api/userinfo";
+        const response = await axios.get(url);
         setUserInfo(response.data);
       } catch (error) {
         console.error("Failed to fetch user info:", error);
@@ -55,10 +56,10 @@ export function UserCard() {
       }
     };
 
-    if (session?.user) {
+    if (session?.user || userId) {
       fetchUserInfo();
     }
-  }, [session]);
+  }, [session, userId]);
 
   const copyUserIdToClipboard = async () => {
     try {

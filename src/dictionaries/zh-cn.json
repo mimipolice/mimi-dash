@@ -149,6 +149,10 @@
       "title": "余额历史",
       "fetch-error": "获取余额历史失败。",
       "no-records": "找不到任何记录。"
+    },
+    "manage": {
+      "title": "管理",
+      "users": "用户"
     }
   },
   "settings": {

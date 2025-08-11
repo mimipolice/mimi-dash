@@ -27,7 +27,13 @@ interface Pagination {
   offset: number;
 }
 
-export function BalanceHistoryList({ className }: { className?: string }) {
+export function BalanceHistoryList({
+  className,
+  userId,
+}: {
+  className?: string;
+  userId?: string;
+}) {
   const t = useTranslations("dashboard.balance-history");
   const [history, setHistory] = useState<BalanceHistoryItem[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
@@ -37,11 +43,13 @@ export function BalanceHistoryList({ className }: { className?: string }) {
   const itemsPerPage = 6;
 
   const fetchHistory = async (page: number) => {
-    if (!session?.user?.id) return;
+    const targetUserId = userId || session?.user?.id;
+    if (!targetUserId) return;
+
     setLoading(true);
     try {
       const response = await axios.get(
-        `/api/admin/balance-history/${session.user.id}`,
+        `/api/admin/balance-history/${targetUserId}`,
         {
           params: { limit: itemsPerPage, offset: page * itemsPerPage },
         }
@@ -61,12 +69,13 @@ export function BalanceHistoryList({ className }: { className?: string }) {
   };
 
   useEffect(() => {
-    if (session?.user?.id) {
+    const targetUserId = userId || session?.user?.id;
+    if (targetUserId) {
       fetchHistory(currentPage);
-    } else if (session === null) {
+    } else if (session === null && !userId) {
       setLoading(false);
     }
-  }, [session, currentPage]);
+  }, [session, userId, currentPage]);
 
   const getIcon = (item: BalanceHistoryItem) => {
     if (item.change_amount > 0) {

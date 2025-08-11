@@ -141,6 +141,10 @@
       "title": "餘額歷史",
       "fetch-error": "獲取餘額歷史失敗。",
       "no-records": "找不到任何記錄。"
+    },
+    "manage": {
+      "title": "管理",
+      "users": "用戶"
     }
   },
   "settings": {
