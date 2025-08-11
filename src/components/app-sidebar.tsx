@@ -43,15 +43,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
     navMain: [
       {
-        title: t("servers"),
+        title: t("manage"),
         url: "#",
         icon: Server,
-        isActive: isPathActive("/dashboard/servers"),
+        isActive: isPathActive("/dashboard/manage"),
         items: [
           {
-            title: t("manage"),
-            url: "/dashboard/servers/manage",
-            isActive: isPathActive("/dashboard/servers/manage"),
+            title: t("users"),
+            url: "/dashboard/manage/users",
+            isActive: isPathActive("/dashboard/manage/users"),
+          },
+          {
+            title: t("servers"),
+            url: "/dashboard/manage/servers",
+            isActive: isPathActive("/dashboard/manage/servers"),
           },
         ],
       },

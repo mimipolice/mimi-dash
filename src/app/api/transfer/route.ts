@@ -46,33 +46,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiUrl = new URL(process.env.BACKEND_API_URL as string);
-    apiUrl.pathname = "/api/transfer";
+    const baseUrl = (process.env.BACKEND_API_URL as string).replace(/\/$/, "");
+    const finalUrl = `${baseUrl}/api/admin/transfer`;
 
     const response = await axios.post(
-      apiUrl.toString(),
+      finalUrl,
       {
-        to: to,
-        coins: coins,
+        sender_id: id,
+        receiver_id: to,
+        amount: coins,
       },
       {
         headers: {
-          "X-User-ID": id,
           "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
         },
       }
     );
 
     return NextResponse.json(response.data);
   } catch (error) {
-    console.error("Transfer error:", error);
+    // In a real-world application, you might want to log this error to a service
+    // For now, we just forward the error response
 
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        return NextResponse.json(error.response.data, {
-          status: error.response.status,
-        });
-      }
+    if (axios.isAxiosError(error) && error.response) {
+      return NextResponse.json(error.response.data, {
+        status: error.response.status,
+      });
     }
 
     return NextResponse.json(
