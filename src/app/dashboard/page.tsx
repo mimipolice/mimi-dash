@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { UserCard } from "@/components/user-card";
 import { AdCard } from "@/components/ad-card";
+import { BalanceHistoryList } from "@/components/balance-history-list";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import {
@@ -55,6 +56,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
           <UserCard />
           <AdCard />
+          <BalanceHistoryList className="lg:col-span-2" />
         </div>
       </div>
     </>

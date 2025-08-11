@@ -136,7 +136,12 @@
   },
   "dashboard": {
     "breadcrumbs": "索引",
-    "additionalResources": "其他資源"
+    "additionalResources": "其他資源",
+    "balance-history": {
+      "title": "餘額歷史",
+      "fetch-error": "獲取餘額歷史失敗。",
+      "no-records": "找不到任何記錄。"
+    }
   },
   "settings": {
     "title": "設定",

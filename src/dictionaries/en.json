@@ -144,7 +144,12 @@
   },
   "dashboard": {
     "breadcrumbs": "Index",
-    "additionalResources": "Additional Resources"
+    "additionalResources": "Additional Resources",
+    "balance-history": {
+      "title": "Balance History",
+      "fetch-error": "Failed to fetch balance history.",
+      "no-records": "No records found."
+    }
   },
   "settings": {
     "title": "Settings",
