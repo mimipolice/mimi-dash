@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       },
       {
         headers: {
-          Authorization: `Bearer ${apiKey}`,
+          "X-User-ID": id,
           "Content-Type": "application/json",
         },
       }

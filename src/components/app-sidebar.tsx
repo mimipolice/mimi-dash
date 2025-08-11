@@ -102,7 +102,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <Cloud />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">Lolidactyl</span>
+                      <span className="truncate font-medium">MimiDLC</span>
                       <div className="relative h-4 overflow-hidden">
                         <span className="absolute truncate text-xs transition-transform duration-300 ease-in-out group-hover/home:-translate-y-4 group-hover/home:opacity-0">
                           {t("dashboard")}

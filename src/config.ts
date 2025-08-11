@@ -2,9 +2,9 @@ import { metadata } from "./app/layout";
 
 const appConfig = {
   metadata: {
-    title: "Lolidactyl",
+    title: "MimiDLC",
     description:
-      "Lolidactyl is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features.",
+      "Lolidactyl is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features. Yes not MimiDLC.",
   },
   limit: {
     cpu: {
@@ -54,14 +54,14 @@ const appConfig = {
       linkUrl: "https://github.com/SHD-Development/lolidactyl",
       isActive: true,
     },
-    // {
-    //   id: 2,
-    //   title: "聽說...",
-    //   description: "聽說honkomagake其實是小男娘？！",
-    //   imageUrl: "/images/ads/image.png",
-    //   linkUrl: "https://github.com/SHD-Development/lolidactyl",
-    //   isActive: true,
-    // },
+    {
+      id: 2,
+      title: "聽說...",
+      description: "聽說honkomagake其實是小男娘？！",
+      imageUrl: "/images/ads/image.png",
+      linkUrl: "https://github.com/SHD-Development/lolidactyl",
+      isActive: true,
+    },
   ],
 };
 export default appConfig;

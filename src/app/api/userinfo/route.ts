@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       );
     }
     const apiUrl = new URL(process.env.BACKEND_API_URL as string);
-    apiUrl.pathname = "/userinfo";
+    apiUrl.pathname = "api/userinfo";
     apiUrl.searchParams.append("id", id);
     const response = await axios.get(apiUrl.toString(), {
       headers: {
