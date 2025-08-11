@@ -1,5 +1,5 @@
 {
-  "appName": "Lolidactyl",
+  "appName": "MimiDLC",
   "common": {
     "droplets": "Droplets",
     "languages": "Languages",
@@ -152,7 +152,7 @@
   },
   "loginForm": {
     "welcomeBack": "Welcome Back!",
-    "description": "Login to continue using Lolidactyl",
+    "description": "Login to continue using MimiDLC",
     "continueWith": "Continue with",
     "comingSoon": "Coming Soon",
     "agreement": "By using this service, you agree to our Terms of Service and Privacy Policy."

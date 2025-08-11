@@ -1,5 +1,5 @@
 {
-  "appName": "Lolidactyl",
+  "appName": "MimiDLC",
   "common": {
     "droplets": "油幣",
     "languages": "语言",
@@ -152,7 +152,7 @@
   },
   "loginForm": {
     "welcomeBack": "欢迎回来！",
-    "description": "登录以继续使用 Lolidactyl",
+    "description": "登录以继续使用 MimiDLC",
     "continueWith": "使用以下方式继续",
     "comingSoon": "即将推出",
     "agreement": "使用本服务即表示您同意我们的服务条款及隐私政策。"

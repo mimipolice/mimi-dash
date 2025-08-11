@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import {
   Cloud,
+  ChartBarStacked,
   Shield,
   Zap,
   Globe,
@@ -62,11 +63,6 @@ export default function LandingPage() {
       description: t("features.security.description"),
     },
     {
-      icon: Zap,
-      title: t("features.performance.title"),
-      description: t("features.performance.description"),
-    },
-    {
       icon: Globe,
       title: t("features.global.title"),
       description: t("features.global.description"),
@@ -75,11 +71,6 @@ export default function LandingPage() {
       icon: Server,
       title: t("features.scalable.title"),
       description: t("features.scalable.description"),
-    },
-    {
-      icon: Lock,
-      title: t("features.backup.title"),
-      description: t("features.backup.description"),
     },
     {
       icon: Cloud,
@@ -162,9 +153,9 @@ export default function LandingPage() {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Cloud className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <ChartBarStacked className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                SHD Cloud
+                MimiDLC
               </span>
             </motion.div>
 
@@ -175,12 +166,6 @@ export default function LandingPage() {
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
                 {t("nav.features")}
-              </a>
-              <a
-                href="#pricing"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                {t("nav.pricing")}
               </a>
               <a
                 href="#contact"
@@ -208,7 +193,7 @@ export default function LandingPage() {
                       <div className="flex items-center space-x-2">
                         <Cloud className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                         <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                          SHD Cloud
+                          MimiDLC
                         </span>
                       </div>
                       <Button
@@ -242,12 +227,12 @@ export default function LandingPage() {
                       {t("nav.contact")}
                     </a>
                     <div className="px-4 pt-2">
-                      <Button
+                      <Link
+                        href="/dashboard"
                         className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-full"
-                        onClick={() => setIsMenuOpen(false)}
                       >
                         {t("nav.getStarted")}
-                      </Button>
+                      </Link>
                     </div>
                   </div>
                 </DialogContent>
@@ -388,6 +373,7 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
+
       {/* Testimonials Section InfiniteMovingCards */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -410,124 +396,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              {t("pricing.title")}
-            </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              {t("pricing.subtitle")}
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={staggerChildren}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-          >
-            {plans.map((plan, index) => (
-              <motion.div key={index} variants={fadeInUp}>
-                <Card
-                  className={`h-full backdrop-blur-md border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300 relative overflow-hidden flex flex-col ${
-                    plan.popular
-                      ? "bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/50 dark:to-purple-900/50 ring-2 ring-blue-500 dark:ring-blue-400"
-                      : "bg-white/80 dark:bg-gray-800/80"
-                  }`}
-                >
-                  {plan.popular && (
-                    <div className="absolute top-0 right-0 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 text-sm font-medium rounded-bl-lg">
-                      {t("pricing.popular")}
-                    </div>
-                  )}
-                  <CardHeader className="text-center">
-                    <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-                      {plan.name}
-                    </CardTitle>
-                    <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                      {plan.price}
-                    </div>
-                    <CardDescription className="text-gray-600 dark:text-gray-300">
-                      {plan.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex-grow flex flex-col justify-between">
-                    <ul className="space-y-3 min-h-[200px]">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center">
-                          <Check className="h-5 w-5 text-green-500 mr-3 flex-shrink-0" />
-                          <span className="text-gray-700 dark:text-gray-300">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="pt-6 mt-auto">
-                      <Button
-                        className={`w-full ${
-                          plan.popular
-                            ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                            : "bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600"
-                        }`}
-                      >
-                        {t("pricing.chooseplan")}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            className="backdrop-blur-md bg-gradient-to-r from-blue-600/90 to-purple-600/90 rounded-2xl p-8 sm:p-12 text-center text-white relative overflow-hidden"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                {t("cta.title")}
-              </h2>
-              <p className="text-xl mb-8 opacity-90">{t("cta.subtitle")}</p>
-              <Button
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
-              >
-                {t("cta.button")}
-              </Button>
-            </div>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20"
-              animate={{
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, -5, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-          </motion.div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer
         id="contact"
@@ -539,7 +407,7 @@ export default function LandingPage() {
               <div className="flex items-center space-x-2 mb-4">
                 <Cloud className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  SHD Cloud
+                  MimiDLC
                 </span>
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -562,13 +430,17 @@ export default function LandingPage() {
               </h3>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300">
                 <li>{t("footer.help")}</li>
-                <li>{t("footer.docs")}</li>
+                <li>
+                  <a href="https://github.com/SHD-Development/lolidactyl/">
+                    {t("footer.docs")}
+                  </a>
+                </li>
                 <li>{t("footer.status")}</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-300">
-            <p>© 2025 SHD Cloud. {t("footer.rights")}</p>
+            <p>© 2025 MimiDLC. {t("footer.rights")}</p>
           </div>
         </div>
       </footer>

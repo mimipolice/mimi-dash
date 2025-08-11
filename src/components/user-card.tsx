@@ -185,7 +185,9 @@ export function UserCard() {
                       {t("totalCardValue")}:{" "}
                       {loading
                         ? "..."
-                        : userInfo?.assets?.total_card_value.toLocaleString()}
+                        : Math.round(
+                            userInfo?.assets?.total_card_value || 0
+                          ).toLocaleString()}
                     </p>
                     <p>
                       {t("totalStockValue")}:{" "}
@@ -222,7 +224,9 @@ export function UserCard() {
                       {t("cardCollectionRate")}:{" "}
                       {loading
                         ? "..."
-                        : `${userInfo?.main_statistics?.card_collection_rate}%`}
+                        : `${(
+                            userInfo?.main_statistics?.card_collection_rate || 0
+                          ).toFixed(2)}%`}
                     </p>
                   </div>
                 </div>
