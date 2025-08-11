@@ -149,6 +149,10 @@
       "title": "Balance History",
       "fetch-error": "Failed to fetch balance history.",
       "no-records": "No records found."
+    },
+    "manage": {
+      "title": "Manage",
+      "users": "Users"
     }
   },
   "settings": {
