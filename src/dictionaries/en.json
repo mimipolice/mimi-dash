@@ -152,7 +152,20 @@
     },
     "manage": {
       "title": "Manage",
-      "users": "Users"
+      "users": "Users",
+      "my-profile": "My Profile"
+    },
+    "gacha-stats": {
+      "title": "Gacha Statistics",
+      "loading": "Loading statistics...",
+      "total_draws": "Total Draws",
+      "unique_cards_drawn": "Unique Cards",
+      "ssr_plus_count": "SSR+ Count",
+      "longest_drought": "Longest Drought",
+      "pool_counts": "Pool Counts",
+      "most_drawn_cards": "Most Drawn Cards",
+      "rarity": "Rarity",
+      "draws": "draws"
     }
   },
   "settings": {

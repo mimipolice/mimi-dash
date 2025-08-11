@@ -13,12 +13,9 @@ import { useTranslations } from "next-intl";
 import { UserCard } from "@/components/user-card";
 import { AdCard } from "@/components/ad-card";
 import { BalanceHistoryList } from "@/components/balance-history-list";
+import { GachaStatisticsCard } from "@/components/gacha-statistics-card";
 
-export default function UserProfilePage({
-  params,
-}: {
-  params: { userId: string };
-}) {
+export default function UserProfilePage() {
   const t = useTranslations("dashboard");
   const common = useTranslations("common");
 
@@ -36,27 +33,18 @@ export default function UserProfilePage({
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard/manage/users">
-                  {t("manage.users")}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>{params.userId}</BreadcrumbPage>
+                <BreadcrumbPage>{t("manage.my-profile")}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
       <div className="p-6 flex justify-center">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 items-start">
-          <UserCard userId={params.userId} />
-          <AdCard />
-          <BalanceHistoryList
-            className="lg:col-span-2"
-            userId={params.userId}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
+          <UserCard />
+          <GachaStatisticsCard />
+          <BalanceHistoryList className="lg:col-span-1" />
         </div>
       </div>
     </>

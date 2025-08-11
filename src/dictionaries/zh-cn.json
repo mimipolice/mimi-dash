@@ -152,7 +152,20 @@
     },
     "manage": {
       "title": "管理",
-      "users": "用户"
+      "users": "用户",
+      "my-profile": "个人资料"
+    },
+    "gacha-stats": {
+      "title": "抽卡统计",
+      "loading": "正在加载统计数据...",
+      "total_draws": "总抽卡数",
+      "unique_cards_drawn": "独立卡片",
+      "ssr_plus_count": "SSR+ 数量",
+      "longest_drought": "最长未出货",
+      "pool_counts": "卡池统计",
+      "most_drawn_cards": "最常抽到的卡",
+      "rarity": "稀有度",
+      "draws": "抽"
     }
   },
   "settings": {
