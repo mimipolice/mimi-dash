@@ -33,9 +33,9 @@ import axios from "axios";
 import { Key, Gift, Droplets } from "lucide-react";
 import { Cover } from "@/components/ui/cover";
 interface RedeemResponse {
-  status: "success" | "error";
-  coins?: number;
-  added?: number;
+  success: boolean;
+  message?: string;
+  reward_amount?: number;
   errors?: string[];
 }
 
@@ -73,16 +73,12 @@ export default function CouponsPage() {
 
       const data = response.data;
 
-      if (
-        data.status === "success" &&
-        data.coins !== undefined &&
-        data.added !== undefined
-      ) {
+      if (data.success && data.reward_amount !== undefined) {
         setSuccessDialog({
           open: true,
           code: couponCode,
-          added: data.added,
-          totalCoins: data.coins,
+          added: data.reward_amount,
+          totalCoins: 0, // Backend doesn't provide total coins, so we hide this for now.
         });
         setCouponCode("");
       } else {
@@ -231,15 +227,6 @@ export default function CouponsPage() {
               <div className="text-3xl font-bold text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
                 <Droplets className="h-7 w-7" />+
                 {successDialog.added.toFixed(2)} {t("success.droplets")}
-              </div>
-            </div>
-            <div className="rounded-xl border-2 border-dashed border-muted-foreground/20 p-6 text-center bg-muted/30">
-              <div className="text-sm font-medium text-muted-foreground mb-2">
-                {t("success.currentBalance")}
-              </div>
-              <div className="text-2xl font-bold flex items-center justify-center gap-2">
-                <Droplets className="h-6 w-6" />
-                {successDialog.totalCoins.toFixed(2)} {t("success.droplets")}
               </div>
             </div>
             <Button

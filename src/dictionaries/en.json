@@ -197,7 +197,9 @@
     "resources": "Resources",
     "platform": "Platform",
     "go": "Go",
-    "destination": "Go to"
+    "destination": "Go to",
+    "admin": "Admin",
+    "manage_coupons": "Manage Coupons"
   },
   "servers": {
     "breadcrumbs": {

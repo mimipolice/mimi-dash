@@ -3,7 +3,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { ViewTransitions } from "next-view-transitions";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { Locale } from "@/components/locale";
@@ -35,29 +34,27 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <ViewTransitions>
-      <html lang={locale} suppressHydrationWarning>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html lang={locale} suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SessionProvider>
-              <NextIntlClientProvider>
-                {children}
-                <Toaster />
-              </NextIntlClientProvider>
-            </SessionProvider>
-          </ThemeProvider>
-          <Locale />
-          <SpeedInsights />
-          <Analytics />
-        </body>
-      </html>
-    </ViewTransitions>
+          <SessionProvider>
+            <NextIntlClientProvider>
+              {children}
+              <Toaster />
+            </NextIntlClientProvider>
+          </SessionProvider>
+        </ThemeProvider>
+        <Locale />
+        <SpeedInsights />
+        <Analytics />
+      </body>
+    </html>
   );
 }

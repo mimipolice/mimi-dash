@@ -17,12 +17,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 export function NavMain({
   items,
 }: {
   items: {
+    key: string;
     title: string;
     url: string;
     icon?: LucideIcon;
@@ -41,7 +42,7 @@ export function NavMain({
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
-            key={item.title}
+            key={item.key}
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"

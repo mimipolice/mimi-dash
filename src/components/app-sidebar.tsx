@@ -1,8 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { Cloud, Home, Server, CircleGauge, Droplet } from "lucide-react";
-import { Link } from "next-view-transitions";
+import {
+  Cloud,
+  Home,
+  Server,
+  CircleGauge,
+  Droplet,
+  Shield,
+} from "lucide-react";
+import Link from "next/link";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -35,63 +42,93 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return pathname.startsWith(url);
   };
   const t = useTranslations("sidebar");
+
+  const currentUser = session?.user;
+  const isAdmin =
+    currentUser &&
+    appConfig.admins.some(
+      (admin) =>
+        admin.id === currentUser.id && admin.email === currentUser.email
+    );
+
+  const navMain = [
+    {
+      key: "manage",
+      title: t("manage"),
+      url: "#",
+      icon: Server,
+      isActive: isPathActive("/dashboard/manage"),
+      items: [
+        {
+          title: t("users"),
+          url: "/dashboard/manage/users/my-profile",
+          isActive: isPathActive("/dashboard/manage/users"),
+        },
+        {
+          title: t("servers"),
+          url: "/dashboard/manage/servers",
+          isActive: isPathActive("/dashboard/manage/servers"),
+        },
+      ],
+    },
+    {
+      key: "droplets",
+      title: t("droplets"),
+      url: "#",
+      icon: Droplet,
+      isActive: isPathActive("/dashboard/droplets"),
+      items: [
+        {
+          title: t("coupons"),
+          url: "/dashboard/droplets/coupons",
+          isActive: isPathActive("/dashboard/droplets/coupons"),
+        },
+        {
+          title: t("transfer"),
+          url: "/dashboard/droplets/transfer",
+          isActive: isPathActive("/dashboard/droplets/transfer"),
+        },
+      ],
+    },
+    // {
+    //   title: t("store"),
+    //   url: "/dashboard/store",
+    //   icon: Store,
+    //   isActive: isPathActive("/dashboard/store"),
+    //   items: [
+    //     {
+    //       title: t("general"),
+    //       url: "/dashboard/store/general",
+    //       isActive: isPathActive("/dashboard/store/general"),
+    //     },
+    //   ],
+    // },
+  ];
+
+  if (isAdmin) {
+    navMain.push({
+      key: "admin",
+      title: t("admin"),
+      url: "#",
+      icon: Shield,
+      isActive: isPathActive("/dashboard/admin"),
+      items: [
+        {
+          title: t("manage_coupons"),
+          url: "/dashboard/admin/coupons",
+          isActive: isPathActive("/dashboard/admin/coupons"),
+        },
+      ],
+    });
+  }
+
   const data = {
     user: {
       name: session?.user?.name as string,
       email: session?.user?.email as string,
       avatar: session?.user?.image as string,
     },
-    navMain: [
-      {
-        title: t("manage"),
-        url: "#",
-        icon: Server,
-        isActive: isPathActive("/dashboard/manage"),
-        items: [
-          {
-            title: t("users"),
-            url: "/dashboard/manage/users/my-profile",
-            isActive: isPathActive("/dashboard/manage/users"),
-          },
-          {
-            title: t("servers"),
-            url: "/dashboard/manage/servers",
-            isActive: isPathActive("/dashboard/manage/servers"),
-          },
-        ],
-      },
-      {
-        title: t("droplets"),
-        url: "#",
-        icon: Droplet,
-        isActive: isPathActive("/dashboard/droplets"),
-        items: [
-          {
-            title: t("coupons"),
-            url: "/dashboard/droplets/coupons",
-            isActive: isPathActive("/dashboard/droplets/coupons"),
-          },
-          {
-            title: t("transfer"),
-            url: "/dashboard/droplets/transfer",
-            isActive: isPathActive("/dashboard/droplets/transfer"),
-          },
-        ],
-      },
-      // {
-      //   title: t("store"),
-      //   url: "/dashboard/store",
-      //   icon: Store,
-      //   isActive: isPathActive("/dashboard/store"),
-      //   items: [
-      //     {
-      //       title: t("general"),
-      //       url: "/dashboard/store/general",
-      //       isActive: isPathActive("/dashboard/store/general"),
-      //     },
-      //   ],
-      // },
-    ],
+    navMain,
   };
 
   return (

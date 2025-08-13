@@ -37,7 +37,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { title } from "process";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 export default function LandingPage() {
   const t = useTranslations("landing");
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -2,7 +2,9 @@ import NextAuth from "next-auth";
 import Discord from "next-auth/providers/discord";
 import { NextResponse } from "next/server";
 import axios from "axios";
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  secret: process.env.AUTH_SECRET,
   providers: [
     Discord({
       clientId: process.env.AUTH_DISCORD_ID,
@@ -39,11 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
     async session({ session, token }) {
       if (session.user) {
-        if (session.user.image) {
-          const url = new URL(session.user.image);
-          const userId = url.pathname.split("/")[2];
-          session.user.id = userId;
-        }
+        session.user.id = token.id as string;
         (session as any).accessToken = token.accessToken;
       }
       return session;
@@ -51,6 +49,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
+        token.id = account.providerAccountId;
       }
       return token;
     },
