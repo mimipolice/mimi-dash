@@ -198,7 +198,8 @@
         "title": "最常抽到",
         "draws": "次"
       },
-      "hover_for_details": "悬停查看详细信息"
+      "hover_for_details": "悬停查看详细信息",
+      "hover_for_preview": "悬停以预览"
     }
   },
   "settings": {

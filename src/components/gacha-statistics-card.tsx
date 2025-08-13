@@ -50,6 +50,7 @@ export function GachaStatisticsCard() {
   const [stats, setStats] = useState<GachaStatistics | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     async function fetchStats() {
@@ -108,7 +109,8 @@ export function GachaStatisticsCard() {
       <Card
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full mx-auto h-full flex flex-col md:w-[35rem] relative"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full mx-auto h-full flex flex-col md:w-[35rem] relative cursor-pointer overflow-hidden"
       >
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -140,27 +142,48 @@ export function GachaStatisticsCard() {
 
           <div className="flex-grow flex flex-col justify-center items-center relative min-h-[13.5rem]">
             <AnimatePresence mode="wait">
-              {!isHovered ? (
+              {!isExpanded ? (
                 <motion.div
-                  key="image"
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                  className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground space-y-2"
+                  key="image-container"
+                  className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground"
+                  exit={{ opacity: 0, transition: { duration: 0.2 } }}
                 >
-                  <Image
-                    src="/images/bg/amamiya-kokoro.png"
-                    alt="Amamiya Kokoro"
-                    width={256}
-                    height={256}
-                    className="h-64 w-64 object-contain"
-                  />
-                  {/* <p>
-                    {t("hover_for_details", {
-                      defaultValue: "懸停查看詳細資訊",
-                    })}
-                  </p> */}
+                  <motion.div
+                    animate={{
+                      y: isHovered ? 0 : 64,
+                      opacity: isHovered ? 1 : 0,
+                      scale: isHovered ? 1.1 : 1,
+                    }}
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                    className="h-64 w-64"
+                  >
+                    <Image
+                      src="/images/bg/amamiya-kokoro.png"
+                      alt="Amamiya Kokoro"
+                      width={256}
+                      height={256}
+                      className="h-full w-full object-contain transition-all duration-300"
+                      style={{
+                        filter: isHovered ? "brightness(0.7)" : "brightness(1)",
+                      }}
+                    />
+                  </motion.div>
+                  <AnimatePresence>
+                    {!isHovered && (
+                      <motion.p
+                        key="hover-text"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2, delay: 0.1 }}
+                        className="absolute pointer-events-none"
+                      >
+                        {t("hover_for_preview", {
+                          defaultValue: "懸停以預覽",
+                        })}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               ) : (
                 <motion.div
