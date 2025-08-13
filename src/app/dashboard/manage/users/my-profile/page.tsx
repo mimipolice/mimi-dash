@@ -40,7 +40,7 @@ export default function UserProfilePage() {
           </Breadcrumb>
         </div>
       </header>
-      <div className="p-6 flex">
+      <div className="p-9 flex">
         <div className="flex flex-wrap gap-10 items-start">
           <div>
             <UserCard />

@@ -107,7 +107,7 @@ export function GachaStatisticsCard() {
       <Card
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full max-w-md mx-auto h-full flex flex-col md:w-[28rem]"
+        className="w-full mx-auto h-full flex flex-col md:w-[35rem]"
       >
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -144,7 +144,7 @@ export function GachaStatisticsCard() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 pt-4 border-t">
+                <div className="grid grid-cols-1 md:grid-cols-[1.5fr_2fr] gap-x-4 gap-y-2 pt-4 border-t">
                   {/* Rarity Distribution */}
                   <div className="space-y-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
