@@ -150,18 +150,18 @@ export function GachaStatisticsCard() {
                 >
                   <motion.div
                     animate={{
-                      y: isHovered ? 0 : 64,
+                      y: isHovered ? 0 : 100,
                       opacity: isHovered ? 1 : 0,
                       scale: isHovered ? 1.1 : 1,
                     }}
                     transition={{ type: "spring", stiffness: 200, damping: 25 }}
-                    className="h-64 w-64"
+                    className="h-100 w-100"
                   >
                     <Image
                       src="/images/bg/amamiya-kokoro.png"
                       alt="Amamiya Kokoro"
-                      width={256}
-                      height={256}
+                      width={500}
+                      height={500}
                       className="h-full w-full object-contain transition-all duration-300"
                       style={{
                         filter: isHovered ? "brightness(0.7)" : "brightness(1)",
