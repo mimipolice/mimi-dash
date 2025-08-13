@@ -1,20 +1,45 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { Cloud, ArrowRight, Menu } from "lucide-react";
+import {
+  Cloud,
+  ChartBarStacked,
+  Shield,
+  Zap,
+  Globe,
+  Server,
+  Lock,
+  ArrowRight,
+  Check,
+  Menu,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Highlight } from "@/components/ui/hero-highlight";
 import { BackgroundBeams } from "@/components/ui/background-beams";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Link } from "next-view-transitions";
+import { title } from "process";
+import Link from "next/link";
 export default function LandingPage() {
+  const t = useTranslations("landing");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const fadeInUp = {
@@ -30,6 +55,83 @@ export default function LandingPage() {
       },
     },
   };
+
+  const features = [
+    {
+      icon: Shield,
+      title: t("features.security.title"),
+      description: t("features.security.description"),
+    },
+    {
+      icon: Globe,
+      title: t("features.global.title"),
+      description: t("features.global.description"),
+    },
+    {
+      icon: Server,
+      title: t("features.scalable.title"),
+      description: t("features.scalable.description"),
+    },
+    {
+      icon: Cloud,
+      title: t("features.support.title"),
+      description: t("features.support.description"),
+    },
+  ];
+
+  const plans = [
+    {
+      name: t("pricing.starter.name"),
+      price: t("pricing.starter.price"),
+      description: t("pricing.starter.description"),
+      features: [
+        t("pricing.starter.features.storage"),
+        t("pricing.starter.features.bandwidth"),
+        t("pricing.starter.features.domains"),
+        t("pricing.starter.features.support"),
+      ],
+    },
+    {
+      name: t("pricing.pro.name"),
+      price: t("pricing.pro.price"),
+      description: t("pricing.pro.description"),
+      popular: true,
+      features: [
+        t("pricing.pro.features.storage"),
+        t("pricing.pro.features.bandwidth"),
+        t("pricing.pro.features.domains"),
+        t("pricing.pro.features.ssl"),
+        t("pricing.pro.features.support"),
+      ],
+    },
+    {
+      name: t("pricing.enterprise.name"),
+      price: t("pricing.enterprise.price"),
+      description: t("pricing.enterprise.description"),
+      features: [
+        t("pricing.enterprise.features.storage"),
+        t("pricing.enterprise.features.bandwidth"),
+        t("pricing.enterprise.features.domains"),
+        t("pricing.enterprise.features.dedicated"),
+        t("pricing.enterprise.features.support"),
+      ],
+    },
+  ];
+  const testimonials = [];
+  let index = 1;
+
+  while (index <= parseInt(t("testimonials.tCount"))) {
+    const testKey = `testimonials.t.${index}.quote`;
+    t.rich(testKey);
+
+    const testimonial = {
+      quote: t(`testimonials.t.${index}.quote`),
+      name: t(`testimonials.t.${index}.name`),
+      title: t(`testimonials.t.${index}.title`),
+    };
+    testimonials.push(testimonial);
+    index++;
+  }
 
   return (
     <div className="min-h-screen transition-colors duration-500">
@@ -51,9 +153,9 @@ export default function LandingPage() {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Cloud className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <ChartBarStacked className="h-8 w-8 text-blue-600 dark:text-blue-400" />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                SHD Cloud
+                MimiDLC
               </span>
             </motion.div>
 
@@ -63,23 +165,17 @@ export default function LandingPage() {
                 href="#features"
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
-                產品特色
-              </a>
-              <a
-                href="#pricing"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                價格方案
+                {t("nav.features")}
               </a>
               <a
                 href="#contact"
                 className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
               >
-                聯繫我們
+                {t("nav.contact")}
               </a>
 
               <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                開始使用
+                {t("nav.getStarted")}
               </Button>
             </div>
 
@@ -97,7 +193,7 @@ export default function LandingPage() {
                       <div className="flex items-center space-x-2">
                         <Cloud className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                         <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                          SHD Cloud
+                          MimiDLC
                         </span>
                       </div>
                       <Button
@@ -114,29 +210,29 @@ export default function LandingPage() {
                       className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      產品特色
+                      {t("nav.features")}
                     </a>
                     <a
                       href="#pricing"
                       className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      價格方案
+                      {t("nav.pricing")}
                     </a>
                     <a
                       href="#contact"
                       className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      聯繫我們
+                      {t("nav.contact")}
                     </a>
                     <div className="px-4 pt-2">
-                      <Button
+                      <Link
+                        href="/dashboard"
                         className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-full"
-                        onClick={() => setIsMenuOpen(false)}
                       >
-                        開始使用
-                      </Button>
+                        {t("nav.getStarted")}
+                      </Link>
                     </div>
                   </div>
                 </DialogContent>
@@ -162,7 +258,7 @@ export default function LandingPage() {
               variants={fadeInUp}
             >
               <span className="bg-gradient-to-r from-purple-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">
-                為您的夢想提供動力 嗎？
+                {t("hero.title")}
               </span>
             </motion.h1>
 
@@ -170,7 +266,7 @@ export default function LandingPage() {
               className="text-xl sm:text-2xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
               variants={fadeInUp}
             >
-              一個可愛的貓娘
+              {t("hero.subtitle")}
             </motion.p>
 
             <motion.div
@@ -205,7 +301,7 @@ export default function LandingPage() {
 
                     <div className="relative z-20 flex items-center justify-center gap-4">
                       <span className="text-xl font-medium tracking-wide text-gray-900 dark:text-gray-50 group-hover:text-gray-950 dark:group-hover:text-white transition-all duration-300 drop-shadow-lg">
-                        立即體驗
+                        {t("hero.cta")}
                       </span>
                       <ArrowRight className="h-6 w-6 text-gray-800 dark:text-gray-100 group-hover:translate-x-3 group-hover:scale-110 group-hover:text-gray-950 dark:group-hover:text-white transition-all duration-400 ease-out drop-shadow-lg" />
                     </div>
@@ -241,10 +337,10 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="md:text-4xl text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              <Highlight className="p-2">為什麼選擇我們？</Highlight>
+              <Highlight className="p-2">{t("features.title")}</Highlight>
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              因為honkomagake是個可愛的貓娘
+              {t("features.subtitle")}
             </p>
           </motion.div>
 
@@ -254,46 +350,49 @@ export default function LandingPage() {
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
-          ></motion.div>
+          >
+            {features.map((feature, index) => (
+              <motion.div key={index} variants={fadeInUp}>
+                <Card className="h-full backdrop-blur-md bg-white/80 dark:bg-gray-800/80 border-white/20 dark:border-gray-700/20 hover:shadow-xl transition-all duration-300 group">
+                  <CardHeader>
+                    <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <feature.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+                      {feature.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-gray-600 dark:text-gray-300">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
-      {/* CTA Section */}
+
+      {/* Testimonials Section InfiniteMovingCards */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <motion.div
-            className="backdrop-blur-md bg-gradient-to-r from-blue-600/90 to-purple-600/90 rounded-2xl p-8 sm:p-12 text-center text-white relative overflow-hidden"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative z-10">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                準備好開始了嗎？
-              </h2>
-              <p className="text-xl mb-8 opacity-90">
-                立即加入我們，體驗前所未有的Discord Bot。
-              </p>
-              <Button
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold"
-              >
-                付費註冊ㄏ
-              </Button>
-            </div>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20"
-              animate={{
-                scale: [1, 1.1, 1],
-                rotate: [0, 5, -5, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              {t("testimonials.title")}
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              {t("testimonials.subtitle")}
+            </p>
           </motion.div>
+
+          <InfiniteMovingCards speed="fast" items={testimonials} />
         </div>
       </section>
 
@@ -308,40 +407,40 @@ export default function LandingPage() {
               <div className="flex items-center space-x-2 mb-4">
                 <Cloud className="h-8 w-8 text-blue-600 dark:text-blue-400" />
                 <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  mimiDLC
+                  MimiDLC
                 </span>
               </div>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                mimiDLC 致力於提供最可愛的Discord Bot，快點喵喵叫！
+                {t("footer.description")}
               </p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
-                公司
+                {t("footer.company")}
               </h3>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                <li>關於我們</li>
-                <li>工作機會</li>
-                <li>聯繫我們</li>
+                <li>{t("footer.about")}</li>
+                <li>{t("footer.careers")}</li>
+                <li>{t("footer.contact")}</li>
               </ul>
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 dark:text-white mb-4">
-                支援
+                {t("footer.support")}
               </h3>
               <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                <li>幫助中心</li>
-                <li style={{ cursor: "pointer" }}>
-                  <Link href="https://github.com/SHD-Development/lolidactyl">
-                    開發文檔
-                  </Link>
+                <li>{t("footer.help")}</li>
+                <li>
+                  <a href="https://github.com/SHD-Development/lolidactyl/">
+                    {t("footer.docs")}
+                  </a>
                 </li>
-                <li>服務狀態</li>
+                <li>{t("footer.status")}</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 text-center text-gray-600 dark:text-gray-300">
-            <p>© 2025 mimiDLC. 版權不是我的。</p>
+            <p>© 2025 MimiDLC. {t("footer.rights")}</p>
           </div>
         </div>
       </footer>

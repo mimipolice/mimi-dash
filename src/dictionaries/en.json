@@ -1,0 +1,754 @@
+{
+  "appName": "MimiDLC",
+  "common": {
+    "droplets": "Droplets",
+    "languages": "Languages",
+    "login": "Login",
+    "logout": "Logout",
+    "resources": "Resources",
+    "dashboard": "Dashboard"
+  },
+  "resourceCards": {
+    "resources": "Resources",
+    "available": "Available",
+    "maxedOut": "Maxed Out",
+    "usage": "Usage",
+    "cpu": "CPU",
+    "ram": "RAM",
+    "disk": "Disk",
+    "allocations": "Allocations",
+    "databases": "Databases",
+    "backups": "Backups",
+    "servers": "Server Slots"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "contact": "Contact",
+      "getStarted": "Get Started"
+    },
+    "hero": {
+      "title": "Reimagining \"Cloud\"",
+      "subtitle": "SHD Cloud provides free hosting services and an active gaming community.",
+      "cta": "Get Started"
+    },
+    "features": {
+      "title": "Rich Features to Meet Your Needs",
+      "subtitle": "We provide comprehensive solutions",
+      "security": {
+        "title": "Security",
+        "description": "We won't steal your tokens"
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "High-performance servers ensuring fast and stable operation"
+      },
+      "global": {
+        "title": "Languages",
+        "description": "We support multiple languages"
+      },
+      "scalable": {
+        "title": "Scalable",
+        "description": "Adjust resource allocation based on needs"
+      },
+      "backup": {
+        "title": "Backup",
+        "description": "Backup your data with restore functionality"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Support team waiting for you on Discord"
+      }
+    },
+    "testimonials": {
+      "title": "Customer Reviews",
+      "subtitle": "See what our customers say",
+      "tCount": "3",
+      "t": {
+        "1": {
+          "quote": "Meow?",
+          "name": "Brian0901ThePro",
+          "title": "Professional Cat Girl"
+        },
+        "2": {
+          "quote": "Gone /////////",
+          "name": "RynoTheCatgirl",
+          "title": "Senior Cat Girl"
+        },
+        "3": {
+          "quote": ":BongoYes:",
+          "name": "Aquatf",
+          "title": "osu! #1 Player / maimai DX w6"
+        }
+      }
+    },
+    "pricing": {
+      "title": "Flexible Pricing Plans",
+      "subtitle": "Choose the plan that best fits your needs, upgrade or adjust anytime",
+      "popular": "Most Popular",
+      "chooseplan": "Choose Plan",
+      "starter": {
+        "name": "Starter",
+        "price": "$9.99",
+        "description": "Perfect for personal websites and small projects",
+        "features": {
+          "storage": "10GB SSD Storage",
+          "bandwidth": "100GB Monthly Bandwidth",
+          "domains": "1 Domain Name",
+          "support": "Email Technical Support"
+        }
+      },
+      "pro": {
+        "name": "Professional",
+        "price": "$29.99",
+        "description": "Ideal for small to medium businesses and professional websites",
+        "features": {
+          "storage": "50GB SSD Storage",
+          "bandwidth": "500GB Monthly Bandwidth",
+          "domains": "5 Domain Names",
+          "ssl": "Free SSL Certificate",
+          "support": "24/7 Online Customer Support"
+        }
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "price": "$99.99",
+        "description": "Perfect for large enterprises and high-traffic websites",
+        "features": {
+          "storage": "200GB SSD Storage",
+          "bandwidth": "Unlimited Monthly Bandwidth",
+          "domains": "Unlimited Domain Names",
+          "dedicated": "Dedicated Server Resources",
+          "support": "Dedicated Account Manager"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "subtitle": "Join thousands of satisfied customers and experience SHD Cloud's excellent service",
+      "button": "Join"
+    },
+    "footer": {
+      "description": "SHD Cloud is committed to providing the cutest cloud hosting services, meow meow!",
+      "company": "Company",
+      "about": "About Us",
+      "careers": "Careers",
+      "contact": "Contact",
+      "support": "Support",
+      "help": "Help Center",
+      "docs": "Documentation",
+      "status": "Service Status",
+      "rights": "All rights reserved"
+    }
+  },
+  "dashboard": {
+    "breadcrumbs": "Index",
+    "additionalResources": "Additional Resources",
+    "balance-history": {
+      "title": "Balance History",
+      "fetch-error": "Failed to fetch balance history.",
+      "no-records": "No records found."
+    },
+    "manage": {
+      "title": "Manage",
+      "users": "Users",
+      "my-profile": "My Profile"
+    },
+    "gacha-stats": {
+      "title": "Gacha Statistics",
+      "loading": "Loading statistics...",
+      "total_draws": "Total Draws",
+      "unique_cards_drawn": "Unique Cards",
+      "ssr_plus_count": "SSR+ Count",
+      "longest_drought": "Longest Drought",
+      "pool_counts": "Pool Counts",
+      "most_drawn_cards": "Most Drawn Cards",
+      "rarity": "Rarity",
+      "draws": "draws"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Adjust to your preferred settings"
+  },
+  "loginForm": {
+    "welcomeBack": "Welcome Back!",
+    "description": "Login to continue using MimiDLC",
+    "continueWith": "Continue with",
+    "comingSoon": "Coming Soon",
+    "agreement": "By using this service, you agree to our Terms of Service and Privacy Policy."
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "home": "Home",
+    "panel": "Panel",
+    "index": "Index",
+    "servers": "Servers",
+    "create": "Create",
+    "manage": "Manage",
+    "users": "Users",
+    "overview": "Overview",
+    "droplets": "Droplets",
+    "coupons": "Coupons",
+    "transfer": "Transfer",
+    "store": "Store",
+    "general": "General",
+    "resources": "Resources",
+    "platform": "Platform",
+    "go": "Go",
+    "destination": "Go to",
+    "admin": "Admin",
+    "manage_coupons": "Manage Coupons"
+  },
+  "servers": {
+    "breadcrumbs": {
+      "servers": "Servers",
+      "create": "Create",
+      "manage": "Manage"
+    },
+    "manage": {
+      "title": "Server Management",
+      "description": "Manage and monitor your servers",
+      "tabs": {
+        "myServers": "My Servers",
+        "discordServers": "Discord Servers"
+      },
+      "discordTable": {
+        "title": "Discord Server List",
+        "serverName": "Server Name",
+        "owner": "Owner",
+        "yes": "Yes",
+        "no": "No",
+        "noServers": "No Discord servers found."
+      },
+      "statistics": {
+        "active": "Active",
+        "suspended": "Suspended",
+        "deleted": "Deleted",
+        "total": "Total Servers"
+      },
+      "filter": {
+        "label": "Filter by Status",
+        "placeholder": "Filter servers...",
+        "noSelection": "No status selected",
+        "showAll": "Show All Servers",
+        "selectAll": "Select All",
+        "clear": "Clear"
+      },
+      "table": {
+        "name": "Name",
+        "identifier": "Identifier",
+        "node": "Node",
+        "status": "Status",
+        "actions": "Actions",
+        "title": "Server List",
+        "cpu": "CPU",
+        "memory": "Memory",
+        "disk": "Disk",
+        "databases": "Databases",
+        "allocations": "Network Allocations",
+        "backups": "Backups",
+        "expiration": "Expiration Date",
+        "daysRemaining": "Days Remaining",
+        "autoRenew": "Auto Renew",
+        "expired": "Expired",
+        "unnamed": "Unnamed",
+        "days": "days"
+      },
+      "actions": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "disabled": "Action unavailable",
+        "manage": "Manage",
+        "renew": "Renew",
+        "create": "Create Server",
+        "deleteSelected": "Delete Selected"
+      },
+      "status": {
+        "active": "Active",
+        "suspended": "Suspended",
+        "deleted": "Deleted",
+        "autoRenewEnabled": "Enabled",
+        "autoRenewDisabled": "Disabled"
+      },
+      "edit": {
+        "title": "Edit Server",
+        "nameLabel": "Server Name",
+        "namePlaceholder": "Enter server name",
+        "cancel": "Cancel",
+        "save": "Save Changes"
+      },
+      "empty": {
+        "title": "No servers found",
+        "description": "No servers match the current filter criteria."
+      },
+      "loading": "Loading servers...",
+      "error": "Failed to load servers",
+      "stats": {
+        "showing": "Showing {count} servers (of {total} total)",
+        "filtered": "Showing {start} to {end} of {total} items (filtered from {totalServers} servers)",
+        "pagination": "Page {current} of {total}",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "dialogs": {
+        "delete": {
+          "title": "Confirm Delete",
+          "description": "Are you sure you want to delete server {identifier}? This action cannot be undone.",
+          "cancel": "Cancel",
+          "confirm": "Delete",
+          "deleting": "Deleting..."
+        },
+        "bulkDelete": {
+          "title": "Confirm Bulk Delete",
+          "description": "Are you sure you want to delete {count} selected servers? This action cannot be undone.",
+          "cancel": "Cancel",
+          "confirm": "Delete All",
+          "deleting": "Deleting..."
+        },
+        "edit": {
+          "description": "Modify your server configuration and resource allocation",
+          "serverType": {
+            "label": "Server Type",
+            "description": "Please reselect the server type (other resource configurations have been automatically loaded with current values)",
+            "loadingPlaceholder": "Loading...",
+            "selectPlaceholder": "Select server type"
+          },
+          "tabs": {
+            "resources": "Resource Configuration",
+            "databases": "Databases & Backups"
+          },
+          "form": {
+            "cpu": {
+              "label": "CPU (%)",
+              "unitPrice": "per %",
+              "costDescription": "CPU cost: ${amount} Droplets"
+            },
+            "memory": {
+              "label": "Memory (MiB)",
+              "unitPrice": "per MiB",
+              "costDescription": "Memory cost: ${amount} Droplets"
+            },
+            "disk": {
+              "label": "Disk Space (MiB)",
+              "unitPrice": "per MiB",
+              "costDescription": "Disk cost: ${amount} Droplets"
+            },
+            "databases": {
+              "label": "Number of Databases",
+              "unitPrice": "each",
+              "costDescription": "Database cost: ${amount} Droplets"
+            },
+            "allocations": {
+              "label": "Number of Network Allocations",
+              "unitPrice": "each",
+              "costDescription": "Network allocation cost: ${amount} Droplets"
+            },
+            "backups": {
+              "label": "Number of Backups",
+              "unitPrice": "each",
+              "costDescription": "Backup cost: ${amount} Droplets"
+            },
+            "autoRenew": {
+              "label": "Auto Renewal",
+              "description": "Automatically renew the server when enabled"
+            }
+          },
+          "pricing": {
+            "title": "Price Preview",
+            "description": "Estimated cost for the modified configuration",
+            "loading": "Loading...",
+            "error": {
+              "title": "Price Calculation Error",
+              "description": "Please check your configuration and recalculate the price"
+            },
+            "breakdown": {
+              "title": "Cost Breakdown",
+              "subtitle": "Resource → Cost",
+              "base": "Base Cost",
+              "cpu": "CPU ({amount}%)",
+              "memory": "Memory ({amount} MiB)",
+              "disk": "Disk ({amount} MiB)",
+              "databases": "Databases ({amount})",
+              "allocations": "Allocations ({amount})",
+              "backups": "Backups ({amount})",
+              "total": "Total Cost"
+            },
+            "balance": {
+              "current": "Current Balance",
+              "afterPayment": "After Payment",
+              "insufficient": "Insufficient Balance",
+              "change": "Balance Change",
+              "loading": "Loading...",
+              "totalModificationCost": "Total Modification Cost",
+              "status": "Balance Status",
+              "sufficient": "Sufficient Balance",
+              "calculating": "Calculating...",
+              "modifying": "Modifying...",
+              "insufficientFunds": "Insufficient Balance",
+              "insufficientBalanceMessage": "Insufficient balance, unable to modify",
+              "additionalDropletsNeeded": "You need an additional {amount} Droplets to complete this modification"
+            }
+          }
+        },
+        "renew": {
+          "title": "Confirm Renewal",
+          "description": "Are you sure you want to renew server {serverName} ({identifier})?",
+          "serverInfo": "Server Information",
+          "pricing": "Renewal Pricing",
+          "renewalCost": "Renewal Cost",
+          "currentBalance": "Current Balance",
+          "afterRenewal": "Balance After Renewal",
+          "insufficientBalance": "Insufficient balance, cannot renew",
+          "needMoreDroplets": "You need an additional {amount} Droplets to renew",
+          "cancel": "Cancel",
+          "confirm": "Confirm Renewal",
+          "renewing": "Renewing...",
+          "insufficientFunds": "Insufficient Balance",
+          "success": "Server renewed successfully",
+          "failed": "Failed to renew server"
+        }
+      },
+      "notifications": {
+        "modifying": "Modifying server {name} ({identifier})...",
+        "modifySuccess": "Server {name} ({identifier}) modified successfully",
+        "modifyError": "Failed to modify server",
+        "insufficientBalance": "Insufficient balance to modify server",
+        "loadError": "Failed to load server types",
+        "priceError": "Failed to load pricing",
+        "deleteError": "Failed to delete server: {error}",
+        "deleteErrorGeneric": "An error occurred while deleting the server",
+        "bulkDeleteError": "Failed to bulk delete servers: {error}",
+        "bulkDeleteErrorGeneric": "An error occurred while bulk deleting servers"
+      }
+    }
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back!",
+    "error": {
+      "accessDenied": {
+        "title": "Access Denied",
+        "description": "You may be using a VPN / Proxy / Hosting or have created multiple accounts, which are not allowed by our terms.",
+        "suggestion": "Please contact the administrator for further assistance."
+      },
+      "configuration": {
+        "title": "Configuration Error",
+        "description": "There is a problem with the service configuration.",
+        "suggestion": "Please try again later or contact technical support."
+      },
+      "verification": {
+        "title": "Verification Failed",
+        "description": "Unable to verify your identity.",
+        "suggestion": "Please check your network connection and try again."
+      },
+      "default": {
+        "title": "Login Error",
+        "description": "An unknown error occurred during the login process.",
+        "suggestion": "Please try again later or contact technical support."
+      },
+      "technicalDetails": "Technical Details",
+      "errorCode": "Error Code",
+      "retryLogin": "Retry Login",
+      "returnHome": "Return Home"
+    }
+  },
+  "userCard": {
+    "title": "User Information",
+    "unknownUser": "Unknown User",
+    "unknownId": "Unknown",
+    "droplets": "Droplets",
+    "dropletsDescription": "Your currency balance",
+    "servers": "Servers",
+    "serversDescription": "Number of servers you currently own",
+    "goToPanel": "Go to Panel",
+    "userId": "User ID",
+    "close": "Close",
+    "copyUserId": "Copy ID",
+    "copied": "Copied",
+    "assets": "Assets",
+    "oilTicket": "Oil Ticket",
+    "totalCardValue": "Total Card Value",
+    "totalStockValue": "Total Stock Value",
+    "statistics": "Main Statistics",
+    "totalDraw": "Total Draws",
+    "totalGamePlayed": "Total Games Played",
+    "cardCollectionRate": "Card Collection Rate"
+  },
+  "navUser": {
+    "logout": "Log out",
+    "droplets": "Droplets",
+    "language": "Language"
+  },
+  "adCard": {
+    "title": "Recommended Services",
+    "learnMore": "Learn More",
+    "advertisement": "Advertisement",
+    "clickToViewMore": "Click to view more",
+    "goToView": "Go to view",
+    "close": "Close"
+  },
+  "serverCreate": {
+    "title": "Create New Server",
+    "description": "Create a server!",
+    "available": "Available",
+    "status": {
+      "checking": "Checking",
+      "available": "Available",
+      "suspended": "Creation Suspended"
+    },
+    "form": {
+      "serverName": {
+        "label": "Server Name",
+        "placeholder": "My awesome server",
+        "description": "Name."
+      },
+      "location": {
+        "label": "Location",
+        "placeholder": "Select a location",
+        "loadingPlaceholder": "Loading locations...",
+        "description": "Select server location."
+      },
+      "serverType": {
+        "label": "Server Type",
+        "placeholder": "Select a server type",
+        "loadingPlaceholder": "Loading server types...",
+        "description": "Select server type (Egg)."
+      },
+      "cpu": {
+        "label": "CPU (%)",
+        "placeholder": "Enter CPU percentage (10-400)",
+        "description": "CPU allocation. Cost:",
+        "pricePerUnit": "per %"
+      },
+      "ram": {
+        "label": "RAM (MiB)",
+        "placeholder": "Enter RAM in MiB (128-16384)",
+        "description": "Memory allocation. Cost:",
+        "pricePerUnit": "per MiB"
+      },
+      "disk": {
+        "label": "Disk Space (MiB)",
+        "placeholder": "Enter disk space in MiB (128-32768)",
+        "description": "Storage space. Cost:",
+        "pricePerUnit": "per MiB"
+      },
+      "databases": {
+        "label": "Database Count",
+        "description": "Databases. Cost:",
+        "pricePerUnit": "per DB"
+      },
+      "allocations": {
+        "label": "Network Allocations",
+        "description": "Network allocations. Cost:",
+        "pricePerUnit": "per Allocation"
+      },
+      "backups": {
+        "label": "Backup Slots",
+        "description": "Backup slots for data protection. Cost:",
+        "pricePerUnit": "per Backup"
+      },
+      "autoRenew": {
+        "label": "Auto Renew",
+        "description": "When enabled, the service will automatically renew before expiration to ensure uninterrupted service"
+      }
+    },
+    "tabs": {
+      "resources": "Resources",
+      "advanced": "Advanced Options"
+    },
+    "pricing": {
+      "title": "Pricing Summary",
+      "description": "Total cost for server creation",
+      "cost": "Cost",
+      "resourceToCost": "Resource → Cost",
+      "baseCost": "Base Cost:",
+      "cpu": "CPU",
+      "ram": "RAM",
+      "disk": "Disk",
+      "databases": "Databases",
+      "backups": "Backups",
+      "allocations": "Allocations",
+      "totalCost": "Total Cost:",
+      "droplets": "Droplets"
+    },
+    "balance": {
+      "change": "Balance Change:",
+      "status": "Balance Status:",
+      "sufficient": "Sufficient",
+      "insufficient": "Insufficient",
+      "expiration": "Service Expiration:",
+      "daysRemain": "",
+      "daysRemaining": "days remaining"
+    },
+    "buttons": {
+      "create": "Create Server",
+      "loading": "Loading...",
+      "creating": "Creating Server...",
+      "serviceSuspended": "Service Suspended",
+      "insufficientBalance": "Insufficient Balance",
+      "pleaseComplete": "Please complete the form first"
+    },
+    "messages": {
+      "createSuccess": "is being created. Total cost:",
+      "createError": "Failed to create server",
+      "nodeFullError": "The selected node is full",
+      "pricingError": "Failed to load pricing, using default values",
+      "serverTypesError": "Failed to load server types",
+      "locationsError": "Failed to load locations",
+      "NaNError": "Please fill in all values to calculate the estimate",
+      "NaNErrorDescription": "If you do not fill in all values, the estimate cannot be calculated. Please fill in all values."
+    },
+    "toasts": {
+      "userInfoError": "Failed to fetch user info",
+      "creatingServer": "Creating server "
+    }
+  },
+  "coupons": {
+    "breadcrumbs": "Coupons",
+    "title": "Redeem Coupon",
+    "description": "Enter a coupon code to redeem rewards",
+    "form": {
+      "label": "Coupon Code",
+      "placeholder": "Enter your coupon code",
+      "submit": "Redeem"
+    },
+    "success": {
+      "title": "Coupon Redeemed Successfully!",
+      "description": "You have successfully redeemed the coupon code",
+      "rewardReceived": "Reward Received",
+      "currentBalance": "Current Balance",
+      "droplets": "Droplets"
+    },
+    "errors": {
+      "alreadyUsed": "This coupon has already been redeemed",
+      "notFound": "Invalid coupon code",
+      "limitReached": "This coupon has reached its usage limit",
+      "redeemFailed": "Failed to redeem coupon"
+    }
+  },
+  "transfer": {
+    "breadcrumbs": "Transfer",
+    "title": "Transfer Droplets",
+    "description": "Transfer your droplets to another user",
+    "form": {
+      "processing": "Processing...",
+      "recipientLabel": "Recipient Discord ID",
+      "recipientPlaceholder": "Enter Discord ID",
+      "amountLabel": "Amount",
+      "amountPlaceholder": "Enter amount to transfer",
+      "submit": "Transfer",
+      "feeNotice": "A 3% fee will be charged for the transfer."
+    },
+    "success": {
+      "title": "Transfer Completed Successfully!",
+      "description": "Your droplets have been transferred successfully",
+      "details": "Transfer Details",
+      "yourBalance": "Your Balance",
+      "recipientBalance": "Recipient Balance",
+      "fee": "Transaction Fee",
+      "actualTransfer": "Amount Received",
+      "droplets": "Droplets",
+      "close": "Done"
+    },
+    "errors": {
+      "receiverNotFound": "Recipient not found",
+      "insufficientBalance": "Insufficient balance",
+      "transferFailed": "Transfer failed",
+      "invalidAmount": "Invalid amount",
+      "invalidRecipient": "Invalid recipient ID",
+      "amountTooLow": "Transfer amount is below the minimum transfer amount",
+      "sameUserTransfer": "You cannot transfer droplets to yourself"
+    }
+  },
+  "couponsManagement": {
+    "title": "Coupons Management",
+    "createCoupon": "Create Coupon",
+    "noResults": "No results.",
+    "dialog": {
+      "editTitle": "Edit Coupon",
+      "createTitle": "Create Coupon",
+      "editDescription": "Edit the details of your coupon.",
+      "createDescription": "Create a new coupon here. Click save when you are done.",
+      "codeLabel": "Code",
+      "rewardAmountLabel": "Reward Amount",
+      "usageLimitLabel": "Usage Limit",
+      "expiresAtLabel": "Expires At",
+      "activeLabel": "Active",
+      "saveButton": "Save changes"
+    },
+    "table": {
+      "codeHeader": "Code",
+      "rewardAmountHeader": "Reward Amount",
+      "usageLimitHeader": "Usage Limit",
+      "usedCountHeader": "Used Count",
+      "expiresAtHeader": "Expires At",
+      "createdAtHeader": "Created At",
+      "updatedAtHeader": "Updated At",
+      "statusHeader": "Status",
+      "actionsLabel": "Actions",
+      "editAction": "Edit",
+      "deleteAction": "Delete",
+      "usageDetailsAction": "Usage Details",
+      "copyTooltip": "Click to copy"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "permanent": "Permanent"
+    },
+    "toasts": {
+      "loading": "Loading coupons...",
+      "loadSuccess": "Coupons loaded successfully.",
+      "loadError": "Failed to load coupons.",
+      "updating": "Updating coupon...",
+      "creating": "Creating coupon...",
+      "updateSuccess": "Coupon updated successfully.",
+      "createSuccess": "Coupon created successfully.",
+      "updateError": "Failed to update coupon.",
+      "createError": "Failed to create coupon.",
+      "deleting": "Deleting coupon...",
+      "deleteSuccess": "Coupon deleted successfully.",
+      "deleteError": "Failed to delete coupon.",
+      "fetchUsageError": "Failed to fetch coupon usage."
+    },
+    "deleteDialog": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete the coupon code: {code}.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "usageDialog": {
+      "title": "Coupon Usage Details",
+      "description": "Usage statistics for coupon code: {code}",
+      "statisticsTitle": "Statistics",
+      "totalUsed": "Total Used",
+      "uniqueUsers": "Unique Users",
+      "remainingUses": "Remaining Uses",
+      "firstUsed": "First Used",
+      "lastUsed": "Last Used",
+      "usageDetailsTitle": "Usage Details",
+      "userIdHeader": "User ID",
+      "userNameHeader": "User Name",
+      "usedAtHeader": "Used At",
+      "closeButton": "Close",
+      "loading": "Loading usage data...",
+      "noData": "No usage data available for this coupon."
+    },
+    "history": {
+      "title": "Usage History",
+      "usage": "Usage",
+      "titleInteractive": "Area Chart - Interactive",
+      "description": "Showing total usage for {timeRangeText}",
+      "last3Months": "Last 3 months",
+      "last30Days": "Last 30 days",
+      "last7Days": "Last 7 days",
+      "selectTimeRange": "Select time range",
+      "timeRangeText": {
+        "90d": "the last 3 months",
+        "30d": "the last 30 days",
+        "7d": "the last 7 days"
+      }
+    }
+  }
+}

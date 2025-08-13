@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Cloud, Home, Server, CircleGauge, Droplet } from "lucide-react";
+import {
+  Cloud,
+  Home,
+  Server,
+  CircleGauge,
+  Droplet,
+  Shield,
+} from "lucide-react";
 import Link from "next/link";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -23,8 +30,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import appConfig from "@/config";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
   const pathname = usePathname();
@@ -32,63 +41,94 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (url === "#") return false;
     return pathname.startsWith(url);
   };
+  const t = useTranslations("sidebar");
+
+  const currentUser = session?.user;
+  const isAdmin =
+    currentUser &&
+    appConfig.admins.some(
+      (admin) =>
+        admin.id === currentUser.id && admin.email === currentUser.email
+    );
+
+  const navMain = [
+    {
+      key: "manage",
+      title: t("manage"),
+      url: "#",
+      icon: Server,
+      isActive: isPathActive("/dashboard/manage"),
+      items: [
+        {
+          title: t("users"),
+          url: "/dashboard/manage/users/my-profile",
+          isActive: isPathActive("/dashboard/manage/users"),
+        },
+        {
+          title: t("servers"),
+          url: "/dashboard/manage/servers",
+          isActive: isPathActive("/dashboard/manage/servers"),
+        },
+      ],
+    },
+    {
+      key: "droplets",
+      title: t("droplets"),
+      url: "#",
+      icon: Droplet,
+      isActive: isPathActive("/dashboard/droplets"),
+      items: [
+        {
+          title: t("coupons"),
+          url: "/dashboard/droplets/coupons",
+          isActive: isPathActive("/dashboard/droplets/coupons"),
+        },
+        {
+          title: t("transfer"),
+          url: "/dashboard/droplets/transfer",
+          isActive: isPathActive("/dashboard/droplets/transfer"),
+        },
+      ],
+    },
+    // {
+    //   title: t("store"),
+    //   url: "/dashboard/store",
+    //   icon: Store,
+    //   isActive: isPathActive("/dashboard/store"),
+    //   items: [
+    //     {
+    //       title: t("general"),
+    //       url: "/dashboard/store/general",
+    //       isActive: isPathActive("/dashboard/store/general"),
+    //     },
+    //   ],
+    // },
+  ];
+
+  if (isAdmin) {
+    navMain.push({
+      key: "admin",
+      title: t("admin"),
+      url: "#",
+      icon: Shield,
+      isActive: isPathActive("/dashboard/admin"),
+      items: [
+        {
+          title: t("manage_coupons"),
+          url: "/dashboard/admin/coupons",
+          isActive: isPathActive("/dashboard/admin/coupons"),
+        },
+      ],
+    });
+  }
+
   const data = {
     user: {
       name: session?.user?.name as string,
       email: session?.user?.email as string,
       avatar: session?.user?.image as string,
     },
-    navMain: [
-      {
-        title: "Servers",
-        url: "#",
-        icon: Server,
-        isActive: isPathActive("/dashboard/servers"),
-        items: [
-          {
-            title: "Create",
-            url: "/dashboard/servers/create",
-            isActive: isPathActive("/dashboard/servers/create"),
-          },
-          {
-            title: "Manage",
-            url: "/dashboard/servers/manage",
-            isActive: isPathActive("/dashboard/servers/manage"),
-          },
-        ],
-      },
-      {
-        title: "油幣",
-        url: "#",
-        icon: Droplet,
-        isActive: isPathActive("/dashboard/droplets"),
-        items: [
-          {
-            title: "Coupons",
-            url: "/dashboard/droplets/coupons",
-            isActive: isPathActive("/dashboard/droplets/coupons"),
-          },
-          {
-            title: "Transfer",
-            url: "/dashboard/droplets/transfer",
-            isActive: isPathActive("/dashboard/droplets/transfer"),
-          },
-        ],
-      },
-      // {
-      //   title: t("store"),
-      //   url: "/dashboard/store",
-      //   icon: Store,
-      //   isActive: isPathActive("/dashboard/store"),
-      //   items: [
-      //     {
-      //       title: t("general"),
-      //       url: "/dashboard/store/general",
-      //       isActive: isPathActive("/dashboard/store/general"),
-      //     },
-      //   ],
-      // },
-    ],
+    navMain,
   };
 
   return (
@@ -104,13 +144,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <Cloud />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-medium">mimiDLC</span>
+                      <span className="truncate font-medium">MimiDLC</span>
                       <div className="relative h-4 overflow-hidden">
                         <span className="absolute truncate text-xs transition-transform duration-300 ease-in-out group-hover/home:-translate-y-4 group-hover/home:opacity-0">
-                          Dashboard
+                          {t("dashboard")}
                         </span>
                         <span className="absolute truncate text-xs transition-transform duration-300 ease-in-out translate-y-4 opacity-0 group-hover/home:translate-y-0 group-hover/home:opacity-100">
-                          Gay
+                          {t("go")}
                         </span>
                       </div>
                     </div>
@@ -123,7 +163,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 sideOffset={4}
               >
                 <DropdownMenuLabel className="text-muted-foreground text-xs">
-                  Destination
+                  {t("destination")}
                 </DropdownMenuLabel>
 
                 <DropdownMenuSeparator />
@@ -135,7 +175,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex size-6 items-center justify-center rounded-md border">
                       <CircleGauge className="size-3.5 shrink-0" />
                     </div>
-                    <span>Index</span>
+                    <span>{t("index")}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="gap-2 p-2">
@@ -146,20 +186,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <div className="flex size-6 items-center justify-center rounded-md border">
                       <Home className="size-3.5 shrink-0" />
                     </div>
-                    <span>Home</span>
+                    <span>{t("home")}</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2 p-2">
-                  <Link
-                    href={process.env.NEXT_PUBLIC_PANEL_URL as string}
-                    className="flex items-center gap-2 w-full h-full"
-                  >
-                    <div className="flex size-6 items-center justify-center rounded-md border">
-                      <Server className="size-4" />
-                    </div>
-                    <span>Panel</span>
-                  </Link>
-                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem className="gap-2 p-2">
+                    <Link
+                      href="/dashboard/admin/coupons"
+                      className="flex items-center gap-2 w-full h-full"
+                    >
+                      <div className="flex size-6 items-center justify-center rounded-md border">
+                        <Shield className="size-4" />
+                      </div>
+                      <span>{t("admin")}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

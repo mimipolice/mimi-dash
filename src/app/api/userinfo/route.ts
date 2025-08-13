@@ -3,30 +3,54 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 export async function GET(request: NextRequest) {
-  const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const session = await auth();
 
-  // Mock data based on the API documentation
-  const mockUserInfo = {
-    userinfo: [
-      {
-        balance: 125075,
-        assets: {
-          oil_ticket: 1250.75,
-          total_card_value: 223178,
-          total_stock_value: 10054712,
-        },
-        main_statistics: {
-          total_draw: 123,
-          total_game_played: 123,
-          card_collection_rate: 70.35,
-        },
-        addAt: "2025-09-26T10:00:00Z",
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = session.user;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "Missing required user information" },
+        { status: 400 }
+      );
+    }
+
+    const apiKey = process.env.BACKEND_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: "API key not configured" },
+        { status: 500 }
+      );
+    }
+    const apiUrl = new URL(process.env.BACKEND_API_URL as string);
+    apiUrl.pathname = "api/userinfo";
+    apiUrl.searchParams.append("id", id);
+    const response = await axios.get(apiUrl.toString(), {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
       },
-    ],
-  };
+    });
+    return NextResponse.json(response.data);
+  } catch (error) {
+    console.error("Error fetching user info:", error);
 
-  return NextResponse.json(mockUserInfo);
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status || 500;
+      const message = error.response?.data?.message || error.message;
+      return NextResponse.json(
+        { error: `External API error: ${message}` },
+        { status }
+      );
+    }
+
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }

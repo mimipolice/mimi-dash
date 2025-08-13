@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Home, RefreshCw } from "lucide-react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 export default function AuthErrorPage() {

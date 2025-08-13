@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
 
     const response = await axios.get(apiUrl.toString(), {
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       timeout: 10000,

@@ -1,0 +1,753 @@
+{
+  "appName": "MimiDLC",
+  "common": {
+    "droplets": "油幣",
+    "languages": "語言",
+    "login": "登入",
+    "logout": "登出",
+    "resources": "資源",
+    "dashboard": "儀表板"
+  },
+  "resourceCards": {
+    "resources": "資源",
+    "available": "可用",
+    "maxedOut": "已用盡",
+    "usage": "使用量",
+    "cpu": "處理器",
+    "ram": "記憶體",
+    "disk": "磁碟",
+    "allocations": "分配",
+    "databases": "資料庫",
+    "backups": "備份",
+    "servers": "伺服器欄位"
+  },
+  "landing": {
+    "nav": {
+      "features": "功能特色",
+      "pricing": "價格方案",
+      "contact": "客戶評價",
+      "getStarted": "立即開始"
+    },
+    "hero": {
+      "title": "重新想像「 婆 」",
+      "subtitle": "米米警察提供酷酷的抽婆&強大的經濟系統，以及活躍的支援社群。",
+      "cta": "立即開始"
+    },
+    "features": {
+      "title": "豐富功能，滿足您的需求",
+      "subtitle": "我們帶來全新的Discord bot體驗",
+      "security": {
+        "title": "安全",
+        "description": "我們不會偷啃您的 Token"
+      },
+      "global": {
+        "title": "語言",
+        "description": "我們支援多種語言"
+      },
+      "scalable": {
+        "title": "彈性",
+        "description": "快速致富，快速破產"
+      },
+      "support": {
+        "title": "支援",
+        "description": "支援團隊在 Discord 等著您"
+      }
+    },
+    "testimonials": {
+      "title": "客戶評價",
+      "subtitle": "看看我們的客戶怎麼說",
+      "tCount": "3",
+      "t": {
+        "1": {
+          "quote": "喵？",
+          "name": "Honkomagake",
+          "title": "可愛小男娘"
+        },
+        "2": {
+          "quote": "去了 /////////",
+          "name": "RynoTheCatgirl",
+          "title": "資深貓娘"
+        },
+        "3": {
+          "quote": ":BongoYes:",
+          "name": "Aquatf",
+          "title": "osu! #1 Player / maimai DX w6"
+        }
+      }
+    },
+    "pricing": {
+      "title": "靈活的價格方案",
+      "subtitle": "選擇最適合您需求的方案，隨時可以升級或調整",
+      "popular": "最受歡迎",
+      "chooseplan": "選擇方案",
+      "starter": {
+        "name": "不知道放啥",
+        "price": "NT$0",
+        "description": "不知道放啥",
+        "features": {
+          "storage": "不知道放啥",
+          "bandwidth": "不知道放啥",
+          "domains": "不知道放啥",
+          "support": "不知道放啥"
+        }
+      },
+      "pro": {
+        "name": "不知道放啥",
+        "price": "NT$0",
+        "description": "不知道放啥",
+        "features": {
+          "storage": "不知道放啥",
+          "bandwidth": "不知道放啥",
+          "domains": "不知道放啥",
+          "ssl": "不知道放啥",
+          "support": "不知道放啥"
+        }
+      },
+      "enterprise": {
+        "name": "不知道放啥",
+        "price": "NT$0",
+        "description": "不知道放啥",
+        "features": {
+          "storage": "不知道放啥",
+          "bandwidth": "不知道放啥",
+          "domains": "不知道放啥",
+          "dedicated": "不知道放啥",
+          "support": "不知道放啥"
+        }
+      }
+    },
+    "cta": {
+      "title": "準備好開始了嗎？",
+      "subtitle": "加入數千位滿意客戶的行列，體驗 MimiDLC 的卓越服務",
+      "button": "加入"
+    },
+    "footer": {
+      "description": "MimiDLC 致力於提供最可愛的機器人體驗，快點喵喵叫！",
+      "company": "公司",
+      "about": "關於我們",
+      "careers": "職涯機會",
+      "contact": "聯絡我們",
+      "support": "支援",
+      "help": "幫助中心",
+      "docs": "技術文件",
+      "status": "服務狀態",
+      "rights": "保留所有權利"
+    }
+  },
+  "dashboard": {
+    "breadcrumbs": "索引",
+    "additionalResources": "其他資源",
+    "balance-history": {
+      "title": "餘額歷史",
+      "fetch-error": "獲取餘額歷史失敗。",
+      "no-records": "找不到任何記錄。"
+    },
+    "manage": {
+      "title": "管理",
+      "users": "用戶",
+      "my-profile": "個人資料"
+    },
+    "gacha-stats": {
+      "title": "抽卡統計",
+      "loading": "正在載入統計數據...",
+      "total_draws": "總抽卡數",
+      "unique_cards_drawn": "獨立卡片",
+      "ssr_plus_count": "SSR+ 數量",
+      "longest_drought": "最長未出貨",
+      "pool_counts": "卡池統計",
+      "most_drawn_cards": "最常抽到的卡",
+      "rarity": "稀有度",
+      "draws": "抽"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "description": "調整成您喜愛的偏好設定"
+  },
+  "loginForm": {
+    "welcomeBack": "歡迎回來！",
+    "description": "登入以繼續使用 MimiDLC",
+    "continueWith": "使用以下方式繼續",
+    "comingSoon": "即將推出",
+    "agreement": "使用本服務即表示您同意我們的服務條款及隱私政策。"
+  },
+  "sidebar": {
+    "dashboard": "儀表板",
+    "home": "首頁",
+    "panel": "面板",
+    "index": "索引",
+    "servers": "伺服器",
+    "create": "創建",
+    "manage": "管理",
+    "users": "用戶",
+    "overview": "概覽",
+    "droplets": "油幣",
+    "coupons": "兌換代碼",
+    "transfer": "轉帳",
+    "store": "商店",
+    "general": "一般",
+    "resources": "資源",
+    "platform": "平台",
+    "go": "前往",
+    "destination": "跳轉至",
+    "admin": "管理",
+    "manage_coupons": "管理優惠碼"
+  },
+  "servers": {
+    "breadcrumbs": {
+      "servers": "伺服器",
+      "create": "創建",
+      "manage": "管理"
+    },
+    "manage": {
+      "title": "伺服器管理",
+      "description": "管理和監控您的伺服器",
+      "tabs": {
+        "myServers": "我的伺服器",
+        "discordServers": "Discord 伺服器"
+      },
+      "discordTable": {
+        "title": "Discord 伺服器列表",
+        "serverName": "伺服器名稱",
+        "owner": "擁有者",
+        "yes": "是",
+        "no": "否",
+        "noServers": "找不到 Discord 伺服器。"
+      },
+      "statistics": {
+        "active": "運行中",
+        "suspended": "已暫停",
+        "deleted": "已刪除",
+        "total": "總伺服器數"
+      },
+      "filter": {
+        "label": "按狀態篩選",
+        "placeholder": "篩選伺服器...",
+        "noSelection": "未選擇狀態",
+        "showAll": "顯示所有伺服器",
+        "selectAll": "全選",
+        "clear": "清除"
+      },
+      "table": {
+        "name": "名稱",
+        "identifier": "識別碼",
+        "node": "節點",
+        "status": "狀態",
+        "actions": "操作",
+        "title": "伺服器列表",
+        "cpu": "處理器",
+        "memory": "記憶體",
+        "disk": "磁碟",
+        "databases": "資料庫",
+        "allocations": "網路分配",
+        "backups": "備份欄位",
+        "expiration": "到期時間",
+        "daysRemaining": "剩餘天數",
+        "autoRenew": "自動續約",
+        "expired": "已過期",
+        "unnamed": "未命名",
+        "days": "天"
+      },
+      "actions": {
+        "edit": "編輯",
+        "delete": "刪除",
+        "disabled": "操作不可用",
+        "manage": "管理",
+        "renew": "續約",
+        "create": "創建伺服器",
+        "deleteSelected": "刪除選中"
+      },
+      "status": {
+        "active": "運行中",
+        "suspended": "已暫停",
+        "deleted": "已刪除",
+        "autoRenewEnabled": "開啟",
+        "autoRenewDisabled": "關閉"
+      },
+      "edit": {
+        "title": "編輯伺服器",
+        "nameLabel": "伺服器名稱",
+        "namePlaceholder": "輸入伺服器名稱",
+        "cancel": "取消",
+        "save": "儲存變更"
+      },
+      "empty": {
+        "title": "找不到伺服器",
+        "description": "沒有伺服器符合目前的篩選條件。"
+      },
+      "loading": "載入伺服器中...",
+      "error": "載入伺服器失敗",
+      "stats": {
+        "showing": "顯示 {count} 個伺服器 (共 {total} 個)",
+        "filtered": "顯示 {start} 到 {end} 項，共 {total} 項 (從總共 {totalServers} 個伺服器中篩選)",
+        "pagination": "第 {current} 頁，共 {total} 頁",
+        "previous": "上一頁",
+        "next": "下一頁"
+      },
+      "dialogs": {
+        "delete": {
+          "title": "確認刪除",
+          "description": "您確定要刪除伺服器 {identifier} 嗎？此操作無法撤銷。",
+          "cancel": "取消",
+          "confirm": "刪除",
+          "deleting": "刪除中..."
+        },
+        "bulkDelete": {
+          "title": "確認批量刪除",
+          "description": "您確定要刪除選中的 {count} 個伺服器嗎？此操作無法撤銷。",
+          "cancel": "取消",
+          "confirm": "刪除全部",
+          "deleting": "刪除中..."
+        },
+        "edit": {
+          "description": "修改您的伺服器配置和資源分配",
+          "serverType": {
+            "label": "伺服器類型",
+            "description": "請重新選擇伺服器類型（其他資源配置已自動載入當前值）",
+            "loadingPlaceholder": "載入中...",
+            "selectPlaceholder": "選擇伺服器類型"
+          },
+          "tabs": {
+            "resources": "資源配置",
+            "databases": "資料庫與備份"
+          },
+          "form": {
+            "cpu": {
+              "label": "CPU (%)",
+              "unitPrice": "每 %",
+              "costDescription": "CPU 成本: ${amount} Droplets"
+            },
+            "memory": {
+              "label": "記憶體 (MiB)",
+              "unitPrice": "每 MiB",
+              "costDescription": "記憶體成本: ${amount} Droplets"
+            },
+            "disk": {
+              "label": "磁碟空間 (MiB)",
+              "unitPrice": "每 MiB",
+              "costDescription": "磁碟成本: ${amount} Droplets"
+            },
+            "databases": {
+              "label": "資料庫數量",
+              "unitPrice": "每個",
+              "costDescription": "資料庫成本: ${amount} Droplets"
+            },
+            "allocations": {
+              "label": "網路分配數量",
+              "unitPrice": "每個",
+              "costDescription": "網路分配成本: ${amount} Droplets"
+            },
+            "backups": {
+              "label": "備份數量",
+              "unitPrice": "每個",
+              "costDescription": "備份成本: ${amount} Droplets"
+            },
+            "autoRenew": {
+              "label": "自動續約",
+              "description": "啟用後將自動續約伺服器"
+            }
+          },
+          "pricing": {
+            "title": "價格預覽",
+            "description": "修改後的配置預計費用",
+            "loading": "載入中...",
+            "error": {
+              "title": "價格計算錯誤",
+              "description": "請檢查您的配置並重新計算價格"
+            },
+            "breakdown": {
+              "title": "費用明細",
+              "subtitle": "資源 → 費用",
+              "base": "基礎費用",
+              "cpu": "CPU ({amount}%)",
+              "memory": "記憶體 ({amount} MiB)",
+              "disk": "磁碟 ({amount} MiB)",
+              "databases": "資料庫 ({amount})",
+              "allocations": "網路分配 ({amount})",
+              "backups": "備份 ({amount})",
+              "total": "總費用"
+            },
+            "balance": {
+              "current": "目前餘額",
+              "afterPayment": "付款後餘額",
+              "insufficient": "餘額不足",
+              "change": "餘額變化",
+              "loading": "載入中...",
+              "totalModificationCost": "總修改費用",
+              "status": "餘額狀態",
+              "sufficient": "餘額充足",
+              "calculating": "計算中...",
+              "modifying": "修改中...",
+              "insufficientFunds": "餘額不足",
+              "insufficientBalanceMessage": "餘額不足，無法進行修改",
+              "additionalDropletsNeeded": "您需要額外 {amount} Droplets 才能完成此次修改"
+            }
+          }
+        },
+        "renew": {
+          "title": "確認續約",
+          "description": "您確定要續約伺服器 {serverName} ({identifier}) 嗎？",
+          "serverInfo": "伺服器資訊",
+          "pricing": "續約費用",
+          "renewalCost": "續約費用",
+          "currentBalance": "目前餘額",
+          "afterRenewal": "續約後餘額",
+          "insufficientBalance": "餘額不足，無法續約",
+          "needMoreDroplets": "您需要額外 {amount} Droplets 才能續約",
+          "cancel": "取消",
+          "confirm": "確認續約",
+          "renewing": "續約中...",
+          "insufficientFunds": "餘額不足",
+          "success": "伺服器續約成功",
+          "failed": "伺服器續約失敗"
+        }
+      },
+      "notifications": {
+        "modifying": "修改伺服器 {name} ({identifier})...",
+        "modifySuccess": "伺服器 {name} ({identifier}) 修改成功",
+        "modifyError": "修改伺服器失敗",
+        "insufficientBalance": "餘額不足，無法修改伺服器",
+        "loadError": "載入伺服器類型失敗",
+        "priceError": "載入價格失敗",
+        "deleteError": "刪除伺服器失敗: {error}",
+        "deleteErrorGeneric": "刪除伺服器時發生錯誤",
+        "bulkDeleteError": "批量刪除伺服器失敗: {error}",
+        "bulkDeleteErrorGeneric": "批量刪除伺服器時發生錯誤"
+      }
+    }
+  },
+  "auth": {
+    "welcomeBack": "歡迎回來！",
+    "error": {
+      "accessDenied": {
+        "title": "拒絕存取",
+        "description": "您可能使用了 VPN / Proxy / Hosting 或是有創立多重帳號的行為，這些都是不被我們的條款允許的。",
+        "suggestion": "請聯繫管理員以獲得進一步協助。"
+      },
+      "configuration": {
+        "title": "配置錯誤",
+        "description": "服務配置出現問題。",
+        "suggestion": "請稍後再試或聯繫技術支援。"
+      },
+      "verification": {
+        "title": "驗證失敗",
+        "description": "無法驗證您的身份。",
+        "suggestion": "請檢查您的網路連線並重試。"
+      },
+      "default": {
+        "title": "登入錯誤",
+        "description": "登入過程中發生未知錯誤。",
+        "suggestion": "請稍後再試或聯繫技術支援。"
+      },
+      "technicalDetails": "技術詳情",
+      "errorCode": "錯誤代碼",
+      "retryLogin": "重新登入",
+      "returnHome": "返回首頁"
+    }
+  },
+  "userCard": {
+    "title": "使用者資訊",
+    "unknownUser": "未知使用者",
+    "unknownId": "未知",
+    "droplets": "油幣",
+    "dropletsDescription": "您的貨幣餘額",
+    "servers": "伺服器",
+    "serversDescription": "您目前擁有的伺服器數量",
+    "goToPanel": "前往面板",
+    "userId": "Discord ID",
+    "close": "關閉",
+    "copyUserId": "複製 ID",
+    "copied": "已複製",
+    "assets": "資產",
+    "oilTicket": "油票",
+    "totalCardValue": "卡片總價值",
+    "totalStockValue": "股票總價值",
+    "statistics": "主要統計",
+    "totalDraw": "總抽卡數",
+    "totalGamePlayed": "總遊戲次數",
+    "cardCollectionRate": "卡片收集率"
+  },
+  "navUser": {
+    "logout": "登出",
+    "droplets": "油幣",
+    "language": "語言"
+  },
+  "adCard": {
+    "title": "推薦服務",
+    "learnMore": "了解更多",
+    "advertisement": "廣告",
+    "clickToViewMore": "點擊查看更多",
+    "goToView": "前往查看",
+    "close": "關閉"
+  },
+  "serverCreate": {
+    "title": "創建新伺服器",
+    "description": "創建一個伺服器！",
+    "available": "可用",
+    "status": {
+      "checking": "檢查中",
+      "available": "可用",
+      "suspended": "暫停創建"
+    },
+    "form": {
+      "serverName": {
+        "label": "伺服器名稱",
+        "placeholder": "我的超棒伺服器",
+        "description": "名稱。"
+      },
+      "location": {
+        "label": "位置",
+        "placeholder": "選擇一個位置",
+        "loadingPlaceholder": "正在載入位置...",
+        "description": "選擇伺服器位置。"
+      },
+      "serverType": {
+        "label": "伺服器類型",
+        "placeholder": "選擇伺服器類型",
+        "loadingPlaceholder": "正在載入伺服器類型...",
+        "description": "選擇伺服器類型 (Egg)。"
+      },
+      "cpu": {
+        "label": "CPU (%)",
+        "placeholder": "輸入CPU百分比 (10-400)",
+        "description": "CPU分配。費用：",
+        "pricePerUnit": "每 %"
+      },
+      "ram": {
+        "label": "記憶體 (MiB)",
+        "placeholder": "輸入記憶體大小 MiB (128-16384)",
+        "description": "記憶體分配。費用：",
+        "pricePerUnit": "每 MiB"
+      },
+      "disk": {
+        "label": "磁碟空間 (MiB)",
+        "placeholder": "輸入磁碟空間 MiB (128-32768)",
+        "description": "儲存空間。費用：",
+        "pricePerUnit": "每 MiB"
+      },
+      "databases": {
+        "label": "資料庫數量",
+        "description": "資料庫。費用：",
+        "pricePerUnit": "每個資料庫"
+      },
+      "allocations": {
+        "label": "網路分配",
+        "description": "網路分配。費用：",
+        "pricePerUnit": "每個分配"
+      },
+      "backups": {
+        "label": "備份槽",
+        "description": "資料保護的備份槽。費用：",
+        "pricePerUnit": "每個備份"
+      },
+      "autoRenew": {
+        "label": "自動續約",
+        "description": "啟用後服務將在到期前自動續約，確保服務不中斷"
+      }
+    },
+    "tabs": {
+      "resources": "資源",
+      "advanced": "進階選項"
+    },
+    "pricing": {
+      "title": "價格摘要",
+      "description": "伺服器創建的總費用",
+      "cost": "費用",
+      "resourceToCost": "資源 → 費用",
+      "baseCost": "基礎費用：",
+      "cpu": "處理器",
+      "ram": "記憶體",
+      "disk": "磁碟",
+      "databases": "資料庫",
+      "backups": "備份",
+      "allocations": "網路分配",
+      "totalCost": "總費用：",
+      "droplets": "油幣"
+    },
+    "balance": {
+      "change": "餘額變化:",
+      "status": "餘額狀態:",
+      "sufficient": "充足",
+      "insufficient": "不足",
+      "expiration": "服務到期:",
+      "daysRemain": "剩餘",
+      "daysRemaining": "天"
+    },
+    "buttons": {
+      "create": "創建伺服器",
+      "loading": "載入中...",
+      "creating": "正在創建伺服器...",
+      "serviceSuspended": "服務暫停中",
+      "insufficientBalance": "餘額不足",
+      "pleaseComplete": "請先填完再創建"
+    },
+    "messages": {
+      "createSuccess": "創建成功。總費用：",
+      "createError": "創建伺服器失敗",
+      "nodeFullError": "該節點已滿",
+      "pricingError": "無法載入價格，使用預設值",
+      "serverTypesError": "無法載入伺服器類型",
+      "locationsError": "無法載入位置",
+      "NaNError": "請先填入所有數值以便計算估價",
+      "NaNErrorDescription": "如果您沒有填寫所有數值，則無法計算估價。請先填寫所有數值。"
+    },
+    "toasts": {
+      "userInfoError": "獲取使用者信息失敗",
+      "creatingServer": "正在創建伺服器 "
+    }
+  },
+  "coupons": {
+    "breadcrumbs": "兌換代碼",
+    "title": "兌換代碼",
+    "description": "輸入兌換代碼以兌換油幣",
+    "form": {
+      "label": "兌換代碼",
+      "placeholder": "請輸入您的兌換代碼",
+      "submit": "兌換"
+    },
+    "success": {
+      "title": "兌換代碼成功！",
+      "description": "您已成功兌換代碼",
+      "rewardReceived": "獲得獎勵",
+      "currentBalance": "目前餘額",
+      "droplets": "油幣"
+    },
+    "errors": {
+      "alreadyUsed": "該兌換代碼已被兌換過",
+      "notFound": "無效的兌換代碼",
+      "limitReached": "該兌換代碼已被兌換完畢",
+      "redeemFailed": "兌換代碼失敗"
+    }
+  },
+  "transfer": {
+    "breadcrumbs": "轉帳",
+    "title": "轉帳油幣",
+    "description": "將您的油幣轉帳給其他使用者",
+    "form": {
+      "processing": "處理中...",
+      "recipientLabel": "收款人 Discord ID",
+      "recipientPlaceholder": "輸入 Discord ID",
+      "amountLabel": "金額",
+      "amountPlaceholder": "輸入轉帳金額",
+      "submit": "轉帳",
+      "feeNotice": "轉帳將收取 3% 手續費。"
+    },
+    "success": {
+      "title": "轉帳成功！",
+      "description": "您的油幣已成功轉帳",
+      "details": "轉帳詳情",
+      "yourBalance": "您的餘額",
+      "recipientBalance": "收款人餘額",
+      "fee": "手續費",
+      "actualTransfer": "實際收款",
+      "droplets": "油幣",
+      "close": "完成"
+    },
+    "errors": {
+      "receiverNotFound": "找不到收款人",
+      "insufficientBalance": "餘額不足",
+      "transferFailed": "轉帳失敗",
+      "invalidAmount": "無效金額",
+      "invalidRecipient": "無效收款人 ID",
+      "amountTooLow": "輸入金額低於最低轉帳金額",
+      "sameUserTransfer": "不能轉帳給自己"
+    }
+  },
+  "couponsManagement": {
+    "title": "優惠碼管理",
+    "createCoupon": "建立優惠碼",
+    "noResults": "沒有結果。",
+    "dialog": {
+      "editTitle": "編輯優惠碼",
+      "createTitle": "建立優惠碼",
+      "editDescription": "編輯您的優惠碼詳細資訊。",
+      "createDescription": "在這裡建立新的優惠碼。完成後點擊儲存。",
+      "codeLabel": "代碼",
+      "rewardAmountLabel": "油幣數量",
+      "usageLimitLabel": "使用限制",
+      "expiresAtLabel": "到期日",
+      "activeLabel": "啟用",
+      "saveButton": "儲存變更"
+    },
+    "table": {
+      "codeHeader": "代碼",
+      "rewardAmountHeader": "油幣數量",
+      "usageLimitHeader": "使用限制",
+      "usedCountHeader": "已使用次數",
+      "expiresAtHeader": "到期日",
+      "createdAtHeader": "建立時間",
+      "updatedAtHeader": "更新時間",
+      "statusHeader": "狀態",
+      "actionsLabel": "操作",
+      "editAction": "編輯",
+      "deleteAction": "刪除",
+      "usageDetailsAction": "使用詳情",
+      "openMenu": "開啟選單",
+      "notAvailable": "N/A",
+      "copyTooltip": "點擊以複製"
+    },
+    "status": {
+      "active": "啟用",
+      "inactive": "停用",
+      "permanent": "永久"
+    },
+    "toasts": {
+      "loading": "正在載入優惠碼...",
+      "loadSuccess": "優惠碼載入成功。",
+      "loadError": "載入優惠碼失敗。",
+      "updating": "正在更新優惠碼...",
+      "creating": "正在建立優惠碼...",
+      "updateSuccess": "優惠碼更新成功。",
+      "createSuccess": "優惠碼建立成功。",
+      "updateError": "更新優惠碼失敗。",
+      "createError": "建立優惠碼失敗。",
+      "deleting": "正在刪除優惠碼...",
+      "deleteSuccess": "優惠碼刪除成功。",
+      "deleteError": "刪除優惠碼失敗。",
+      "fetchUsageError": "獲取優惠碼使用情況失敗。"
+    },
+    "deleteDialog": {
+      "title": "您確定要這麼做嗎？",
+      "description": "此操作無法復原。這將會永久刪除優惠碼：{code}。",
+      "cancel": "取消",
+      "confirm": "確認"
+    },
+    "usageDialog": {
+      "title": "優惠碼使用詳情",
+      "description": "優惠碼的使用統計：{code}",
+      "statisticsTitle": "統計",
+      "totalUsed": "總使用次數",
+      "uniqueUsers": "不重複使用者",
+      "remainingUses": "剩餘使用次數",
+      "firstUsed": "首次使用",
+      "lastUsed": "最後使用",
+      "usageDetailsTitle": "使用詳情",
+      "userIdHeader": "使用者 ID",
+      "userNameHeader": "使用者名稱",
+      "usedAtHeader": "使用時間",
+      "closeButton": "關閉",
+      "loading": "正在載入使用數據...",
+      "noData": "此優惠碼暫無使用數據。"
+    },
+    "summary": {
+      "totalCoupons": "現有優惠碼數量",
+      "totalUsage": "總使用量",
+      "totalRewardAmount": "總發放金額"
+    },
+    "history": {
+      "title": "歷史使用統計",
+      "usage": "使用量",
+      "titleInteractive": "互動式區域圖",
+      "description": "顯示 {timeRangeText} 的總使用量",
+      "last3Months": "最近 3 個月",
+      "last30Days": "最近 30 天",
+      "last7Days": "最近 7 天",
+      "selectTimeRange": "選擇時間範圍",
+      "timeRangeText": {
+        "90d": "最近 3 個月",
+        "30d": "最近 30 天",
+        "7d": "最近 7 天"
+      }
+    }
+  }
+}

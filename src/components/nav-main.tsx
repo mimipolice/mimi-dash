@@ -18,10 +18,12 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 export function NavMain({
   items,
 }: {
   items: {
+    key: string;
     title: string;
     url: string;
     icon?: LucideIcon;
@@ -33,13 +35,14 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const t = useTranslations("sidebar");
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("platform")}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
-            key={item.title}
+            key={item.key}
             asChild
             defaultOpen={item.isActive}
             className="group/collapsible"
