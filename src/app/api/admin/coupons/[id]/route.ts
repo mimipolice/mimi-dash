@@ -13,10 +13,7 @@ async function checkAdmin() {
   return null;
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, { params }: any) {
   const unauthorizedResponse = await checkAdmin();
   if (unauthorizedResponse) return unauthorizedResponse;
 

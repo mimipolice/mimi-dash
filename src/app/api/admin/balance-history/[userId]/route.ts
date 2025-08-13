@@ -1,10 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(req: NextRequest, { params }: any) {
   const session = await auth();
 
   if (!session || !session.user) {
@@ -14,17 +11,14 @@ export async function GET(
     );
   }
 
-  // Allow users to fetch their own history.
-  // In a real app, you might also check for an admin role here.
-  const awaitedParams = await params;
-  if (session.user.id !== awaitedParams.userId) {
+  const { userId } = params;
+
+  if (session.user.id !== userId) {
     return NextResponse.json(
       { success: false, error: "Forbidden" },
       { status: 403 }
     );
   }
-
-  const { userId } = awaitedParams;
 
   if (!userId) {
     return NextResponse.json(
@@ -34,7 +28,7 @@ export async function GET(
   }
 
   try {
-    const { searchParams } = new URL(request.url);
+    const { searchParams } = req.nextUrl;
     const limit = searchParams.get("limit") || "10";
     const offset = searchParams.get("offset") || "0";
 

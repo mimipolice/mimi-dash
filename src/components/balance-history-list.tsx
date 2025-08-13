@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, ArrowDownLeft, Wallet } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -42,31 +42,34 @@ export function BalanceHistoryList({
   const { data: session } = useSession();
   const itemsPerPage = 6;
 
-  const fetchHistory = async (page: number) => {
-    const targetUserId = userId || session?.user?.id;
-    if (!targetUserId) return;
+  const fetchHistory = useCallback(
+    async (page: number) => {
+      const targetUserId = userId || session?.user?.id;
+      if (!targetUserId) return;
 
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        `/api/admin/balance-history/${targetUserId}`,
-        {
-          params: { limit: itemsPerPage, offset: page * itemsPerPage },
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `/api/admin/balance-history/${targetUserId}`,
+          {
+            params: { limit: itemsPerPage, offset: page * itemsPerPage },
+          }
+        );
+        if (response.data.success) {
+          setHistory(response.data.data);
+          setPagination(response.data.pagination);
+        } else {
+          toast.error(t("fetch-error"));
         }
-      );
-      if (response.data.success) {
-        setHistory(response.data.data);
-        setPagination(response.data.pagination);
-      } else {
+      } catch (error) {
         toast.error(t("fetch-error"));
+        console.error("Failed to fetch balance history:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      toast.error(t("fetch-error"));
-      console.error("Failed to fetch balance history:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [userId, session, itemsPerPage, t]
+  );
 
   useEffect(() => {
     const targetUserId = userId || session?.user?.id;
@@ -75,7 +78,7 @@ export function BalanceHistoryList({
     } else if (session === null && !userId) {
       setLoading(false);
     }
-  }, [session, userId, currentPage]);
+  }, [session, userId, currentPage, fetchHistory]);
 
   const getIcon = (item: BalanceHistoryItem) => {
     if (item.change_amount > 0) {

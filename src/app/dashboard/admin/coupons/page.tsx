@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -41,7 +41,7 @@ export default function CouponsAdminPage() {
     null
   );
 
-  const refreshCoupons = async () => {
+  const refreshCoupons = useCallback(async () => {
     try {
       const data = await fetchCoupons();
       setCoupons(data);
@@ -49,11 +49,11 @@ export default function CouponsAdminPage() {
     } catch (error) {
       toast.error(t("toasts.loadError"));
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     refreshCoupons();
-  }, []);
+  }, [refreshCoupons]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,14 +85,14 @@ export default function CouponsAdminPage() {
     });
   };
 
-  const handleEdit = (coupon: Coupon) => {
+  const handleEdit = useCallback((coupon: Coupon) => {
     setCurrentCoupon(coupon);
     setIsDialogOpen(true);
-  };
+  }, []);
 
   const columns = useMemo(
     () => getColumns(t, handleEdit, refreshCoupons),
-    [t, refreshCoupons]
+    [t, handleEdit, refreshCoupons]
   );
 
   const table = useReactTable({
