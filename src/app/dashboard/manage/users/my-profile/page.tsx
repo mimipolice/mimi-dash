@@ -41,14 +41,14 @@ export default function UserProfilePage() {
         </div>
       </header>
       <div className="p-6 flex">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
+        <div className="flex flex-wrap gap-10 items-start">
           <div>
             <UserCard />
           </div>
           <div>
             <GachaStatisticsCard />
           </div>
-          <div className="lg:col-span-1">
+          <div>
             <BalanceHistoryList />
           </div>
         </div>

@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-Mimi-Api-Token": apiKey,
+          Authorization: `Bearer ${apiKey}`,
         },
       }
     );

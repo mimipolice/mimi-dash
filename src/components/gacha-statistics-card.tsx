@@ -107,7 +107,7 @@ export function GachaStatisticsCard() {
       <Card
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full max-w-md mx-auto h-full flex flex-col"
+        className="w-full max-w-md mx-auto h-full flex flex-col md:w-[28rem]"
       >
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -144,7 +144,8 @@ export function GachaStatisticsCard() {
                 transition={{ duration: 0.3 }}
                 className="overflow-hidden"
               >
-                <div className="space-y-4 pt-4 border-t">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 pt-4 border-t">
+                  {/* Rarity Distribution */}
                   <div className="space-y-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
                       <Star className="h-4 w-4 text-yellow-500" />
@@ -168,6 +169,7 @@ export function GachaStatisticsCard() {
                     </div>
                   </div>
 
+                  {/* Pool Distribution */}
                   <div className="space-y-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
                       <Target className="h-4 w-4 text-red-500" />
@@ -193,6 +195,7 @@ export function GachaStatisticsCard() {
                     </div>
                   </div>
 
+                  {/* Luck Analysis */}
                   <div className="space-y-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
                       <Clover className="h-4 w-4 text-green-500" />
@@ -209,7 +212,7 @@ export function GachaStatisticsCard() {
                       </div>
                       <div className="flex justify-between">
                         <span>{t("luck_analysis.luck_index")}</span>
-                        <span>
+                        <span className="text-right">
                           {stats.luck_analysis.luck_index}{" "}
                           {stats.luck_analysis.luck_mood_emoji}{" "}
                           {stats.luck_analysis.luck_mood}
@@ -218,6 +221,7 @@ export function GachaStatisticsCard() {
                     </div>
                   </div>
 
+                  {/* Server Comparison */}
                   <div className="space-y-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
                       <Users className="h-4 w-4 text-purple-500" />
@@ -226,7 +230,7 @@ export function GachaStatisticsCard() {
                     <div className="pl-6 space-y-1 text-xs">
                       <div className="flex justify-between">
                         <span>{t("server_comparison.top_tier_rate")}</span>
-                        <span>
+                        <span className="text-right">
                           {stats.server_comparison.top_tier_rate_diff}{" "}
                           {stats.server_comparison.top_tier_rate_diff_emoji}
                         </span>
@@ -244,7 +248,8 @@ export function GachaStatisticsCard() {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  {/* Most Drawn Cards */}
+                  <div className="space-y-2 md:col-span-2">
                     <h4 className="font-semibold flex items-center gap-2 text-sm">
                       <Repeat className="h-4 w-4 text-indigo-500" />
                       {t("most_drawn.title")}

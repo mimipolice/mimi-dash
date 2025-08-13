@@ -27,7 +27,7 @@ export async function GET(
       {
         method: "GET",
         headers: {
-          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
+          Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
         },
       }
     );

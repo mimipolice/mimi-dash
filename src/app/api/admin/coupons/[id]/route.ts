@@ -27,7 +27,7 @@ export async function DELETE(
       {
         method: "DELETE",
         headers: {
-          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
+          Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
         },
       }
     );

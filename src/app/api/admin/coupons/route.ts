@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       `${process.env.BACKEND_API_URL}/api/admin/coupons`,
       {
         headers: {
-          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
+          Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
         },
       }
     );
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
+          Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
         },
         body: JSON.stringify(body),
       }
@@ -86,7 +86,7 @@ export async function PUT(req: NextRequest) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
+          Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
         },
         body: JSON.stringify(body),
       }
