@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { BarChart, Star, Target, Clover, Users, Repeat } from "lucide-react";
 
 // NOTE: The API at /api/gacha/statistics needs to be updated to return this data structure.
@@ -107,7 +108,7 @@ export function GachaStatisticsCard() {
       <Card
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="w-full mx-auto h-full flex flex-col md:w-[35rem]"
+        className="w-full mx-auto h-full flex flex-col md:w-[35rem] relative"
       >
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -118,158 +119,189 @@ export function GachaStatisticsCard() {
         <CardContent className="space-y-4 flex-grow flex flex-col">
           <div className="space-y-2">
             <StatItem
-              label={t("basic_stats.total_draws")}
+              label={t("basic_stats.total_draws", { defaultValue: "總抽卡數" })}
               value={stats.basic_stats.total_draws}
             />
             <StatItem
-              label={t("basic_stats.unique_cards")}
+              label={t("basic_stats.unique_cards", {
+                defaultValue: "總獲得卡片",
+              })}
               value={stats.basic_stats.unique_cards}
             />
             <StatItem
-              label={t("basic_stats.new_cards")}
+              label={t("basic_stats.new_cards", { defaultValue: "新卡片" })}
               value={stats.basic_stats.new_cards}
             />
             <StatItem
-              label={t("basic_stats.wish_hits")}
+              label={t("basic_stats.wish_hits", { defaultValue: "祈願命中" })}
               value={stats.basic_stats.wish_hits}
             />
           </div>
 
-          <AnimatePresence>
-            {isHovered && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-[1.5fr_2fr] gap-x-4 gap-y-2 pt-4 border-t">
-                  {/* Rarity Distribution */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2 text-sm">
-                      <Star className="h-4 w-4 text-yellow-500" />
-                      {t("rarity_distribution.title")}
-                    </h4>
-                    <div className="pl-6 space-y-1">
-                      {stats.rarity_distribution.map((r, i) => (
-                        <div
-                          key={i}
-                          className="flex justify-between items-center text-xs"
-                        >
-                          <span>{r.rarity}</span>
-                          <span>
-                            {r.count}{" "}
-                            <span className="text-muted-foreground">
-                              ({r.percentage})
+          <div className="flex-grow flex flex-col justify-center items-center relative min-h-[13.5rem]">
+            <AnimatePresence mode="wait">
+              {!isHovered ? (
+                <motion.div
+                  key="image"
+                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground space-y-2"
+                >
+                  <Image
+                    src="/images/bg/amamiya-kokoro.png"
+                    alt="Amamiya Kokoro"
+                    width={256}
+                    height={256}
+                    className="h-64 w-64 object-contain"
+                  />
+                  {/* <p>
+                    {t("hover_for_details", {
+                      defaultValue: "懸停查看詳細資訊",
+                    })}
+                  </p> */}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="details"
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="w-full h-full"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-[1.5fr_2fr] gap-x-4 gap-y-2 pt-4 border-t h-full">
+                    {/* Rarity Distribution */}
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2 text-sm">
+                        <Star className="h-4 w-4 text-yellow-500" />
+                        {t("rarity_distribution.title")}
+                      </h4>
+                      <div className="pl-6 space-y-1">
+                        {stats.rarity_distribution.map((r, i) => (
+                          <div
+                            key={i}
+                            className="flex justify-between items-center text-xs"
+                          >
+                            <span>{r.rarity}</span>
+                            <span>
+                              {r.count}{" "}
+                              <span className="text-muted-foreground">
+                                ({r.percentage})
+                              </span>
                             </span>
-                          </span>
-                        </div>
-                      ))}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Pool Distribution */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2 text-sm">
-                      <Target className="h-4 w-4 text-red-500" />
-                      {t("pool_distribution.title")}
-                    </h4>
-                    <div className="pl-6 space-y-1">
-                      {stats.pool_distribution.map((p, i) => (
-                        <div
-                          key={i}
-                          className="flex justify-between items-center text-xs"
-                        >
-                          <span>
-                            {t(`pool_distribution.pools.${p.pool_key}`)}
-                          </span>
-                          <span>
-                            {p.count}{" "}
-                            <span className="text-muted-foreground">
-                              ({p.percentage})
+                    {/* Pool Distribution */}
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2 text-sm">
+                        <Target className="h-4 w-4 text-red-500" />
+                        {t("pool_distribution.title")}
+                      </h4>
+                      <div className="pl-6 space-y-1">
+                        {stats.pool_distribution.map((p, i) => (
+                          <div
+                            key={i}
+                            className="flex justify-between items-center text-xs"
+                          >
+                            <span>
+                              {t(`pool_distribution.pools.${p.pool_key}`)}
                             </span>
+                            <span>
+                              {p.count}{" "}
+                              <span className="text-muted-foreground">
+                                ({p.percentage})
+                              </span>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Luck Analysis */}
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2 text-sm">
+                        <Clover className="h-4 w-4 text-green-500" />
+                        {t("luck_analysis.title")}
+                      </h4>
+                      <div className="pl-6 space-y-1 text-xs">
+                        <div className="flex justify-between">
+                          <span>{t("luck_analysis.avg_top_tier_draw")}</span>
+                          <span>{stats.luck_analysis.avg_top_tier_draw}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>{t("luck_analysis.longest_drought")}</span>
+                          <span>{stats.luck_analysis.longest_drought}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>{t("luck_analysis.luck_index")}</span>
+                          <span className="text-right">
+                            {stats.luck_analysis.luck_index}{" "}
+                            {stats.luck_analysis.luck_mood_emoji}{" "}
+                            {stats.luck_analysis.luck_mood}
                           </span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Luck Analysis */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2 text-sm">
-                      <Clover className="h-4 w-4 text-green-500" />
-                      {t("luck_analysis.title")}
-                    </h4>
-                    <div className="pl-6 space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>{t("luck_analysis.avg_top_tier_draw")}</span>
-                        <span>{stats.luck_analysis.avg_top_tier_draw}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t("luck_analysis.longest_drought")}</span>
-                        <span>{stats.luck_analysis.longest_drought}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t("luck_analysis.luck_index")}</span>
-                        <span className="text-right">
-                          {stats.luck_analysis.luck_index}{" "}
-                          {stats.luck_analysis.luck_mood_emoji}{" "}
-                          {stats.luck_analysis.luck_mood}
-                        </span>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Server Comparison */}
-                  <div className="space-y-2">
-                    <h4 className="font-semibold flex items-center gap-2 text-sm">
-                      <Users className="h-4 w-4 text-purple-500" />
-                      {t("server_comparison.title")}
-                    </h4>
-                    <div className="pl-6 space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>{t("server_comparison.top_tier_rate")}</span>
-                        <span className="text-right">
-                          {stats.server_comparison.top_tier_rate_diff}{" "}
-                          {stats.server_comparison.top_tier_rate_diff_emoji}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t("server_comparison.user_top_tier_rate")}</span>
-                        <span>
-                          {stats.server_comparison.user_top_tier_rate}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t("server_comparison.total_draws_rank")}</span>
-                        <span>{stats.server_comparison.total_draws_rank}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Most Drawn Cards */}
-                  <div className="space-y-2 md:col-span-2">
-                    <h4 className="font-semibold flex items-center gap-2 text-sm">
-                      <Repeat className="h-4 w-4 text-indigo-500" />
-                      {t("most_drawn.title")}
-                    </h4>
-                    <div className="pl-6 space-y-1 text-xs">
-                      {stats.most_drawn_cards.map((c, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                          <span>{c.rarity_icon}</span>
+                    {/* Server Comparison */}
+                    <div className="space-y-2">
+                      <h4 className="font-semibold flex items-center gap-2 text-sm">
+                        <Users className="h-4 w-4 text-purple-500" />
+                        {t("server_comparison.title")}
+                      </h4>
+                      <div className="pl-6 space-y-1 text-xs">
+                        <div className="flex justify-between">
+                          <span>{t("server_comparison.top_tier_rate")}</span>
+                          <span className="text-right">
+                            {stats.server_comparison.top_tier_rate_diff}{" "}
+                            {stats.server_comparison.top_tier_rate_diff_emoji}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
                           <span>
-                            {c.card_name} - {c.draw_count}{" "}
-                            {t("most_drawn.draws")}
+                            {t("server_comparison.user_top_tier_rate")}
+                          </span>
+                          <span>
+                            {stats.server_comparison.user_top_tier_rate}
                           </span>
                         </div>
-                      ))}
+                        <div className="flex justify-between">
+                          <span>{t("server_comparison.total_draws_rank")}</span>
+                          <span>
+                            {stats.server_comparison.total_draws_rank}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Most Drawn Cards */}
+                    <div className="space-y-2 md:col-span-2">
+                      <h4 className="font-semibold flex items-center gap-2 text-sm">
+                        <Repeat className="h-4 w-4 text-indigo-500" />
+                        {t("most_drawn.title")}
+                      </h4>
+                      <div className="pl-6 space-y-1 text-xs">
+                        {stats.most_drawn_cards.map((c, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <span>{c.rarity_icon}</span>
+                            <span>
+                              {c.card_name} - {c.draw_count}{" "}
+                              {t("most_drawn.draws")}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </CardContent>
       </Card>
     </div>

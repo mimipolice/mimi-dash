@@ -197,7 +197,8 @@
       "most_drawn": {
         "title": "最常抽到",
         "draws": "次"
-      }
+      },
+      "hover_for_details": "悬停查看详细信息"
     }
   },
   "settings": {

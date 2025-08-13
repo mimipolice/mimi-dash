@@ -197,7 +197,8 @@
       "most_drawn": {
         "title": "Most Drawn",
         "draws": "draws"
-      }
+      },
+      "hover_for_details": "Hover for details"
     }
   },
   "settings": {
