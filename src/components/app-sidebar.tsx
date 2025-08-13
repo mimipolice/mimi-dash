@@ -64,11 +64,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           url: "/dashboard/manage/users/my-profile",
           isActive: isPathActive("/dashboard/manage/users"),
         },
-        {
-          title: t("servers"),
-          url: "/dashboard/manage/servers",
-          isActive: isPathActive("/dashboard/manage/servers"),
-        },
+        // {
+        //   title: t("servers"),
+        //   url: "/dashboard/manage/servers",
+        //   isActive: isPathActive("/dashboard/manage/servers"),
+        // },
       ],
     },
     {

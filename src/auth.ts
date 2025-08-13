@@ -10,7 +10,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
       authorization:
-        "https://discord.com/api/oauth2/authorize?scope=identify+email+guilds",
+        "https://discord.com/api/oauth2/authorize?scope=identify+email", // OPTIONAL: Add guilds "+guilds"
       async profile(profile) {
         return {
           id: profile.id,
