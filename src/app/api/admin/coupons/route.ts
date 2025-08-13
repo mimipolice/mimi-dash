@@ -1,21 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
 
-// GET /api/admin/coupons
-export async function GET(req: NextRequest) {
-  const apiToken = process.env.BACKEND_API_KEY;
-  if (!apiToken || apiToken !== process.env.BACKEND_API_KEY) {
+async function checkAdmin() {
+  const session = await auth();
+  const adminIds = (process.env.ADMIN_DISCORD_ID || "").split(",");
+  if (!session?.user?.id || !adminIds.includes(session.user.id)) {
     return NextResponse.json(
       { success: false, error: { message: "Unauthorized", status: 401 } },
       { status: 401 }
     );
   }
+  return null;
+}
+
+// GET /api/admin/coupons
+export async function GET(req: NextRequest) {
+  const unauthorizedResponse = await checkAdmin();
+  if (unauthorizedResponse) return unauthorizedResponse;
 
   try {
     const response = await fetch(
       `${process.env.BACKEND_API_URL}/api/admin/coupons`,
       {
         headers: {
-          "X-Mimi-Api-Token": apiToken,
+          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
         },
       }
     );
@@ -35,13 +43,8 @@ export async function GET(req: NextRequest) {
 
 // POST /api/admin/coupons
 export async function POST(req: NextRequest) {
-  const apiToken = process.env.BACKEND_API_KEY;
-  if (!apiToken || apiToken !== process.env.BACKEND_API_KEY) {
-    return NextResponse.json(
-      { success: false, error: { message: "Unauthorized", status: 401 } },
-      { status: 401 }
-    );
-  }
+  const unauthorizedResponse = await checkAdmin();
+  if (unauthorizedResponse) return unauthorizedResponse;
 
   try {
     const body = await req.json();
@@ -51,7 +54,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Mimi-Api-Token": apiToken,
+          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
         },
         body: JSON.stringify(body),
       }
@@ -72,13 +75,8 @@ export async function POST(req: NextRequest) {
 
 // PUT /api/admin/coupons
 export async function PUT(req: NextRequest) {
-  const apiToken = process.env.BACKEND_API_KEY;
-  if (!apiToken || apiToken !== process.env.BACKEND_API_KEY) {
-    return NextResponse.json(
-      { success: false, error: { message: "Unauthorized", status: 401 } },
-      { status: 401 }
-    );
-  }
+  const unauthorizedResponse = await checkAdmin();
+  if (unauthorizedResponse) return unauthorizedResponse;
 
   try {
     const body = await req.json();
@@ -88,7 +86,7 @@ export async function PUT(req: NextRequest) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "X-Mimi-Api-Token": apiToken,
+          "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
         },
         body: JSON.stringify(body),
       }

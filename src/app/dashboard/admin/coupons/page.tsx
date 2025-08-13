@@ -85,23 +85,15 @@ export default function CouponsAdminPage() {
     });
   };
 
-  const handleDelete = (id: string) => {
-    toast.promise(deleteCoupon(id), {
-      loading: t("toasts.deleting"),
-      success: () => {
-        refreshCoupons();
-        return t("toasts.deleteSuccess");
-      },
-      error: (err: any) => err.message || t("toasts.deleteError"),
-    });
-  };
-
   const handleEdit = (coupon: Coupon) => {
     setCurrentCoupon(coupon);
     setIsDialogOpen(true);
   };
 
-  const columns = useMemo(() => getColumns(t, handleEdit, handleDelete), [t]);
+  const columns = useMemo(
+    () => getColumns(t, handleEdit, refreshCoupons),
+    [t, refreshCoupons]
+  );
 
   const table = useReactTable({
     data: coupons,
@@ -144,7 +136,7 @@ export default function CouponsAdminPage() {
           </Card>
         </div>
 
-        <div className="mt-4 rounded-md border">
+        <div className="mt-4 rounded-md border overflow-x-auto p-4">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

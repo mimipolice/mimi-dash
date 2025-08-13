@@ -683,7 +683,8 @@
       "deleteAction": "刪除",
       "usageDetailsAction": "使用詳情",
       "openMenu": "開啟選單",
-      "notAvailable": "N/A"
+      "notAvailable": "N/A",
+      "copyTooltip": "點擊以複製"
     },
     "status": {
       "active": "啟用",
@@ -705,21 +706,28 @@
       "deleteError": "刪除優惠碼失敗。",
       "fetchUsageError": "獲取優惠碼使用情況失敗。"
     },
+    "deleteDialog": {
+      "title": "您確定要這麼做嗎？",
+      "description": "此操作無法復原。這將會永久刪除優惠碼：{code}。",
+      "cancel": "取消",
+      "confirm": "確認"
+    },
     "usageDialog": {
       "title": "優惠碼使用詳情",
       "description": "優惠碼的使用統計：{code}",
       "statisticsTitle": "統計",
-      "totalUsed": "總使用次數：{count}",
-      "uniqueUsers": "不重複使用者：{count}",
-      "remainingUses": "剩餘使用次數：{count}",
-      "datesTitle": "日期",
-      "firstUsed": "首次使用：{date}",
-      "lastUsed": "最後使用：{date}",
+      "totalUsed": "總使用次數",
+      "uniqueUsers": "不重複使用者",
+      "remainingUses": "剩餘使用次數",
+      "firstUsed": "首次使用",
+      "lastUsed": "最後使用",
       "usageDetailsTitle": "使用詳情",
       "userIdHeader": "使用者 ID",
       "userNameHeader": "使用者名稱",
       "usedAtHeader": "使用時間",
-      "closeButton": "關閉"
+      "closeButton": "關閉",
+      "loading": "正在載入使用數據...",
+      "noData": "此優惠碼暫無使用數據。"
     },
     "summary": {
       "totalCoupons": "現有優惠碼數量",

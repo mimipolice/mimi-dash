@@ -6,7 +6,7 @@ import { getLocale, getMessages } from "next-intl/server";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { Locale } from "@/components/locale";
-import { Toaster } from "react-hot-toast";
+import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import appConfig from "@/config";
