@@ -45,7 +45,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            <NextIntlClientProvider>
+            <NextIntlClientProvider messages={messages}>
               {children}
               <Toaster />
             </NextIntlClientProvider>

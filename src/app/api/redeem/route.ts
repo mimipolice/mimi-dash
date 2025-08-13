@@ -52,7 +52,18 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    return NextResponse.json(response.data);
+    // The backend responded with a 2xx status.
+    // Now, check the business logic success flag.
+    if (response.data.success === false) {
+      // Business logic failure. The backend should have sent a non-2xx code,
+      // but let's handle it here to be robust.
+      // Use the status from the error payload, or default to 400.
+      const status = response.data.error?.status || 400;
+      return NextResponse.json(response.data, { status });
+    }
+
+    // Business logic success.
+    return NextResponse.json(response.data, { status: response.status });
   } catch (error) {
     console.error("Error redeeming coupon:", error);
 

@@ -658,5 +658,72 @@
       "amountTooLow": "输入金额低于最低转账金额",
       "sameUserTransfer": "不能转账给自己"
     }
+  },
+  "couponsManagement": {
+    "title": "优惠码管理",
+    "createCoupon": "创建优惠码",
+    "noResults": "没有结果。",
+    "dialog": {
+      "editTitle": "编辑优惠码",
+      "createTitle": "创建优惠码",
+      "editDescription": "编辑您的优惠码详细信息。",
+      "createDescription": "在这里创建新的优惠码。完成后点击保存。",
+      "codeLabel": "代码",
+      "rewardAmountLabel": "油币数量",
+      "usageLimitLabel": "使用限制",
+      "expiresAtLabel": "到期日",
+      "activeLabel": "启用",
+      "saveButton": "保存更改"
+    },
+    "table": {
+      "codeHeader": "代码",
+      "rewardAmountHeader": "油币数量",
+      "usageLimitHeader": "使用限制",
+      "usedCountHeader": "已使用次数",
+      "expiresAtHeader": "到期日",
+      "createdAtHeader": "创建时间",
+      "updatedAtHeader": "更新时间",
+      "statusHeader": "状态",
+      "actionsLabel": "操作",
+      "editAction": "编辑",
+      "deleteAction": "删除",
+      "usageDetailsAction": "使用详情"
+    },
+    "status": {
+      "active": "启用",
+      "inactive": "停用",
+      "permanent": "永久"
+    },
+    "toasts": {
+      "loading": "正在加载优惠码...",
+      "loadSuccess": "优惠码加载成功。",
+      "loadError": "加载优惠码失败。",
+      "updating": "正在更新优惠码...",
+      "creating": "正在创建优惠码...",
+      "updateSuccess": "优惠码更新成功。",
+      "createSuccess": "优惠码创建成功。",
+      "updateError": "更新优惠码失败。",
+      "createError": "创建优惠码失败。",
+      "deleting": "正在删除优惠码...",
+      "deleteSuccess": "优惠码删除成功。",
+      "deleteError": "删除优惠码失败。",
+      "fetchUsageError": "获取优惠码使用情况失败。"
+    },
+    "usageDialog": {
+      "title": "优惠码使用详情",
+      "description": "优惠码的使用统计：{code}",
+      "statisticsTitle": "统计",
+      "totalUsed": "总使用次数：{count}",
+      "uniqueUsers": "不重复用户：{count}",
+      "remainingUses": "剩余使用次数：{count}",
+      "datesTitle": "日期",
+      "firstUsed": "首次使用：{date}",
+      "lastUsed": "最后使用：{date}",
+      "usageDetailsTitle": "使用详情",
+      "userIdHeader": "用户 ID",
+      "userNameHeader": "用户名称",
+      "usedAtHeader": "使用时间",
+      "closeButton": "关闭"
+    }
   }
 }

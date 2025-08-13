@@ -34,9 +34,14 @@ import { Key, Gift, Droplets } from "lucide-react";
 import { Cover } from "@/components/ui/cover";
 interface RedeemResponse {
   success: boolean;
-  message?: string;
-  reward_amount?: number;
-  errors?: string[];
+  data?: {
+    message: string;
+    reward_amount: number;
+  };
+  error?: {
+    message: string;
+    status: number;
+  };
 }
 
 export default function CouponsPage() {
@@ -73,32 +78,42 @@ export default function CouponsPage() {
 
       const data = response.data;
 
-      if (data.success && data.reward_amount !== undefined) {
+      if (data.success && data.data?.reward_amount !== undefined) {
         setSuccessDialog({
           open: true,
           code: couponCode,
-          added: data.reward_amount,
+          added: data.data.reward_amount,
           totalCoins: 0, // Backend doesn't provide total coins, so we hide this for now.
         });
         setCouponCode("");
       } else {
-        toast.error(t("errors.redeemFailed"));
+        const errorMessage = data.error?.message || t("errors.redeemFailed");
+        toast.error(errorMessage);
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data) {
-        const errorData = error.response.data as RedeemResponse;
+        const errorData = error.response.data as {
+          error?: { message?: string };
+        };
+        const errorMessage = errorData.error?.message;
 
-        if (errorData.errors && errorData.errors.length > 0) {
-          const errorMessage = errorData.errors[0];
-
-          if (errorMessage === "Coupon already used by this user") {
-            toast.error(t("errors.alreadyUsed"));
-          } else if (errorMessage === "Coupon not found") {
-            toast.error(t("errors.notFound"));
-          } else if (errorMessage === "Coupon usage limit reached") {
-            toast.error(t("errors.limitReached"));
-          } else {
-            toast.error(t("errors.redeemFailed"));
+        if (errorMessage) {
+          switch (errorMessage) {
+            case "Coupon already used by this user":
+              toast.error(t("errors.alreadyUsed"));
+              break;
+            case "Coupon not found":
+              toast.error(t("errors.notFound"));
+              break;
+            case "Coupon has expired":
+              toast.error(t("errors.expired"));
+              break;
+            case "Coupon usage limit reached":
+              toast.error(t("errors.limitReached"));
+              break;
+            default:
+              toast.error(t("errors.redeemFailed"));
+              break;
           }
         } else {
           toast.error(t("errors.redeemFailed"));
