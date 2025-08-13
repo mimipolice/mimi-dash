@@ -189,17 +189,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     <span>{t("home")}</span>
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="gap-2 p-2">
-                  <Link
-                    href={process.env.NEXT_PUBLIC_PANEL_URL as string}
-                    className="flex items-center gap-2 w-full h-full"
-                  >
-                    <div className="flex size-6 items-center justify-center rounded-md border">
-                      <Server className="size-4" />
-                    </div>
-                    <span>{t("panel")}</span>
-                  </Link>
-                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem className="gap-2 p-2">
+                    <Link
+                      href="/dashboard/admin/coupons"
+                      className="flex items-center gap-2 w-full h-full"
+                    >
+                      <div className="flex size-6 items-center justify-center rounded-md border">
+                        <Shield className="size-4" />
+                      </div>
+                      <span>{t("admin")}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

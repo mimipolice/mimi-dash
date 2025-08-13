@@ -660,5 +660,72 @@
       "amountTooLow": "Transfer amount is below the minimum transfer amount",
       "sameUserTransfer": "You cannot transfer droplets to yourself"
     }
+  },
+  "couponsManagement": {
+    "title": "Coupons Management",
+    "createCoupon": "Create Coupon",
+    "noResults": "No results.",
+    "dialog": {
+      "editTitle": "Edit Coupon",
+      "createTitle": "Create Coupon",
+      "editDescription": "Edit the details of your coupon.",
+      "createDescription": "Create a new coupon here. Click save when you are done.",
+      "codeLabel": "Code",
+      "rewardAmountLabel": "Reward Amount",
+      "usageLimitLabel": "Usage Limit",
+      "expiresAtLabel": "Expires At",
+      "activeLabel": "Active",
+      "saveButton": "Save changes"
+    },
+    "table": {
+      "codeHeader": "Code",
+      "rewardAmountHeader": "Reward Amount",
+      "usageLimitHeader": "Usage Limit",
+      "usedCountHeader": "Used Count",
+      "expiresAtHeader": "Expires At",
+      "createdAtHeader": "Created At",
+      "updatedAtHeader": "Updated At",
+      "statusHeader": "Status",
+      "actionsLabel": "Actions",
+      "editAction": "Edit",
+      "deleteAction": "Delete",
+      "usageDetailsAction": "Usage Details"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "permanent": "Permanent"
+    },
+    "toasts": {
+      "loading": "Loading coupons...",
+      "loadSuccess": "Coupons loaded successfully.",
+      "loadError": "Failed to load coupons.",
+      "updating": "Updating coupon...",
+      "creating": "Creating coupon...",
+      "updateSuccess": "Coupon updated successfully.",
+      "createSuccess": "Coupon created successfully.",
+      "updateError": "Failed to update coupon.",
+      "createError": "Failed to create coupon.",
+      "deleting": "Deleting coupon...",
+      "deleteSuccess": "Coupon deleted successfully.",
+      "deleteError": "Failed to delete coupon.",
+      "fetchUsageError": "Failed to fetch coupon usage."
+    },
+    "usageDialog": {
+      "title": "Coupon Usage Details",
+      "description": "Usage statistics for coupon code: {code}",
+      "statisticsTitle": "Statistics",
+      "totalUsed": "Total Used: {count}",
+      "uniqueUsers": "Unique Users: {count}",
+      "remainingUses": "Remaining Uses: {count}",
+      "datesTitle": "Dates",
+      "firstUsed": "First Used: {date}",
+      "lastUsed": "Last Used: {date}",
+      "usageDetailsTitle": "Usage Details",
+      "userIdHeader": "User ID",
+      "userNameHeader": "User Name",
+      "usedAtHeader": "Used At",
+      "closeButton": "Close"
+    }
   }
 }

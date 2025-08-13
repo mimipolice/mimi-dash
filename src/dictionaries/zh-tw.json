@@ -652,5 +652,74 @@
       "amountTooLow": "輸入金額低於最低轉帳金額",
       "sameUserTransfer": "不能轉帳給自己"
     }
+  },
+  "couponsManagement": {
+    "title": "優惠碼管理",
+    "createCoupon": "建立優惠碼",
+    "noResults": "沒有結果。",
+    "dialog": {
+      "editTitle": "編輯優惠碼",
+      "createTitle": "建立優惠碼",
+      "editDescription": "編輯您的優惠碼詳細資訊。",
+      "createDescription": "在這裡建立新的優惠碼。完成後點擊儲存。",
+      "codeLabel": "代碼",
+      "rewardAmountLabel": "油幣數量",
+      "usageLimitLabel": "使用限制",
+      "expiresAtLabel": "到期日",
+      "activeLabel": "啟用",
+      "saveButton": "儲存變更"
+    },
+    "table": {
+      "codeHeader": "代碼",
+      "rewardAmountHeader": "油幣數量",
+      "usageLimitHeader": "使用限制",
+      "usedCountHeader": "已使用次數",
+      "expiresAtHeader": "到期日",
+      "createdAtHeader": "建立時間",
+      "updatedAtHeader": "更新時間",
+      "statusHeader": "狀態",
+      "actionsLabel": "操作",
+      "editAction": "編輯",
+      "deleteAction": "刪除",
+      "usageDetailsAction": "使用詳情",
+      "openMenu": "開啟選單",
+      "notAvailable": "N/A"
+    },
+    "status": {
+      "active": "啟用",
+      "inactive": "停用",
+      "permanent": "永久"
+    },
+    "toasts": {
+      "loading": "正在載入優惠碼...",
+      "loadSuccess": "優惠碼載入成功。",
+      "loadError": "載入優惠碼失敗。",
+      "updating": "正在更新優惠碼...",
+      "creating": "正在建立優惠碼...",
+      "updateSuccess": "優惠碼更新成功。",
+      "createSuccess": "優惠碼建立成功。",
+      "updateError": "更新優惠碼失敗。",
+      "createError": "建立優惠碼失敗。",
+      "deleting": "正在刪除優惠碼...",
+      "deleteSuccess": "優惠碼刪除成功。",
+      "deleteError": "刪除優惠碼失敗。",
+      "fetchUsageError": "獲取優惠碼使用情況失敗。"
+    },
+    "usageDialog": {
+      "title": "優惠碼使用詳情",
+      "description": "優惠碼的使用統計：{code}",
+      "statisticsTitle": "統計",
+      "totalUsed": "總使用次數：{count}",
+      "uniqueUsers": "不重複使用者：{count}",
+      "remainingUses": "剩餘使用次數：{count}",
+      "datesTitle": "日期",
+      "firstUsed": "首次使用：{date}",
+      "lastUsed": "最後使用：{date}",
+      "usageDetailsTitle": "使用詳情",
+      "userIdHeader": "使用者 ID",
+      "userNameHeader": "使用者名稱",
+      "usedAtHeader": "使用時間",
+      "closeButton": "關閉"
+    }
   }
 }
