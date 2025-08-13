@@ -189,7 +189,9 @@
     "resources": "資源",
     "platform": "平台",
     "go": "前往",
-    "destination": "跳轉至"
+    "destination": "跳轉至",
+    "admin": "管理",
+    "manage_coupons": "管理優惠碼"
   },
   "servers": {
     "breadcrumbs": {

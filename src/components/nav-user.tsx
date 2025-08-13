@@ -31,7 +31,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { LoaderCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -47,7 +47,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { US, TW, CN } from "country-flag-icons/react/3x2";
-import { useTransitionRouter } from "next-view-transitions";
+import { useRouter } from "next/navigation";
 import { getCookie, setCookie } from "cookies-next";
 
 interface UserInfo {
@@ -69,7 +69,7 @@ export function NavUser({
   const [loading, setLoading] = useState(true);
   const [isDark, setIsDark] = useState(false);
   const [locale, setLocale] = useState<string>("");
-  const router = useTransitionRouter();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserInfo = async () => {

@@ -77,14 +77,14 @@ import {
   X,
   ClockPlus,
 } from "lucide-react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
 import toast from "react-hot-toast";
 import appConfig from "@/config";
-import { useTransitionRouter } from "next-view-transitions";
+import { useRouter } from "next/navigation";
 const DEFAULT_PRICING = {
   base: 0,
   cpu: 0,
@@ -322,7 +322,7 @@ export default function DashboardServersManage() {
     "allocations",
   ]);
   const [cpu, ram, disk, databases, backups, allocations] = watchedFields;
-  const router = useTransitionRouter();
+  const router = useRouter();
   useEffect(() => {
     fetchUserInfo();
     fetchGuilds();

@@ -63,5 +63,15 @@ const appConfig = {
       isActive: true,
     },
   ],
+  admins: [
+    {
+      id: "586502118530351114",
+      email: "ab59371@gmail.com",
+    },
+    {
+      id: "362236724912324608",
+      email: "admin@example.com",
+    },
+  ],
 };
 export default appConfig;

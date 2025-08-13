@@ -24,6 +24,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    console.log(`Redeeming code '${code}' for user '${id}'`);
+
     const apiKey = process.env.BACKEND_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
@@ -39,11 +41,13 @@ export async function POST(request: NextRequest) {
       apiUrl.toString(),
       {
         code: code,
+        userId: id,
       },
       {
         headers: {
           "X-User-ID": id,
           "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
         },
       }
     );
