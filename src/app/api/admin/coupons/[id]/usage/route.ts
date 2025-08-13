@@ -13,7 +13,7 @@ async function checkAdmin() {
   return null;
 }
 
-export async function DELETE(
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -23,22 +23,28 @@ export async function DELETE(
   try {
     const id = params.id;
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/api/admin/coupons/${id}`,
+      `${process.env.BACKEND_API_URL}/api/admin/coupons/${id}/usage`,
       {
-        method: "DELETE",
+        method: "GET",
         headers: {
           "X-Mimi-Api-Token": process.env.BACKEND_API_KEY!,
         },
       }
     );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      return NextResponse.json(errorData, { status: response.status });
+    }
+
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    console.error("Failed to delete coupon:", error);
+    console.error("Failed to fetch coupon usage:", error);
     return NextResponse.json(
       {
         success: false,
-        error: { message: "Failed to delete coupon", status: 500 },
+        error: { message: "Failed to fetch coupon usage", status: 500 },
       },
       { status: 500 }
     );

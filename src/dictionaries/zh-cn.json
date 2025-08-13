@@ -687,7 +687,8 @@
       "actionsLabel": "操作",
       "editAction": "编辑",
       "deleteAction": "删除",
-      "usageDetailsAction": "使用详情"
+      "usageDetailsAction": "使用详情",
+      "copyTooltip": "点击以复制"
     },
     "status": {
       "active": "启用",
@@ -709,21 +710,28 @@
       "deleteError": "删除优惠码失败。",
       "fetchUsageError": "获取优惠码使用情况失败。"
     },
+    "deleteDialog": {
+      "title": "您确定要这样做吗？",
+      "description": "此操作无法撤销。这将永久删除优惠码：{code}。",
+      "cancel": "取消",
+      "confirm": "确认"
+    },
     "usageDialog": {
       "title": "优惠码使用详情",
       "description": "优惠码的使用统计：{code}",
       "statisticsTitle": "统计",
-      "totalUsed": "总使用次数：{count}",
-      "uniqueUsers": "不重复用户：{count}",
-      "remainingUses": "剩余使用次数：{count}",
-      "datesTitle": "日期",
-      "firstUsed": "首次使用：{date}",
-      "lastUsed": "最后使用：{date}",
+      "totalUsed": "总使用次数",
+      "uniqueUsers": "不重复用户",
+      "remainingUses": "剩余使用次数",
+      "firstUsed": "首次使用",
+      "lastUsed": "最后使用",
       "usageDetailsTitle": "使用详情",
       "userIdHeader": "用户 ID",
       "userNameHeader": "用户名称",
       "usedAtHeader": "使用时间",
-      "closeButton": "关闭"
+      "closeButton": "关闭",
+      "loading": "正在加载使用数据...",
+      "noData": "此优惠码暂无使用数据。"
     },
     "history": {
       "title": "历史使用统计",
