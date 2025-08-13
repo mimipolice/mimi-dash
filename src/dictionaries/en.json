@@ -158,14 +158,46 @@
     "gacha-stats": {
       "title": "Gacha Statistics",
       "loading": "Loading statistics...",
-      "total_draws": "Total Draws",
-      "unique_cards_drawn": "Unique Cards",
-      "ssr_plus_count": "SSR+ Count",
-      "longest_drought": "Longest Drought",
-      "pool_counts": "Pool Counts",
-      "most_drawn_cards": "Most Drawn Cards",
-      "rarity": "Rarity",
-      "draws": "draws"
+      "basic_stats": {
+        "total_draws": "Total Draws",
+        "unique_cards": "Unique Cards",
+        "new_cards": "New Cards",
+        "wish_hits": "Wish Hits"
+      },
+      "rarity_distribution": {
+        "title": "Rarity Distribution"
+      },
+      "pool_distribution": {
+        "title": "Pool Distribution",
+        "pools": {
+          "ua": "UNION ARENA Pool",
+          "vd": "Valentine's Day Pool",
+          "sve": "Shadowverse Evolve Pool",
+          "main": "Main Pool",
+          "ongeki": "Ongeki Pool",
+          "summer": "Summer Pool",
+          "wixoss": "WIXOSS Pool",
+          "special": "Special Collection Pool",
+          "hololive": "Hololive Pool",
+          "special_maid": "Special Maid Pool"
+        }
+      },
+      "luck_analysis": {
+        "title": "Luck Analysis",
+        "avg_top_tier_draw": "Avg. Top-Tier Draw",
+        "longest_drought": "Longest Drought",
+        "luck_index": "Luck Index"
+      },
+      "server_comparison": {
+        "title": "Server Comparison (Hourly)",
+        "top_tier_rate": "Top-Tier Rate",
+        "user_top_tier_rate": "Your Top-Tier Rate",
+        "total_draws_rank": "Total Draws Rank"
+      },
+      "most_drawn": {
+        "title": "Most Drawn",
+        "draws": "draws"
+      }
     }
   },
   "settings": {

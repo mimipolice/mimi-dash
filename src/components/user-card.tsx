@@ -80,12 +80,12 @@ export function UserCard({ userId }: { userId?: string }) {
   const { user } = session;
 
   return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="h-full"
-    >
-      <Card className="w-full max-w-md mx-auto h-full flex flex-col">
+    <div className="h-full">
+      <Card
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="w-full max-w-md mx-auto h-full flex flex-col"
+      >
         <CardHeader className="pb-4">
           <CardTitle className="flex items-center gap-2">
             <User className="h-5 w-5 text-blue-500" />
@@ -262,6 +262,6 @@ export function UserCard({ userId }: { userId?: string }) {
           </div>
         </CardContent>
       </Card>
-    </motion.div>
+    </div>
   );
 }

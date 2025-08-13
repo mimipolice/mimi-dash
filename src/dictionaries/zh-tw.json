@@ -150,14 +150,46 @@
     "gacha-stats": {
       "title": "抽卡統計",
       "loading": "正在載入統計數據...",
-      "total_draws": "總抽卡數",
-      "unique_cards_drawn": "獨立卡片",
-      "ssr_plus_count": "SSR+ 數量",
-      "longest_drought": "最長未出貨",
-      "pool_counts": "卡池統計",
-      "most_drawn_cards": "最常抽到的卡",
-      "rarity": "稀有度",
-      "draws": "抽"
+      "basic_stats": {
+        "total_draws": "抽卡次數",
+        "unique_cards": "不同卡片",
+        "new_cards": "新卡次數",
+        "wish_hits": "許願命中"
+      },
+      "rarity_distribution": {
+        "title": "稀有度分布"
+      },
+      "pool_distribution": {
+        "title": "卡池分布",
+        "pools": {
+          "ua": "UNION ARENA卡池",
+          "vd": "情人節卡池",
+          "sve": "Shadowverse Evolve卡池",
+          "main": "主卡池",
+          "ongeki": "音擊卡池",
+          "summer": "泳裝卡池",
+          "wixoss": "WIXOSS卡池",
+          "special": "典藏卡池",
+          "hololive": "Hololive卡池",
+          "special_maid": "典藏女僕卡池"
+        }
+      },
+      "luck_analysis": {
+        "title": "運氣分析",
+        "avg_top_tier_draw": "平均出頂級卡",
+        "longest_drought": "最長乾旱",
+        "luck_index": "運氣指數"
+      },
+      "server_comparison": {
+        "title": "全服比較 (每小時更新)",
+        "top_tier_rate": "頂級卡出率",
+        "user_top_tier_rate": "你的頂級卡率",
+        "total_draws_rank": "抽卡次數排名"
+      },
+      "most_drawn": {
+        "title": "最常抽到",
+        "draws": "次"
+      }
     }
   },
   "settings": {

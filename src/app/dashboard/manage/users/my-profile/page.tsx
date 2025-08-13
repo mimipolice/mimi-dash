@@ -40,11 +40,17 @@ export default function UserProfilePage() {
           </Breadcrumb>
         </div>
       </header>
-      <div className="p-6 flex justify-center">
+      <div className="p-6 flex">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-start">
-          <UserCard />
-          <GachaStatisticsCard />
-          <BalanceHistoryList className="lg:col-span-1" />
+          <div>
+            <UserCard />
+          </div>
+          <div>
+            <GachaStatisticsCard />
+          </div>
+          <div className="lg:col-span-1">
+            <BalanceHistoryList />
+          </div>
         </div>
       </div>
     </>
