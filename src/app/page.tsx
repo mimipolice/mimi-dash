@@ -174,9 +174,11 @@ export default function LandingPage() {
                 {t("nav.contact")}
               </a>
 
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
-                {t("nav.getStarted")}
-              </Button>
+              <Link href="/old">
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                  {t("nav.getStarted")}
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile Navigation */}
@@ -228,7 +230,7 @@ export default function LandingPage() {
                     </a>
                     <div className="px-4 pt-2">
                       <Link
-                        href="/dashboard"
+                        href="/old"
                         className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white w-full"
                       >
                         {t("nav.getStarted")}

@@ -120,7 +120,7 @@ export function BalanceHistoryList({
         </h1>
       </div>
 
-      <div className="p-3 max-h-96 overflow-y">
+      <div className="p-3 h-[325.2px] overflow-y-auto">
         {loading ? (
           <div className="space-y-2">
             {[...Array(5)].map((_, i) => (
@@ -144,7 +144,7 @@ export function BalanceHistoryList({
             {t("no-records")}
           </p>
         ) : (
-          <div className="space-y-1 min-h-[288px]">
+          <div className="space-y-1">
             {history.map((item) => (
               <div
                 key={item.id}

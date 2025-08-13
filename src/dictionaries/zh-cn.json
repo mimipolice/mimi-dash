@@ -26,7 +26,7 @@
       "features": "功能特色",
       "pricing": "价格方案",
       "contact": "联系我们",
-      "getStarted": "立即开始"
+      "getStarted": "检视旧版界面🦊"
     },
     "hero": {
       "title": "重新想象「云」",
@@ -495,7 +495,7 @@
     "dropletsDescription": "您的货币余额",
     "servers": "服务器",
     "serversDescription": "您目前拥有的服务器数量",
-    "goToPanel": "前往面板",
+    "goToSupportServer": "前往支援服务器",
     "userId": "Discord ID",
     "close": "关闭",
     "copyUserId": "复制 ID",

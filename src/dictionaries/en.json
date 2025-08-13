@@ -26,7 +26,7 @@
       "features": "Features",
       "pricing": "Pricing",
       "contact": "Contact",
-      "getStarted": "Get Started"
+      "getStarted": "View Old Version🦊"
     },
     "hero": {
       "title": "Reimagining \"Cloud\"",
@@ -495,7 +495,7 @@
     "dropletsDescription": "Your currency balance",
     "servers": "Servers",
     "serversDescription": "Number of servers you currently own",
-    "goToPanel": "Go to Panel",
+    "goToSupportServer": "Go to Support Server",
     "userId": "User ID",
     "close": "Close",
     "copyUserId": "Copy ID",

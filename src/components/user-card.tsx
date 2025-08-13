@@ -244,7 +244,7 @@ export function UserCard({ userId }: { userId?: string }) {
                 onClick={() => window.open("/go/panel", "_blank")}
               >
                 <ExternalLink className="h-4 w-4 mr-2" />
-                {t("goToPanel", { defaultValue: "前往面板" })}
+                {t("goToSupportServer", { defaultValue: "前往支援伺服器" })}
               </Button>
               <Button
                 variant="secondary"

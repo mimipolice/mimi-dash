@@ -26,7 +26,7 @@
       "features": "功能特色",
       "pricing": "價格方案",
       "contact": "客戶評價",
-      "getStarted": "立即開始"
+      "getStarted": "檢視舊版界面🦊"
     },
     "hero": {
       "title": "重新想像「 婆 」",
@@ -487,7 +487,7 @@
     "dropletsDescription": "您的貨幣餘額",
     "servers": "伺服器",
     "serversDescription": "您目前擁有的伺服器數量",
-    "goToPanel": "前往面板",
+    "goToSupportServer": "前往支援伺服器",
     "userId": "Discord ID",
     "close": "關閉",
     "copyUserId": "複製 ID",
