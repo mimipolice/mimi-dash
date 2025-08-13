@@ -720,6 +720,26 @@
       "userNameHeader": "使用者名稱",
       "usedAtHeader": "使用時間",
       "closeButton": "關閉"
+    },
+    "summary": {
+      "totalCoupons": "現有優惠碼數量",
+      "totalUsage": "總使用量",
+      "totalRewardAmount": "總發放金額"
+    },
+    "history": {
+      "title": "歷史使用統計",
+      "usage": "使用量",
+      "titleInteractive": "互動式區域圖",
+      "description": "顯示 {timeRangeText} 的總使用量",
+      "last3Months": "最近 3 個月",
+      "last30Days": "最近 30 天",
+      "last7Days": "最近 7 天",
+      "selectTimeRange": "選擇時間範圍",
+      "timeRangeText": {
+        "90d": "最近 3 個月",
+        "30d": "最近 30 天",
+        "7d": "最近 7 天"
+      }
     }
   }
 }

@@ -726,6 +726,21 @@
       "userNameHeader": "User Name",
       "usedAtHeader": "Used At",
       "closeButton": "Close"
+    },
+    "history": {
+      "title": "Usage History",
+      "usage": "Usage",
+      "titleInteractive": "Area Chart - Interactive",
+      "description": "Showing total usage for {timeRangeText}",
+      "last3Months": "Last 3 months",
+      "last30Days": "Last 30 days",
+      "last7Days": "Last 7 days",
+      "selectTimeRange": "Select time range",
+      "timeRangeText": {
+        "90d": "the last 3 months",
+        "30d": "the last 30 days",
+        "7d": "the last 7 days"
+      }
     }
   }
 }

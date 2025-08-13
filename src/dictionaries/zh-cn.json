@@ -724,6 +724,21 @@
       "userNameHeader": "用户名称",
       "usedAtHeader": "使用时间",
       "closeButton": "关闭"
+    },
+    "history": {
+      "title": "历史使用统计",
+      "usage": "使用量",
+      "titleInteractive": "交互式区域图",
+      "description": "显示 {timeRangeText} 的总使用量",
+      "last3Months": "最近 3 个月",
+      "last30Days": "最近 30 天",
+      "last7Days": "最近 7 天",
+      "selectTimeRange": "选择时间范围",
+      "timeRangeText": {
+        "90d": "最近 3 个月",
+        "30d": "最近 30 天",
+        "7d": "最近 7 天"
+      }
     }
   }
 }

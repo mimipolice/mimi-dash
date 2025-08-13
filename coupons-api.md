@@ -1,4 +1,3 @@
-
 ## `/api/admin`
 
 所有 `/api/admin` 路徑下的端點 (endpoint) 都需要 API 金鑰 (API key) 進行驗證。您必須在請求的標頭 (header) `X-Mimi-Api-Token` 中提供此金鑰。
