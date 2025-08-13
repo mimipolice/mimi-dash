@@ -100,22 +100,24 @@ export function GachaStatisticsCard() {
         <div>
           <h4 className="font-semibold mb-2">{t("pool_counts")}</h4>
           <ul className="list-disc list-inside">
-            {Object.entries(stats.pool_counts).map(([pool, count]) => (
-              <li key={pool}>
-                {pool}: {count}
-              </li>
-            ))}
+            {stats.pool_counts &&
+              Object.entries(stats.pool_counts).map(([pool, count]) => (
+                <li key={pool}>
+                  {pool}: {count}
+                </li>
+              ))}
           </ul>
         </div>
         <div>
           <h4 className="font-semibold mb-2">{t("most_drawn_cards")}</h4>
           <ul className="list-disc list-inside">
-            {stats.most_drawn_cards.map((card, index) => (
-              <li key={index}>
-                {card.card_name} ({t("rarity")} {card.rarity}):{" "}
-                {card.draw_count} {t("draws")}
-              </li>
-            ))}
+            {stats.most_drawn_cards &&
+              stats.most_drawn_cards.map((card, index) => (
+                <li key={index}>
+                  {card.card_name} ({t("rarity")} {card.rarity}):{" "}
+                  {card.draw_count} {t("draws")}
+                </li>
+              ))}
           </ul>
         </div>
       </CardContent>
