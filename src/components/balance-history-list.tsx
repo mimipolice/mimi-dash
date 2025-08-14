@@ -113,7 +113,6 @@ export function BalanceHistoryList({
         "bg-white dark:bg-zinc-900/70",
         "border border-zinc-100 dark:border-zinc-800",
         "rounded-xl shadow-sm backdrop-blur-xl",
-        "md:w-[36.5rem]",
         className
       )}
     >
@@ -123,7 +122,7 @@ export function BalanceHistoryList({
         </h1>
       </div>
 
-      <div className="p-3 h-[325.2px] overflow-y-auto">
+      <div className="p-3">
         {loading ? (
           <div className="space-y-2">
             {[...Array(5)].map((_, i) => (
