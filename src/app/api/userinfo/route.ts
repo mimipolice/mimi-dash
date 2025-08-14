@@ -43,7 +43,10 @@ export async function GET(request: NextRequest) {
       const status = error.response?.status || 500;
       const message = error.response?.data?.message || error.message;
       return NextResponse.json(
-        { error: `External API error: ${message}` },
+        {
+          error: `External API error: ${message}`,
+          res: error.response?.data,
+        },
         { status }
       );
     }
