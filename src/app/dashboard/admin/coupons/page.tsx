@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import {
   flexRender,
   getCoreRowModel,
@@ -34,6 +36,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CouponsAdminPage() {
   const t = useTranslations("couponsManagement");
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -41,7 +45,7 @@ export default function CouponsAdminPage() {
     null
   );
 
-  const refreshCoupons = async () => {
+  const refreshCoupons = useCallback(async () => {
     try {
       const data = await fetchCoupons();
       setCoupons(data);
@@ -49,11 +53,16 @@ export default function CouponsAdminPage() {
     } catch (error) {
       toast.error(t("toasts.loadError"));
     }
-  };
+  }, [t]);
 
   useEffect(() => {
-    refreshCoupons();
-  }, []);
+    if (status === "loading") return;
+    if (!session?.user?.isAdmin) {
+      router.push("/dashboard");
+    } else {
+      refreshCoupons();
+    }
+  }, [session, status, router, refreshCoupons]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,14 +94,14 @@ export default function CouponsAdminPage() {
     });
   };
 
-  const handleEdit = (coupon: Coupon) => {
+  const handleEdit = useCallback((coupon: Coupon) => {
     setCurrentCoupon(coupon);
     setIsDialogOpen(true);
-  };
+  }, []);
 
   const columns = useMemo(
     () => getColumns(t, handleEdit, refreshCoupons),
-    [t, refreshCoupons]
+    [t, handleEdit, refreshCoupons]
   );
 
   const table = useReactTable({

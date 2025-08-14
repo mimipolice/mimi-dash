@@ -49,7 +49,7 @@ export default function UserProfilePage() {
             <GachaStatisticsCard />
           </div>
           <div>
-            <BalanceHistoryList />
+            <BalanceHistoryList className="max-h-[27.5rem] md:w-[36.5rem]" />
           </div>
         </div>
       </div>

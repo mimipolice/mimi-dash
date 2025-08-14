@@ -38,10 +38,7 @@ const users = [
   },
 ];
 
-export async function GET(
-  request: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(request: Request, { params }: any) {
   const userId = params.userId;
   const user = users.find((u) => u.id === userId);
 

@@ -28,7 +28,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import axios from "axios";
 import { ArrowRightLeft, Droplets, Send } from "lucide-react";
 import { Cover } from "@/components/ui/cover";
