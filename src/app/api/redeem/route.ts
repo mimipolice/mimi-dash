@@ -53,27 +53,36 @@ export async function POST(request: NextRequest) {
     );
 
     // The backend responded with a 2xx status.
-    // Now, check the business logic success flag.
-    if (response.data.success === false) {
+    // The backend responded with a 2xx status.
+    // Now, we robustly check the business logic success flag.
+    const responseData = response.data;
+    if (
+      responseData.success === false ||
+      responseData.status === "error" ||
+      responseData.errors
+    ) {
       // Business logic failure. The backend should have sent a non-2xx code,
-      // but let's handle it here to be robust.
+      // but we handle it here to be robust.
       // Use the status from the error payload, or default to 400.
-      const status = response.data.error?.status || 400;
-      return NextResponse.json(response.data, { status });
+      const status = responseData.error?.status || 400;
+      return NextResponse.json(responseData, { status });
     }
 
     // Business logic success.
-    return NextResponse.json(response.data, { status: response.status });
+    return NextResponse.json(responseData, { status: response.status });
   } catch (error) {
     console.error("Error redeeming coupon:", error);
 
     if (axios.isAxiosError(error)) {
+      // The backend responded with a non-2xx status code.
       const status = error.response?.status || 500;
-      const data = error.response?.data || { error: "Unknown error" };
-
+      const data = error.response?.data || {
+        error: "An unknown error occurred",
+      };
       return NextResponse.json(data, { status });
     }
 
+    // Catch-all for non-Axios errors.
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

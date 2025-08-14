@@ -28,20 +28,26 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import axios from "axios";
 import { Key, Gift, Droplets } from "lucide-react";
 import { Cover } from "@/components/ui/cover";
 interface RedeemResponse {
-  success: boolean;
+  success?: boolean;
+  status?: string;
   data?: {
     message: string;
-    reward_amount: number;
+    reward_amount: string;
   };
-  error?: {
-    message: string;
-    status: number;
-  };
+  reward_amount?: string | number;
+  error?:
+    | {
+        message: string;
+        status: number;
+      }
+    | string;
+  errors?: string[];
+  message?: string;
 }
 
 export default function CouponsPage() {
@@ -61,63 +67,52 @@ export default function CouponsPage() {
     totalCoins: 0,
   });
 
+  // This function is now flexible enough to handle multiple success formats.
+  const processApiResponse = (data: any) => {
+    // 1. Check for a success status flag (handles `success: true` and `status: "success"`)
+    const isSuccess = data?.success === true || data?.status === "success";
+
+    // 2. Find the reward amount from either a nested or flat structure
+    const rewardAmountStr = data?.data?.reward_amount ?? data?.reward_amount;
+
+    // 3. FINAL SUCCESS CONDITION: A success flag AND a reward amount must exist.
+    if (isSuccess && rewardAmountStr !== undefined) {
+      const rewardAmount = parseFloat(rewardAmountStr);
+      if (!isNaN(rewardAmount)) {
+        setSuccessDialog({
+          open: true,
+          code: couponCode,
+          added: rewardAmount,
+          totalCoins: 0,
+        });
+        setCouponCode("");
+        return; // Success, exit function
+      }
+    }
+
+    // 4. FAILURE CONDITION: If not explicitly successful, it's a failure.
+    console.error("Coupon redemption failed. API Response:", data);
+    const errorMessage = data?.error?.message || t("errors.redeemFailed");
+    toast.error(errorMessage);
+  };
+
   const handleRedeem = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!couponCode.trim()) {
       toast.error(t("errors.redeemFailed"));
       return;
     }
-
     setIsLoading(true);
-
     try {
       const response = await axios.post<RedeemResponse>("/api/redeem", {
         code: couponCode.trim(),
       });
-
-      const data = response.data;
-
-      if (data.success && data.data?.reward_amount !== undefined) {
-        setSuccessDialog({
-          open: true,
-          code: couponCode,
-          added: data.data.reward_amount,
-          totalCoins: 0, // Backend doesn't provide total coins, so we hide this for now.
-        });
-        setCouponCode("");
-      } else {
-        const errorMessage = data.error?.message || t("errors.redeemFailed");
-        toast.error(errorMessage);
-      }
+      // Handle 2xx responses using the flexible processor
+      processApiResponse(response.data);
     } catch (error) {
+      // Handle non-2xx responses using the same flexible processor
       if (axios.isAxiosError(error) && error.response?.data) {
-        const errorData = error.response.data as {
-          error?: { message?: string };
-        };
-        const errorMessage = errorData.error?.message;
-
-        if (errorMessage) {
-          switch (errorMessage) {
-            case "Coupon already used by this user":
-              toast.error(t("errors.alreadyUsed"));
-              break;
-            case "Coupon not found":
-              toast.error(t("errors.notFound"));
-              break;
-            case "Coupon has expired":
-              toast.error(t("errors.expired"));
-              break;
-            case "Coupon usage limit reached":
-              toast.error(t("errors.limitReached"));
-              break;
-            default:
-              toast.error(t("errors.redeemFailed"));
-              break;
-          }
-        } else {
-          toast.error(t("errors.redeemFailed"));
-        }
+        processApiResponse(error.response.data);
       } else {
         toast.error(t("errors.redeemFailed"));
       }
