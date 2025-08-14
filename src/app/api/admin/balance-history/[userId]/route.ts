@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
-export async function GET(req: NextRequest, { params }: any) {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ userId: string }> }
+) {
   const session = await auth();
 
   if (!session || !session.user) {
@@ -11,7 +14,7 @@ export async function GET(req: NextRequest, { params }: any) {
     );
   }
 
-  const { userId } = params;
+  const { userId } = await params;
 
   if (session.user.id !== userId) {
     return NextResponse.json(
