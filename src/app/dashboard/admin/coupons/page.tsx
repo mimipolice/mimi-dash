@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import {
   flexRender,
   getCoreRowModel,
@@ -34,6 +36,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function CouponsAdminPage() {
   const t = useTranslations("couponsManagement");
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -52,8 +56,13 @@ export default function CouponsAdminPage() {
   }, [t]);
 
   useEffect(() => {
-    refreshCoupons();
-  }, [refreshCoupons]);
+    if (status === "loading") return;
+    if (!session?.user?.isAdmin) {
+      router.push("/dashboard");
+    } else {
+      refreshCoupons();
+    }
+  }, [session, status, router, refreshCoupons]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
