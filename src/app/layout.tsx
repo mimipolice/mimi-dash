@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: appConfig.metadata.title,
   description: appConfig.metadata.description,
+  openGraph: appConfig.metadata.openGraph,
 };
 
 export default async function RootLayout({

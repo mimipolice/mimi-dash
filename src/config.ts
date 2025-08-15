@@ -3,6 +3,21 @@ const appConfig = {
     title: "MimiDLC",
     description:
       "Lolidactyl is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features. Yes not MimiDLC.",
+    openGraph: {
+      title: "MimiDLC",
+      description:
+        "Lolidactyl is an open-source Pterodactyl client area that provides a simple and user-friendly interface with powerful features. Yes not MimiDLC.",
+      url: "https://mimi.n1cat.xyz",
+      siteName: "MimiDLC",
+      images: [
+        {
+          url: "/images/bg/home.jpg",
+          width: 1200,
+          height: 630,
+        },
+      ],
+      type: "website",
+    },
   },
   limit: {
     cpu: {
