@@ -1,21 +1,55 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronDownIcon } from "lucide-react"
+import * as React from "react";
+import { ChevronDownIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-export default function Calendar24() {
-  const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
+interface Calendar24Props {
+  date: Date | undefined;
+  setDate: (date: Date | undefined) => void;
+}
+
+export default function Calendar24({ date, setDate }: Calendar24Props) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleDateChange = (newDate: Date | undefined) => {
+    if (!newDate) {
+      setDate(undefined);
+      return;
+    }
+    const currentTime = date ? date.toTimeString().split(" ")[0] : "00:00:00";
+    const [hours, minutes, seconds] = currentTime.split(":").map(Number);
+    newDate.setHours(hours, minutes, seconds);
+    setDate(newDate);
+    setOpen(false);
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = e.target.value;
+    if (!date) {
+      // If no date is set, create a new date with the selected time
+      const newDate = new Date();
+      const [hours, minutes, seconds] = newTime.split(":").map(Number);
+      newDate.setHours(hours, minutes, seconds);
+      setDate(newDate);
+      return;
+    }
+    const newDate = new Date(date);
+    const [hours, minutes, seconds] = newTime.split(":").map(Number);
+    newDate.setHours(hours, minutes, seconds);
+    setDate(newDate);
+  };
+
+  const timeValue = date ? date.toTimeString().split(" ")[0] : "00:00:00";
 
   return (
     <div className="flex gap-4">
@@ -39,10 +73,7 @@ export default function Calendar24() {
               mode="single"
               selected={date}
               captionLayout="dropdown"
-              onSelect={(date) => {
-                setDate(date)
-                setOpen(false)
-              }}
+              onSelect={handleDateChange}
             />
           </PopoverContent>
         </Popover>
@@ -55,10 +86,11 @@ export default function Calendar24() {
           type="time"
           id="time-picker"
           step="1"
-          defaultValue="10:30:00"
-          className="bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+          value={timeValue}
+          onChange={handleTimeChange}
+          className="bg-background"
         />
       </div>
     </div>
-  )
+  );
 }

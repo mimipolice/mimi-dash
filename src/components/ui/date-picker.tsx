@@ -9,5 +9,5 @@ export function DatePicker({
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
 }) {
-  return <Calendar24 />;
+  return <Calendar24 date={date} setDate={setDate} />;
 }

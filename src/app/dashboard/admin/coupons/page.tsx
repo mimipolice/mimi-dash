@@ -69,11 +69,20 @@ export default function CouponsAdminPage() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries()) as any;
 
+    // Merge expires_at from state, as FormData won't pick it up from the DatePicker
+    if (currentCoupon?.expires_at) {
+      data.expires_at = currentCoupon.expires_at;
+    }
+
     data.is_active = data.is_active === "on";
 
     let promise;
     if (currentCoupon?.id) {
-      promise = updateCoupon({ ...data, id: currentCoupon.id });
+      promise = updateCoupon({
+        ...currentCoupon,
+        ...data,
+        id: currentCoupon.id,
+      });
     } else {
       promise = createCoupon(data);
     }
