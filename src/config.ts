@@ -63,10 +63,9 @@ const appConfig = {
       isActive: true,
     },
   ],
-  admins: (process.env.ADMINS ? JSON.parse(process.env.ADMINS) : []) as {
-    id: string;
-    email: string;
-  }[],
+  admins: (process.env.ADMINS
+    ? JSON.parse(process.env.ADMINS.replace(/^'|'$/g, ""))
+    : []) as { id: string; email: string }[],
   botInviteLinks: {
     mimiDLC:
       "https://discord.com/oauth2/authorize?client_id=1393808249035165706",
