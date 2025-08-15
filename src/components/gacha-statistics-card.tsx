@@ -398,9 +398,9 @@ export function GachaStatisticsCard() {
                               {t("server_comparison.user_top_tier_rate")}
                             </span>
                             <span>
-                              {(
-                                stats.server_comparison.user_top_tier_rate * 100
-                              ).toFixed(1)}
+                              {stats.server_comparison.user_top_tier_rate.toFixed(
+                                3
+                              )}
                               %
                             </span>
                           </div>
