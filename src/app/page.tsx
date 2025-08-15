@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/dialog";
 import { title } from "process";
 import Link from "next/link";
+import appConfig from "@/config";
 export default function LandingPage() {
   const t = useTranslations("landing");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -79,44 +80,6 @@ export default function LandingPage() {
     },
   ];
 
-  const plans = [
-    {
-      name: t("pricing.starter.name"),
-      price: t("pricing.starter.price"),
-      description: t("pricing.starter.description"),
-      features: [
-        t("pricing.starter.features.storage"),
-        t("pricing.starter.features.bandwidth"),
-        t("pricing.starter.features.domains"),
-        t("pricing.starter.features.support"),
-      ],
-    },
-    {
-      name: t("pricing.pro.name"),
-      price: t("pricing.pro.price"),
-      description: t("pricing.pro.description"),
-      popular: true,
-      features: [
-        t("pricing.pro.features.storage"),
-        t("pricing.pro.features.bandwidth"),
-        t("pricing.pro.features.domains"),
-        t("pricing.pro.features.ssl"),
-        t("pricing.pro.features.support"),
-      ],
-    },
-    {
-      name: t("pricing.enterprise.name"),
-      price: t("pricing.enterprise.price"),
-      description: t("pricing.enterprise.description"),
-      features: [
-        t("pricing.enterprise.features.storage"),
-        t("pricing.enterprise.features.bandwidth"),
-        t("pricing.enterprise.features.domains"),
-        t("pricing.enterprise.features.dedicated"),
-        t("pricing.enterprise.features.support"),
-      ],
-    },
-  ];
   const testimonials = [];
   let index = 1;
 
@@ -272,7 +235,7 @@ export default function LandingPage() {
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex flex-col gap-4 justify-center items-center"
               variants={fadeInUp}
             >
               <Link href="/dashboard">
@@ -323,6 +286,45 @@ export default function LandingPage() {
                   </Button>
                 </motion.div>
               </Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link href={appConfig.botInviteLinks.mimiDLC} target="_blank">
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      y: -5,
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <Button
+                      variant="outline"
+                      className="backdrop-blur-md bg-white/10 dark:bg-gray-900/10 border-white/20 dark:border-gray-700/20 hover:bg-white/20 dark:hover:bg-gray-900/20 hover:shadow-xl transition-all duration-300 group"
+                    >
+                      {t("hero.inviteAmamiyaBot")}
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link
+                  href={appConfig.botInviteLinks.mimiPolice}
+                  target="_blank"
+                >
+                  <motion.div
+                    whileHover={{
+                      scale: 1.05,
+                      y: -5,
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    <Button
+                      variant="outline"
+                      className="backdrop-blur-md bg-white/10 dark:bg-gray-900/10 border-white/20 dark:border-gray-700/20 hover:bg-white/20 dark:hover:bg-gray-900/20 hover:shadow-xl transition-all duration-300 group"
+                    >
+                      {t("hero.inviteMimiBot")}
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
             </motion.div>
           </motion.div>
         </div>
