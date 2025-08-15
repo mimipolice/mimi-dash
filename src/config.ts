@@ -1,5 +1,3 @@
-import { metadata } from "./app/layout";
-
 const appConfig = {
   metadata: {
     title: "MimiDLC",
@@ -63,9 +61,36 @@ const appConfig = {
       isActive: true,
     },
   ],
-  admins: (process.env.ADMINS
-    ? JSON.parse(process.env.ADMINS.replace(/^'|'$/g, ""))
-    : []) as { id: string; email: string }[],
+  admins: (() => {
+    const adminsEnv = process.env.ADMINS;
+    if (!adminsEnv) {
+      return [];
+    }
+    try {
+      return adminsEnv
+        .split(",")
+        .map((adminString) => {
+          const parts = adminString.split(":");
+          const id = parts[0]?.trim();
+          const email = parts[1]?.trim();
+          if (!id || !email) {
+            // Return null for invalid entries to be filtered out
+            return null;
+          }
+          return { id, email };
+        })
+        .filter(
+          (admin): admin is { id: string; email: string } => admin !== null
+        );
+    } catch (e) {
+      console.warn(
+        `[WARN] Could not parse ADMINS environment variable. Please ensure it is in the format "id1:email1,id2:email2". Falling back to an empty array.`,
+        `Value: "${adminsEnv}"`,
+        `Error: ${(e as Error).message}`
+      );
+      return [];
+    }
+  })(),
   botInviteLinks: {
     mimiDLC:
       "https://discord.com/oauth2/authorize?client_id=1393808249035165706",
