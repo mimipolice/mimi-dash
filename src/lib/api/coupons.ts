@@ -58,7 +58,9 @@ export async function createCoupon(
   });
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.error.message);
+    throw new Error(
+      (err.errors && err.errors.join(", ")) || "An unknown error occurred"
+    );
   }
   return response.json();
 }
@@ -73,7 +75,9 @@ export async function updateCoupon(data: Partial<Coupon> & { id: string }) {
   });
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.error.message);
+    throw new Error(
+      (err.errors && err.errors.join(", ")) || "An unknown error occurred"
+    );
   }
   return response.json();
 }
@@ -82,7 +86,9 @@ export async function fetchCouponUsage(id: string): Promise<CouponUsageData> {
   const response = await fetch(`/api/admin/coupons/${id}/usage`);
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.error.message);
+    throw new Error(
+      (err.errors && err.errors.join(", ")) || "An unknown error occurred"
+    );
   }
   const result = await response.json();
   return result.data;
@@ -94,7 +100,9 @@ export async function deleteCoupon(id: string) {
   });
   if (!response.ok) {
     const err = await response.json();
-    throw new Error(err.error.message);
+    throw new Error(
+      (err.errors && err.errors.join(", ")) || "An unknown error occurred"
+    );
   }
   return response.json();
 }
