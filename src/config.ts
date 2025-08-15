@@ -67,14 +67,13 @@ const appConfig = {
       return [];
     }
     try {
-      return adminsEnv
+      const parsedAdmins = adminsEnv
         .split(",")
         .map((adminString) => {
           const parts = adminString.split(":");
           const id = parts[0]?.trim();
           const email = parts[1]?.trim();
           if (!id || !email) {
-            // Return null for invalid entries to be filtered out
             return null;
           }
           return { id, email };
@@ -82,6 +81,7 @@ const appConfig = {
         .filter(
           (admin): admin is { id: string; email: string } => admin !== null
         );
+      return parsedAdmins;
     } catch (e) {
       console.warn(
         `[WARN] Could not parse ADMINS environment variable. Please ensure it is in the format "id1:email1,id2:email2". Falling back to an empty array.`,

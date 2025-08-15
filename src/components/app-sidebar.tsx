@@ -44,12 +44,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const t = useTranslations("sidebar");
 
   const currentUser = session?.user;
-  const isAdmin =
-    currentUser &&
-    appConfig.admins.some(
-      (admin) =>
-        admin.id === currentUser.id && admin.email === currentUser.email
-    );
+  const isAdmin = session?.user?.isAdmin ?? false;
 
   const navMain = [
     {

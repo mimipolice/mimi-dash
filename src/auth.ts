@@ -12,20 +12,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_DISCORD_SECRET,
       authorization:
         "https://discord.com/api/oauth2/authorize?scope=identify+email", // OPTIONAL: Add guilds "+guilds"
-      async profile(profile) {
-        const isAdmin = appConfig.admins.some(
-          (admin) => admin.id === profile.id
-        );
-        return {
-          id: profile.id,
-          name: profile.username,
-          email: profile.email,
-          image: profile.avatar
-            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-            : null,
-          isAdmin,
-        };
-      },
     }),
   ],
 
@@ -45,20 +31,37 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
 
     async session({ session, token }) {
-      if (session.user) {
+      if (session.user && token) {
         session.user.id = token.id as string;
-        (session as any).accessToken = token.accessToken;
+        session.user.name = token.name as string;
+        session.user.image = token.picture as string | null;
         session.user.isAdmin = token.isAdmin as boolean;
       }
       return session;
     },
-    async jwt({ token, account }) {
-      if (account) {
-        token.accessToken = account.access_token;
-        token.id = account.providerAccountId;
-        token.isAdmin = appConfig.admins.some(
-          (admin) => admin.id === account.providerAccountId
+    async jwt({ token, account, profile }) {
+      // On initial sign-in, profile is available
+      if (account && profile) {
+        // Explicitly type the profile object for Discord
+        const discordProfile = profile as {
+          id: string;
+          username: string;
+          email: string;
+          avatar: string | null;
+        };
+
+        token.id = discordProfile.id;
+        token.name = discordProfile.username;
+        token.email = discordProfile.email;
+        token.picture = discordProfile.avatar
+          ? `https://cdn.discordapp.com/avatars/${discordProfile.id}/${discordProfile.avatar}.png`
+          : null;
+
+        // Centralized admin check
+        const isAdmin = appConfig.admins.some(
+          (admin) => admin.id === discordProfile.id
         );
+        token.isAdmin = isAdmin;
       }
       return token;
     },
