@@ -134,20 +134,40 @@
         "title": "运气分析",
         "avg_top_tier_draw": "平均出顶级卡",
         "longest_drought": "最长干旱",
-        "luck_index": "运气指数"
+        "luck_index": "运气指数",
+        "avg_top_tier_draw_value": "{value} 抽",
+        "longest_drought_value": "{value} 抽",
+        "moods": {
+          "never_luck": "从未出货",
+          "super_emperor": "超级欧皇",
+          "emperor": "欧皇",
+          "lucky": "小欧",
+          "normal": "平民",
+          "unlucky": "小非",
+          "very_unlucky": "非酋",
+          "super_unlucky": "超级非酋"
+        }
       },
       "server_comparison": {
         "title": "全服比较 (每小时更新)",
         "top_tier_rate": "顶级卡出率",
         "user_top_tier_rate": "你的顶级卡率",
-        "total_draws_rank": "抽卡次数排名"
+        "total_draws_rank": "抽卡次数排名",
+        "top_tier_rate_value": "比全服平均{comparison} {value}% {emoji}",
+        "higher": "高",
+        "lower": "低",
+        "total_draws_rank_value": "全服第 {rank} 名"
       },
       "most_drawn": {
         "title": "最常抽到",
         "draws": "次"
       },
       "hover_for_details": "悬停查看详细信息",
-      "hover_for_preview": "Ciallo～(∠・ω< )⌒☆"
+      "hover_for_preview": "Ciallo～(∠・ω< )⌒☆",
+      "pool_selection": {
+        "placeholder": "选择卡池",
+        "all": "所有卡池"
+      }
     }
   },
   "settings": {

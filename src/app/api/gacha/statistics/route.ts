@@ -12,27 +12,46 @@ const rarityMap: { [key: string]: string } = {
   "7": "EX",
 };
 
-// Helper to format numbers with commas
-const formatNumber = (num: number | string) =>
-  Number(num).toLocaleString("en-US");
-
 interface RawGachaData {
-  total_draws: string;
-  unique_cards_drawn: string;
-  new_cards_count: string;
-  wish_cards_count: string;
-  top_tier_count: string;
-  ssr_plus_count: string;
-  first_draw_date: string;
-  last_draw_date: string;
-  rarity_counts: Record<string, number>;
-  pool_counts: Record<string, number>;
+  basic_stats: {
+    total_draws: number;
+    unique_cards_drawn: number;
+    new_cards_count: number;
+    wish_cards_count: number;
+    top_tier_count: number;
+  };
+  rarity_distribution: {
+    rarity: number;
+    count: number;
+    percentage: number;
+  }[];
+  pool_distribution: {
+    pool_type: string;
+    count: number;
+    percentage: number;
+  }[];
+  luck_analysis: {
+    avg_draws_per_top_tier: number;
+    longest_drought: number;
+    luck_index: number;
+    luck_rating: {
+      key: string;
+      emoji: string;
+    };
+  };
+  server_comparison?: {
+    user_top_tier_rate: number;
+    draw_count_rank: number;
+    comparison: {
+      rate_diff_percentage: number;
+      emoji: string;
+    };
+  };
   most_drawn_cards: {
     rarity: number;
     card_name: string;
     draw_count: number;
   }[];
-  longest_drought: string;
 }
 
 export async function GET(request: Request) {
@@ -88,62 +107,71 @@ export async function GET(request: Request) {
 
     const rawApiData: RawGachaData = await response.json();
 
-    // --- Data Transformation ---
-    const totalDraws = parseInt(rawApiData.total_draws, 10);
+    // --- Data Transformation for i18n ---
+    const {
+      basic_stats,
+      rarity_distribution,
+      pool_distribution,
+      luck_analysis,
+      server_comparison,
+      most_drawn_cards,
+    } = rawApiData;
+
+    const totalDraws = basic_stats.total_draws;
 
     const transformedData = {
       basic_stats: {
-        total_draws: formatNumber(rawApiData.total_draws),
-        unique_cards: formatNumber(rawApiData.unique_cards_drawn),
-        new_cards: `${formatNumber(rawApiData.new_cards_count)} (${(
-          (parseInt(rawApiData.new_cards_count, 10) / totalDraws) *
-          100
-        ).toFixed(1)}%)`,
-        wish_hits: `${formatNumber(rawApiData.wish_cards_count)} (${(
-          (parseInt(rawApiData.wish_cards_count, 10) / totalDraws) *
-          100
-        ).toFixed(1)}%)`,
+        total_draws: basic_stats.total_draws,
+        unique_cards: basic_stats.unique_cards_drawn,
+        new_cards: {
+          count: basic_stats.new_cards_count,
+          percentage:
+            totalDraws > 0 ? basic_stats.new_cards_count / totalDraws : 0,
+        },
+        wish_hits: {
+          count: basic_stats.wish_cards_count,
+          percentage:
+            totalDraws > 0 ? basic_stats.wish_cards_count / totalDraws : 0,
+        },
       },
-      rarity_distribution: Object.entries(rawApiData.rarity_counts)
-        .map(([id, count]) => ({
-          rarity: rarityMap[id] || `Unknown (${id})`,
-          count: formatNumber(count as number),
-          percentage: `${(((count as number) / totalDraws) * 100).toFixed(2)}%`,
+      rarity_distribution: rarity_distribution
+        .map((item) => ({
+          rarity:
+            rarityMap[item.rarity.toString()] || `Unknown (${item.rarity})`,
+          count: item.count,
+          percentage: totalDraws > 0 ? item.count / totalDraws : 0,
         }))
         .sort((a, b) => {
           const rarityOrder = ["EX", "LR", "UR", "SS", "SR", "R", "C"];
           return rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity);
         }),
-      pool_distribution: Object.entries(rawApiData.pool_counts)
-        .map(([id, count]) => ({
-          pool_key: id, // Pass key for i18n on frontend
-          count: formatNumber(count as number),
-          percentage: `${(((count as number) / totalDraws) * 100).toFixed(1)}%`,
+      pool_distribution: pool_distribution
+        .map((item) => ({
+          pool_key: item.pool_type,
+          count: item.count,
+          percentage: totalDraws > 0 ? item.count / totalDraws : 0,
         }))
-        .sort((a, b) => {
-          const countA = parseInt(a.count.replace(/,/g, ""), 10);
-          const countB = parseInt(b.count.replace(/,/g, ""), 10);
-          return countB - countA;
-        }),
+        .sort((a, b) => b.count - a.count),
       luck_analysis: {
-        // Placeholder data as it's not in the API response
-        avg_top_tier_draw: "1736.2 抽",
-        longest_drought: `${formatNumber(rawApiData.longest_drought)} 抽`,
-        luck_index: "1.01",
-        luck_mood: "平民",
-        luck_mood_emoji: "🙂",
+        avg_top_tier_draw: luck_analysis.avg_draws_per_top_tier,
+        longest_drought: luck_analysis.longest_drought,
+        luck_index: luck_analysis.luck_index,
+        luck_mood_key: luck_analysis.luck_rating.key,
+        luck_mood_emoji: luck_analysis.luck_rating.emoji,
       },
-      server_comparison: {
-        // Placeholder data as it's not in the API response
-        top_tier_rate_diff: "比全服平均低 38.5%",
-        top_tier_rate_diff_emoji: "😭",
-        user_top_tier_rate: "0.058%",
-        total_draws_rank: "全服第 3 名",
-      },
-      most_drawn_cards: rawApiData.most_drawn_cards.map((card) => ({
+      server_comparison: server_comparison
+        ? {
+            rate_diff_percentage:
+              server_comparison.comparison.rate_diff_percentage,
+            rate_diff_emoji: server_comparison.comparison.emoji,
+            user_top_tier_rate: server_comparison.user_top_tier_rate,
+            total_draws_rank: server_comparison.draw_count_rank,
+          }
+        : null,
+      most_drawn_cards: most_drawn_cards.map((card) => ({
         card_name: card.card_name,
         rarity_icon: rarityMap[card.rarity.toString()] || `R${card.rarity}`,
-        draw_count: formatNumber(card.draw_count),
+        draw_count: card.draw_count,
       })),
     };
 

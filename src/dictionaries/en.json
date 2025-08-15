@@ -134,20 +134,40 @@
         "title": "Luck Analysis",
         "avg_top_tier_draw": "Avg. Top-Tier Draw",
         "longest_drought": "Longest Drought",
-        "luck_index": "Luck Index"
+        "luck_index": "Luck Index",
+        "avg_top_tier_draw_value": "{value} draws",
+        "longest_drought_value": "{value} draws",
+        "moods": {
+          "never_luck": "Never Lucky",
+          "super_emperor": "Super Emperor",
+          "emperor": "Emperor",
+          "lucky": "Lucky",
+          "normal": "Normal",
+          "unlucky": "Unlucky",
+          "very_unlucky": "Very Unlucky",
+          "super_unlucky": "Super Unlucky"
+        }
       },
       "server_comparison": {
         "title": "Server Comparison (Hourly)",
         "top_tier_rate": "Top-Tier Rate",
         "user_top_tier_rate": "Your Top-Tier Rate",
-        "total_draws_rank": "Total Draws Rank"
+        "total_draws_rank": "Total Draws Rank",
+        "top_tier_rate_value": "{comparison} than server avg. by {value}% {emoji}",
+        "higher": "Higher",
+        "lower": "Lower",
+        "total_draws_rank_value": "Ranked #{rank} on server"
       },
       "most_drawn": {
         "title": "Most Drawn",
         "draws": "draws"
       },
       "hover_for_details": "Hover for details",
-      "hover_for_preview": "Ciallo～(∠・ω< )⌒☆"
+      "hover_for_preview": "Ciallo～(∠・ω< )⌒☆",
+      "pool_selection": {
+        "placeholder": "Select a pool",
+        "all": "All Pools"
+      }
     }
   },
   "settings": {
