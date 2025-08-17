@@ -68,31 +68,34 @@ export default function CouponsPage() {
   });
 
   // This function is now flexible enough to handle multiple success formats.
-  const processApiResponse = (data: any) => {
-    // 1. Check for a success status flag (handles `success: true` and `status: "success"`)
-    const isSuccess = data?.success === true || data?.status === "success";
+  const processApiResponse = (data: RedeemResponse) => {
+    // According to the backend documentation, the presence of `reward_amount`
+    // indicates a successful redemption.
+    const rewardAmountStr = data?.reward_amount;
 
-    // 2. Find the reward amount from either a nested or flat structure
-    const rewardAmountStr = data?.data?.reward_amount ?? data?.reward_amount;
-
-    // 3. FINAL SUCCESS CONDITION: A success flag AND a reward amount must exist.
-    if (isSuccess && rewardAmountStr !== undefined) {
-      const rewardAmount = parseFloat(rewardAmountStr);
+    if (rewardAmountStr !== undefined) {
+      const rewardAmount = parseFloat(String(rewardAmountStr));
       if (!isNaN(rewardAmount)) {
+        // SUCCESS: Display the success dialog.
         setSuccessDialog({
           open: true,
           code: couponCode,
           added: rewardAmount,
-          totalCoins: 0,
+          totalCoins: 0, // NOTE: totalCoins is not available from this API.
         });
         setCouponCode("");
-        return; // Success, exit function
+        toast.success(data.message || t("success.title"));
+        return;
       }
     }
 
-    // 4. FAILURE CONDITION: If not explicitly successful, it's a failure.
+    // FAILURE: If `reward_amount` is missing or invalid, it's an error.
+    // Display the specific error message from the API if available.
     console.error("Coupon redemption failed. API Response:", data);
-    const errorMessage = data?.error?.message || t("errors.redeemFailed");
+    const errorMessage =
+      data?.message ||
+      (typeof data?.error === "string" ? data.error : data?.error?.message) ||
+      t("errors.redeemFailed");
     toast.error(errorMessage);
   };
 

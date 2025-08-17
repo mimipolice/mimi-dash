@@ -56,6 +56,16 @@ export async function POST(request: NextRequest) {
     // The backend responded with a 2xx status.
     // Now, we robustly check the business logic success flag.
     const responseData = response.data;
+    // According to the documentation, any valid response (success or error)
+    // should contain a 'message' field. An empty object {} is invalid.
+    if (!responseData || !responseData.message) {
+      console.error("Invalid response from backend API:", responseData);
+      return NextResponse.json(
+        { error: "Invalid response from the backend service." },
+        { status: 500 }
+      );
+    }
+
     if (
       responseData.success === false ||
       responseData.status === "error" ||
