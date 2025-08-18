@@ -8,6 +8,7 @@ import {
   CircleGauge,
   Droplet,
   Shield,
+  BookOpen,
 } from "lucide-react";
 import Link from "next/link";
 import { NavMain } from "@/components/nav-main";
@@ -182,6 +183,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       <Home className="size-3.5 shrink-0" />
                     </div>
                     <span>{t("home")}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="gap-2 p-2">
+                  <Link
+                    href="/docs"
+                    className="flex items-center gap-2 w-full h-full"
+                  >
+                    <div className="flex size-6 items-center justify-center rounded-md border">
+                      <BookOpen className="size-4" />
+                    </div>
+                    <span>{t("docs")}</span>
                   </Link>
                 </DropdownMenuItem>
                 {isAdmin && (
