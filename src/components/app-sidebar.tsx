@@ -49,6 +49,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const navMain = [
     {
+      key: "docs",
+      title: t("docs"),
+      url: "/docs",
+      icon: BookOpen,
+      isActive: isPathActive("/docs"),
+    },
+
+    {
       key: "manage",
       title: t("manage"),
       url: "#",
