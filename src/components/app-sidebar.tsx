@@ -9,6 +9,7 @@ import {
   Droplet,
   Shield,
   BookOpen,
+  Megaphone,
 } from "lucide-react";
 import Link from "next/link";
 import { NavMain } from "@/components/nav-main";
@@ -54,6 +55,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       url: "/docs",
       icon: BookOpen,
       isActive: isPathActive("/docs"),
+    },
+    {
+      key: "announcements",
+      title: t("announcements"),
+      url: "/announcements",
+      icon: Megaphone,
+      isActive: isPathActive("/announcements"),
     },
 
     {
