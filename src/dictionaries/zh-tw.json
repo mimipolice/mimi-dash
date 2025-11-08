@@ -199,7 +199,8 @@
     "go": "前往",
     "destination": "跳轉至",
     "admin": "管理",
-    "manage_coupons": "管理優惠碼"
+    "manage_coupons": "管理優惠碼",
+    "announcements": "公告"
   },
   "auth": {
     "welcomeBack": "歡迎回來！",
@@ -446,5 +447,9 @@
       },
       "noDocuments": "沒有可用的文件"
     }
+  },
+  "announcement": {
+    "title": "新功能上線！",
+    "shortDescription": "我們推出了一系列令人興奮的新功能，快來看看吧！"
   }
 }

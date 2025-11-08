@@ -207,7 +207,8 @@
     "go": "Go",
     "destination": "Go to",
     "admin": "Admin",
-    "manage_coupons": "Manage Coupons"
+    "manage_coupons": "Manage Coupons",
+    "announcements": "Announcements"
   },
   "auth": {
     "welcomeBack": "Welcome Back!",
@@ -417,6 +418,10 @@
         "90d": "the last 3 months",
         "30d": "the last 30 days",
         "7d": "the last 7 days"
+      },
+      "announcement": {
+        "title": "New Feature!",
+        "shortDescription": "We've launched a series of exciting new features, come and check them out!"
       }
     }
   },
@@ -447,5 +452,9 @@
       },
       "noDocuments": "No documents available"
     }
+  },
+  "announcement": {
+    "title": "New Feature!",
+    "shortDescription": "We've launched a series of exciting new features, come and check them out!"
   }
 }
