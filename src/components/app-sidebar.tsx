@@ -130,6 +130,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           url: "/dashboard/admin/coupons",
           isActive: isPathActive("/dashboard/admin/coupons"),
         },
+        {
+          title: t("manage_announcements"),
+          url: "/dashboard/admin/announcements",
+          isActive: isPathActive("/dashboard/admin/announcements"),
+        },
+        {
+          title: t("manage_banners"),
+          url: "/dashboard/admin/banners",
+          isActive: isPathActive("/dashboard/admin/banners"),
+        },
       ],
     });
   }

@@ -208,7 +208,9 @@
     "destination": "Go to",
     "admin": "Admin",
     "manage_coupons": "Manage Coupons",
-    "announcements": "Announcements"
+    "announcements": "Announcements",
+    "manage_announcements": "Manage Announcements",
+    "manage_banners": "Manage Banners"
   },
   "auth": {
     "welcomeBack": "Welcome Back!",
@@ -456,5 +458,103 @@
   "announcement": {
     "title": "New Feature!",
     "shortDescription": "We've launched a series of exciting new features, come and check them out!"
+  },
+  "announcementsManagement": {
+    "title": "Announcements Management",
+    "createAnnouncement": "Create Announcement",
+    "noResults": "No announcements found.",
+    "dialog": {
+      "editTitle": "Edit Announcement",
+      "createTitle": "Create Announcement",
+      "editDescription": "Edit the details of your announcement.",
+      "createDescription": "Create a new announcement here. Click save when you are done.",
+      "titleLabel": "Title",
+      "contentLabel": "Content",
+      "severityLabel": "Severity",
+      "publishedAtLabel": "Published At",
+      "shortDescriptionLabel": "Short Description (for Banner)",
+      "imageUrlLabel": "Image URL",
+      "saveButton": "Save changes"
+    },
+    "table": {
+      "titleHeader": "Title",
+      "severityHeader": "Severity",
+      "publishedAtHeader": "Published At",
+      "actionsLabel": "Actions",
+      "editAction": "Edit",
+      "deleteAction": "Delete"
+    },
+    "severities": {
+      "info": "Info",
+      "warning": "Warning",
+      "alert": "Alert"
+    },
+    "toasts": {
+      "loading": "Loading announcements...",
+      "loadSuccess": "Announcements loaded successfully.",
+      "loadError": "Failed to load announcements.",
+      "updating": "Updating announcement...",
+      "creating": "Creating announcement...",
+      "updateSuccess": "Announcement updated successfully.",
+      "createSuccess": "Announcement created successfully.",
+      "updateError": "Failed to update announcement.",
+      "createError": "Failed to create announcement.",
+      "deleting": "Deleting announcement...",
+      "deleteSuccess": "Announcement deleted successfully.",
+      "deleteError": "Failed to delete announcement."
+    }
+  },
+  "bannersManagement": {
+    "title": "Banners Management",
+    "createBanner": "Create Banner",
+    "noResults": "No results.",
+    "dialog": {
+      "editTitle": "Edit Banner",
+      "createTitle": "Create Banner",
+      "editDescription": "Edit the details of your banner.",
+      "createDescription": "Create a new banner here. Click save when you are done.",
+      "titleLabel": "Title",
+      "shortDescriptionLabel": "Short Description",
+      "urlLabel": "URL",
+      "severityLabel": "Severity",
+      "displayFromLabel": "Display From",
+      "displayUntilLabel": "Display Until",
+      "saveButton": "Save changes"
+    },
+    "table": {
+      "titleHeader": "Title",
+      "shortDescriptionHeader": "Short Description",
+      "urlHeader": "URL",
+      "severityHeader": "Severity",
+      "displayRangeHeader": "Display Range",
+      "actionsLabel": "Actions",
+      "editAction": "Edit",
+      "deleteAction": "Delete"
+    },
+    "severities": {
+      "info": "Info",
+      "warning": "Warning",
+      "alert": "Alert"
+    },
+    "toasts": {
+      "loading": "Loading banners...",
+      "loadSuccess": "Banners loaded successfully.",
+      "loadError": "Failed to load banners.",
+      "updating": "Updating banner...",
+      "creating": "Creating banner...",
+      "updateSuccess": "Banner updated successfully.",
+      "createSuccess": "Banner created successfully.",
+      "updateError": "Failed to update banner.",
+      "createError": "Failed to create banner.",
+      "deleting": "Deleting banner...",
+      "deleteSuccess": "Banner deleted successfully.",
+      "deleteError": "Failed to delete banner."
+    },
+    "deleteDialog": {
+      "title": "Are you absolutely sure?",
+      "description": "This action cannot be undone. This will permanently delete the banner: {title}.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
   }
 }

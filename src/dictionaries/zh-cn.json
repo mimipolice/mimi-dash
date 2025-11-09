@@ -208,7 +208,9 @@
     "destination": "跳转至",
     "admin": "管理",
     "manage_coupons": "管理优惠码",
-    "announcements": "公告"
+    "announcements": "公告",
+    "manage_announcements": "管理公告",
+    "manage_banners": "管理横幅"
   },
   "auth": {
     "welcomeBack": "欢迎回来！",
@@ -452,5 +454,103 @@
   "announcement": {
     "title": "新功能上线！",
     "shortDescription": "我们推出了一系列令人兴奋的新功能，快来看看吧！"
+  },
+  "announcementsManagement": {
+    "title": "公告管理",
+    "createAnnouncement": "创建公告",
+    "noResults": "找不到任何公告。",
+    "dialog": {
+      "editTitle": "编辑公告",
+      "createTitle": "创建公告",
+      "editDescription": "编辑您的公告详细信息。",
+      "createDescription": "在这里创建新的公告。完成后点击保存。",
+      "titleLabel": "标题",
+      "contentLabel": "内容",
+      "severityLabel": "严重性",
+      "publishedAtLabel": "发布于",
+      "shortDescriptionLabel": "简短描述 (用于横幅)",
+      "imageUrlLabel": "图片 URL",
+      "saveButton": "保存更改"
+    },
+    "table": {
+      "titleHeader": "标题",
+      "severityHeader": "严重性",
+      "publishedAtHeader": "发布于",
+      "actionsLabel": "操作",
+      "editAction": "编辑",
+      "deleteAction": "删除"
+    },
+    "severities": {
+      "info": "信息",
+      "warning": "警告",
+      "alert": "警报"
+    },
+    "toasts": {
+      "loading": "正在加载公告...",
+      "loadSuccess": "公告加载成功。",
+      "loadError": "加载公告失败。",
+      "updating": "正在更新公告...",
+      "creating": "正在创建公告...",
+      "updateSuccess": "公告更新成功。",
+      "createSuccess": "公告创建成功。",
+      "updateError": "更新公告失败。",
+      "createError": "创建公告失败。",
+      "deleting": "正在删除公告...",
+      "deleteSuccess": "公告删除成功。",
+      "deleteError": "删除公告失败。"
+    }
+  },
+  "bannersManagement": {
+    "title": "横幅管理",
+    "createBanner": "创建横幅",
+    "noResults": "没有结果。",
+    "dialog": {
+      "editTitle": "编辑横幅",
+      "createTitle": "创建横幅",
+      "editDescription": "编辑您的横幅详细信息。",
+      "createDescription": "在这里创建新的横幅。完成后点击保存。",
+      "titleLabel": "标题",
+      "shortDescriptionLabel": "简短描述",
+      "urlLabel": "URL",
+      "severityLabel": "严重性",
+      "displayFromLabel": "显示开始于",
+      "displayUntilLabel": "显示结束于",
+      "saveButton": "保存更改"
+    },
+    "table": {
+      "titleHeader": "标题",
+      "shortDescriptionHeader": "简短描述",
+      "urlHeader": "URL",
+      "severityHeader": "严重性",
+      "displayRangeHeader": "显示范围",
+      "actionsLabel": "操作",
+      "editAction": "编辑",
+      "deleteAction": "删除"
+    },
+    "severities": {
+      "info": "信息",
+      "warning": "警告",
+      "alert": "警报"
+    },
+    "toasts": {
+      "loading": "正在加载横幅...",
+      "loadSuccess": "横幅加载成功。",
+      "loadError": "加载横幅失败。",
+      "updating": "正在更新横幅...",
+      "creating": "正在创建横幅...",
+      "updateSuccess": "横幅更新成功。",
+      "createSuccess": "横幅创建成功。",
+      "updateError": "更新横幅失败。",
+      "createError": "创建横幅失败。",
+      "deleting": "正在删除横幅...",
+      "deleteSuccess": "横幅删除成功。",
+      "deleteError": "删除横幅失败。"
+    },
+    "deleteDialog": {
+      "title": "您确定要这样做吗？",
+      "description": "此操作无法撤销。这将永久删除横幅：{title}。",
+      "cancel": "取消",
+      "confirm": "确认"
+    }
   }
 }
