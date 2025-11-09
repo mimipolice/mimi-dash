@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Announcement } from "@/lib/announcements";
+import { Announcement } from "@/lib/apiClient";
 import {
   fetchAnnouncements,
   createAnnouncement,

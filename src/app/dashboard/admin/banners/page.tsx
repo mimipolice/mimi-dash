@@ -21,7 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import { Banner } from "@/lib/banners";
+import { Banner } from "@/lib/apiClient";
 import { fetchBanners, createBanner, updateBanner } from "@/lib/api/banners";
 import { getColumns } from "@/components/banners/columns";
 import { BannerFormDialog } from "@/components/banners/banner-form-dialog";

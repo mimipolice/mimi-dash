@@ -13,7 +13,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { Banner } from "@/lib/banners";
+import { Banner } from "@/lib/apiClient";
 
 interface AnnouncementBannerProps {
   announcements: Banner[];

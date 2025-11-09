@@ -1,4 +1,4 @@
-import { Announcement } from "@/lib/announcements";
+import { Announcement } from "@/lib/apiClient";
 
 export type AnnouncementInput = Omit<Announcement, "id" | "author">;
 

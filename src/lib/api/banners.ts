@@ -1,4 +1,4 @@
-import { Banner } from "@/lib/banners";
+import { Banner } from "@/lib/apiClient";
 
 import { handleApiResponse } from "../apiHelper";
 
