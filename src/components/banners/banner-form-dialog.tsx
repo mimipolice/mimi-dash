@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
-import { Announcement as Banner } from "@/lib/announcements"; // We'll create a new Banner type later
+import { type Banner } from "@/lib/apiClient";
 import { useTranslations } from "next-intl";
 import { format, parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -50,10 +50,10 @@ export function BannerFormDialog({
   const isEditing = !!banner?.id;
 
   const handleDateChange = (
-    field: "displayFrom" | "displayUntil",
+    field: "display_from" | "display_until",
     date?: Date
   ) => {
-    setBanner({ ...banner, [field]: date?.toISOString() });
+    setBanner({ ...banner, [field]: date ? date.toISOString() : undefined });
   };
 
   return (
@@ -85,7 +85,7 @@ export function BannerFormDialog({
             <Input
               id="shortDescription"
               name="shortDescription"
-              defaultValue={banner?.shortDescription || ""}
+              defaultValue={banner?.short_description || ""}
             />
           </div>
 
@@ -122,12 +122,12 @@ export function BannerFormDialog({
                     variant={"outline"}
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !banner?.displayFrom && "text-muted-foreground"
+                      !banner?.display_from && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {banner?.displayFrom ? (
-                      format(parseISO(banner.displayFrom), "PPP")
+                    {banner?.display_from ? (
+                      format(parseISO(banner.display_from), "PPP")
                     ) : (
                       <span>Pick a date</span>
                     )}
@@ -137,19 +137,19 @@ export function BannerFormDialog({
                   <Calendar
                     mode="single"
                     selected={
-                      banner?.displayFrom
-                        ? parseISO(banner.displayFrom)
+                      banner?.display_from
+                        ? parseISO(banner.display_from)
                         : undefined
                     }
-                    onSelect={(date) => handleDateChange("displayFrom", date)}
+                    onSelect={(date) => handleDateChange("display_from", date)}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
               <Input
                 type="hidden"
-                name="displayFrom"
-                value={banner?.displayFrom || ""}
+                name="display_from"
+                value={banner?.display_from || ""}
               />
             </div>
             <div className="space-y-2">
@@ -160,12 +160,12 @@ export function BannerFormDialog({
                     variant={"outline"}
                     className={cn(
                       "w-full justify-start text-left font-normal",
-                      !banner?.displayUntil && "text-muted-foreground"
+                      !banner?.display_until && "text-muted-foreground"
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {banner?.displayUntil ? (
-                      format(parseISO(banner.displayUntil), "PPP")
+                    {banner?.display_until ? (
+                      format(parseISO(banner.display_until), "PPP")
                     ) : (
                       <span>Pick a date</span>
                     )}
@@ -175,19 +175,19 @@ export function BannerFormDialog({
                   <Calendar
                     mode="single"
                     selected={
-                      banner?.displayUntil
-                        ? parseISO(banner.displayUntil)
+                      banner?.display_until
+                        ? parseISO(banner.display_until)
                         : undefined
                     }
-                    onSelect={(date) => handleDateChange("displayUntil", date)}
+                    onSelect={(date) => handleDateChange("display_until", date)}
                     initialFocus
                   />
                 </PopoverContent>
               </Popover>
               <Input
                 type="hidden"
-                name="displayUntil"
-                value={banner?.displayUntil || ""}
+                name="display_until"
+                value={banner?.display_until || ""}
               />
             </div>
           </div>
