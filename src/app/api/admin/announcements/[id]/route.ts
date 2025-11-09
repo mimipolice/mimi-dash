@@ -14,14 +14,18 @@ async function checkAdmin() {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const unauthorizedResponse = await checkAdmin();
   if (unauthorizedResponse) return unauthorizedResponse;
 
   try {
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/api/admin/announcements/${params.id}`,
+      `${process.env.BACKEND_API_URL}/api/admin/announcements/${
+        (
+          await params
+        ).id
+      }`,
       {
         headers: {
           Authorization: `Bearer ${process.env.BACKEND_API_KEY!}`,
@@ -44,7 +48,7 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const unauthorizedResponse = await checkAdmin();
   if (unauthorizedResponse) return unauthorizedResponse;
@@ -52,7 +56,11 @@ export async function PUT(
   try {
     const body = await req.json();
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/api/admin/announcements/${params.id}`,
+      `${process.env.BACKEND_API_URL}/api/admin/announcements/${
+        (
+          await params
+        ).id
+      }`,
       {
         method: "PUT",
         headers: {
@@ -78,14 +86,18 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const unauthorizedResponse = await checkAdmin();
   if (unauthorizedResponse) return unauthorizedResponse;
 
   try {
     const response = await fetch(
-      `${process.env.BACKEND_API_URL}/api/admin/announcements/${params.id}`,
+      `${process.env.BACKEND_API_URL}/api/admin/announcements/${
+        (
+          await params
+        ).id
+      }`,
       {
         method: "DELETE",
         headers: {
