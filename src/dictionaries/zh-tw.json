@@ -450,6 +450,12 @@
       "noDocuments": "沒有可用的文件"
     }
   },
+  "announcements": {
+    "title": "公告",
+    "subtitle": "最新消息與更新",
+    "backToDashboard": "返回儀表板",
+    "copyright": "© 2025 MimiDLC - 保留所有權利。"
+  },
   "announcement": {
     "title": "新功能上線！",
     "shortDescription": "我們推出了一系列令人興奮的新功能，快來看看吧！"

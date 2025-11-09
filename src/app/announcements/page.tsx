@@ -6,8 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import apiClient, { Announcement } from "@/lib/apiClient";
 import { formatInTimeZone } from "date-fns-tz";
+import { useTranslations } from "next-intl";
 
 export default function AnnouncementsPage() {
+  const t = useTranslations("announcements");
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,8 +35,8 @@ export default function AnnouncementsPage() {
   if (loading) {
     return (
       <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">公告</h1>
-        <p>Loading...</p>
+        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
+        <p>{t("loading")}</p>
       </div>
     );
   }
@@ -42,71 +44,69 @@ export default function AnnouncementsPage() {
   if (error) {
     return (
       <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">公告</h1>
+        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
         <p>Error: {error}</p>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto max-w-2xl py-8">
-      <h1 className="mb-6 text-3xl font-bold">公告</h1>
-      <div className="space-y-6">
-        {announcements.map((announcement) => (
-          <Card key={announcement.id}>
-            <CardHeader>
-              <div className="flex flex-col space-y-2">
+    <>
+      {announcements.map((announcement) => (
+        <Card key={announcement.id}>
+          <CardHeader>
+            <div className="flex flex-col space-y-2">
+              <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">{announcement.title}</h2>
-                <div className="flex items-center space-x-4">
-                  {announcement.author_avatar_url &&
-                    announcement.author_name && (
-                      <>
-                        <Avatar>
-                          <AvatarImage
-                            src={announcement.author_avatar_url}
-                            alt={announcement.author_name}
-                          />
-                          <AvatarFallback>
-                            {announcement.author_name.charAt(0)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-semibold">
-                            {announcement.author_name}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {formatInTimeZone(
-                              new Date(announcement.published_at),
-                              "Asia/Taipei",
-                              "yyyy-MM-dd"
-                            )}
-                          </p>
-                        </div>
-                      </>
-                    )}
-                </div>
+                <p className="text-sm text-muted-foreground">
+                  {formatInTimeZone(
+                    new Date(announcement.published_at),
+                    "Asia/Taipei",
+                    "yyyy-MM-dd"
+                  )}
+                </p>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div
-                className="prose dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: announcement.content }}
-              />
-              {announcement.image_url && (
-                <div className="mt-4">
-                  <Image
-                    src={announcement.image_url}
-                    alt={`Announcement ${announcement.id} image`}
-                    width={600}
-                    height={400}
-                    className="rounded-lg"
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+              <div className="flex items-center space-x-4">
+                {announcement.author_avatar_url && announcement.author_name && (
+                  <>
+                    <Avatar>
+                      <AvatarImage
+                        src={announcement.author_avatar_url}
+                        alt={announcement.author_name}
+                      />
+                      <AvatarFallback>
+                        {announcement.author_name.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-semibold">
+                        {announcement.author_name}
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div
+              className="prose dark:prose-invert max-w-none"
+              dangerouslySetInnerHTML={{ __html: announcement.content }}
+            />
+            {announcement.image_url && (
+              <div className="mt-4">
+                <Image
+                  src={announcement.image_url}
+                  alt={`Announcement ${announcement.id} image`}
+                  width={600}
+                  height={400}
+                  className="rounded-lg"
+                />
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      ))}
+    </>
   );
 }

@@ -95,31 +95,33 @@ export function AnnouncementBanner({
           exit={{ x: -300, opacity: 0 }}
           transition={{ duration: 0.3 }}
           className={cn(
-            "rounded-lg p-4 my-4 flex items-center justify-between",
+            "rounded-lg p-4 my-4 flex items-center justify-between h-20",
             config.bgColor,
             config.textColor
           )}
         >
           <div className="flex items-center flex-1 min-w-0">
             <Icon className="mr-3 h-6 w-6 flex-shrink-0" />
-            <p className="text-sm font-medium truncate">
+            <p className="text-base font-medium truncate">
               {currentAnnouncement.url ? (
                 <Link
                   href={currentAnnouncement.url}
-                  className="hover:underline font-bold"
+                  className="hover:underline font-semibold"
                 >
                   {currentAnnouncement.title}
                 </Link>
               ) : (
-                <span className="font-bold">{currentAnnouncement.title}</span>
+                <span className="font-semibold">
+                  {currentAnnouncement.title}
+                </span>
               )}
-              <span className="ml-2 hidden sm:inline">
+              <span className="ml-2 hidden sm:inline font-normal">
                 {currentAnnouncement.short_description}
               </span>
             </p>
           </div>
           <div className="flex items-center ml-4">
-            {activeAnnouncements.length > 1 && (
+            {/* {activeAnnouncements.length > 1 && (
               <>
                 <button
                   onClick={handlePrev}
@@ -136,7 +138,7 @@ export function AnnouncementBanner({
                   <ChevronRight className="h-5 w-5" />
                 </button>
               </>
-            )}
+            )} */}
             <button
               onClick={() => handleDismiss(currentAnnouncement.id)}
               className="ml-2 p-1 rounded-full hover:bg-white/20 transition-colors"
@@ -147,6 +149,31 @@ export function AnnouncementBanner({
           </div>
         </motion.div>
       </AnimatePresence>
+      {activeAnnouncements.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+          {activeAnnouncements.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={cn(
+                "rounded-full transition-all duration-300",
+                currentIndex === index
+                  ? "w-5 h-2.5 bg-white/50 overflow-hidden"
+                  : "w-2.5 h-2.5 bg-white/50"
+              )}
+            >
+              {currentIndex === index && (
+                <motion.div
+                  className="h-full bg-white"
+                  initial={{ width: "0%" }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 7.8, ease: "linear" }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

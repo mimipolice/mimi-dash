@@ -455,6 +455,12 @@
       "noDocuments": "No documents available"
     }
   },
+  "announcements": {
+    "title": "Announcements",
+    "subtitle": "Latest news and updates",
+    "backToDashboard": "Back to Dashboard",
+    "copyright": "© 2025 SHD Cloud - All Rights Reserved."
+  },
   "announcement": {
     "title": "New Feature!",
     "shortDescription": "We've launched a series of exciting new features, come and check them out!"
