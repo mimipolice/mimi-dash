@@ -17,19 +17,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
 import { type Banner } from "@/lib/apiClient";
 import { useTranslations } from "next-intl";
-import { format, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Combobox } from "@/components/ui/combobox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 
 interface BannerFormDialogProps {
   open: boolean;
@@ -50,14 +44,37 @@ export function BannerFormDialog({
 }: BannerFormDialogProps) {
   const t = useTranslations("bannersManagement.dialog");
   const tSeverity = useTranslations("bannersManagement.severities");
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const isEditing = !!banner?.id;
 
   const handleDateChange = (
     field: "display_from" | "display_until",
-    date?: Date
+    date: Date | null
   ) => {
     setBanner({ ...banner, [field]: date ? date.toISOString() : undefined });
+    if (date) {
+      setErrors({ ...errors, [field]: false });
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // 驗證必填欄位
+    const newErrors: Record<string, boolean> = {};
+    const formData = new FormData(e.currentTarget);
+
+    if (!formData.get("title")) newErrors.title = true;
+    if (!formData.get("severity")) newErrors.severity = true;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    onSubmit(e);
   };
 
   return (
@@ -71,15 +88,28 @@ export function BannerFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">{t("titleLabel")}</Label>
+            <Label htmlFor="title">
+              {t("titleLabel")}
+              <span className="text-red-500 ml-1">*</span>
+            </Label>
             <Input
               id="title"
               name="title"
               defaultValue={banner?.title || ""}
               required
+              className={cn(
+                errors.title &&
+                  "border-red-500 focus-visible:ring-red-500 animate-shake"
+              )}
+              onChange={() => setErrors({ ...errors, title: false })}
             />
+            {errors.title && (
+              <p className="text-sm text-red-500 animate-fade-in">
+                此欄位為必填
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -107,9 +137,21 @@ export function BannerFormDialog({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="severity">{t("severityLabel")}</Label>
-            <Select name="severity" defaultValue={banner?.severity || "info"}>
-              <SelectTrigger>
+            <Label htmlFor="severity">
+              {t("severityLabel")}
+              <span className="text-red-500 ml-1">*</span>
+            </Label>
+            <Select
+              name="severity"
+              defaultValue={banner?.severity || "info"}
+              onValueChange={() => setErrors({ ...errors, severity: false })}
+            >
+              <SelectTrigger
+                className={cn(
+                  errors.severity &&
+                    "border-red-500 focus-visible:ring-red-500 animate-shake"
+                )}
+              >
                 <SelectValue placeholder="Select a severity" />
               </SelectTrigger>
               <SelectContent>
@@ -118,41 +160,24 @@ export function BannerFormDialog({
                 <SelectItem value="alert">{tSeverity("alert")}</SelectItem>
               </SelectContent>
             </Select>
+            {errors.severity && (
+              <p className="text-sm text-red-500 animate-fade-in">
+                此欄位為必填
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="displayFrom">{t("displayFromLabel")}</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !banner?.display_from && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {banner?.display_from ? (
-                      format(parseISO(banner.display_from), "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={
-                      banner?.display_from
-                        ? parseISO(banner.display_from)
-                        : undefined
-                    }
-                    onSelect={(date) => handleDateChange("display_from", date)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <DateTimePicker
+                value={
+                  banner?.display_from ? parseISO(banner.display_from) : null
+                }
+                onChange={(date) => handleDateChange("display_from", date)}
+                placeholder="選擇開始時間"
+                includeTime={true}
+              />
               <Input
                 type="hidden"
                 name="display_from"
@@ -161,36 +186,14 @@ export function BannerFormDialog({
             </div>
             <div className="space-y-2">
               <Label htmlFor="displayUntil">{t("displayUntilLabel")}</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !banner?.display_until && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {banner?.display_until ? (
-                      format(parseISO(banner.display_until), "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={
-                      banner?.display_until
-                        ? parseISO(banner.display_until)
-                        : undefined
-                    }
-                    onSelect={(date) => handleDateChange("display_until", date)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <DateTimePicker
+                value={
+                  banner?.display_until ? parseISO(banner.display_until) : null
+                }
+                onChange={(date) => handleDateChange("display_until", date)}
+                placeholder="選擇結束時間"
+                includeTime={true}
+              />
               <Input
                 type="hidden"
                 name="display_until"

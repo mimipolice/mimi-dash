@@ -20,17 +20,11 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Announcement } from "@/lib/apiClient";
 import { useTranslations } from "next-intl";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Combobox } from "@/components/ui/combobox";
-import { useEffect, useState } from "react";
-import { Calendar } from "@/components/ui/calendar"; // Assuming you might use it elsewhere. If not, it can be removed.
-import { CalendarIcon } from "lucide-react";
-import { format, parseISO } from "date-fns";
+import { useState } from "react";
+import { parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 
 interface AnnouncementFormDialogProps {
   open: boolean;
@@ -51,22 +45,41 @@ export function AnnouncementFormDialog({
 }: AnnouncementFormDialogProps) {
   const t = useTranslations("announcementsManagement.dialog");
   const tSeverity = useTranslations("announcementsManagement.severities");
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   const isEditing = !!announcement?.id;
 
-  const handleDateChange = (date?: Date) => {
+  const handleDateChange = (date: Date | null) => {
     if (date) {
-      // Format the date to a string like "2025-11-09" in the local timezone
-      const formattedDate = format(date, "yyyy-MM-dd");
-      // Append a fixed time to create a full ISO-like string.
-      // This ensures the date is interpreted correctly on the backend.
       setAnnouncement({
         ...announcement,
-        published_at: `${formattedDate}T00:00:00.000Z`,
+        published_at: date.toISOString(),
       });
+      setErrors({ ...errors, published_at: false });
     } else {
       setAnnouncement({ ...announcement, published_at: undefined });
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // 驗證必填欄位
+    const newErrors: Record<string, boolean> = {};
+    const formData = new FormData(e.currentTarget);
+
+    if (!formData.get("title")) newErrors.title = true;
+    if (!formData.get("content")) newErrors.content = true;
+    if (!formData.get("severity")) newErrors.severity = true;
+    if (!announcement?.published_at) newErrors.published_at = true;
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    onSubmit(e);
   };
 
   return (
@@ -80,37 +93,71 @@ export function AnnouncementFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">{t("titleLabel")}</Label>
+            <Label htmlFor="title">
+              {t("titleLabel")}
+              <span className="text-red-500 ml-1">*</span>
+            </Label>
             <Input
               id="title"
               name="title"
               defaultValue={announcement?.title || ""}
               required
+              className={cn(
+                errors.title &&
+                  "border-red-500 focus-visible:ring-red-500 animate-shake"
+              )}
+              onChange={() => setErrors({ ...errors, title: false })}
             />
+            {errors.title && (
+              <p className="text-sm text-red-500 animate-fade-in">
+                此欄位為必填
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">{t("contentLabel")}</Label>
-            {/* This will be replaced by Tiptap editor */}
+            <Label htmlFor="content">
+              {t("contentLabel")}
+              <span className="text-red-500 ml-1">*</span>
+            </Label>
             <Textarea
               id="content"
               name="content"
               defaultValue={announcement?.content || ""}
               required
               rows={10}
+              className={cn(
+                errors.content &&
+                  "border-red-500 focus-visible:ring-red-500 animate-shake"
+              )}
+              onChange={() => setErrors({ ...errors, content: false })}
             />
+            {errors.content && (
+              <p className="text-sm text-red-500 animate-fade-in">
+                此欄位為必填
+              </p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="severity">{t("severityLabel")}</Label>
+              <Label htmlFor="severity">
+                {t("severityLabel")}
+                <span className="text-red-500 ml-1">*</span>
+              </Label>
               <Select
                 name="severity"
                 defaultValue={announcement?.severity || "info"}
+                onValueChange={() => setErrors({ ...errors, severity: false })}
               >
-                <SelectTrigger>
+                <SelectTrigger
+                  className={cn(
+                    errors.severity &&
+                      "border-red-500 focus-visible:ring-red-500 animate-shake"
+                  )}
+                >
                   <SelectValue placeholder="Select a severity" />
                 </SelectTrigger>
                 <SelectContent>
@@ -121,39 +168,29 @@ export function AnnouncementFormDialog({
                   <SelectItem value="alert">{tSeverity("alert")}</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.severity && (
+                <p className="text-sm text-red-500 animate-fade-in">
+                  此欄位為必填
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="published_at">{t("publishedAtLabel")}</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !announcement?.published_at && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {announcement?.published_at ? (
-                      format(parseISO(announcement.published_at), "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={
-                      announcement?.published_at
-                        ? parseISO(announcement.published_at)
-                        : undefined
-                    }
-                    onSelect={handleDateChange}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <Label htmlFor="published_at">
+                {t("publishedAtLabel")}
+                <span className="text-red-500 ml-1">*</span>
+              </Label>
+              <DateTimePicker
+                value={
+                  announcement?.published_at
+                    ? parseISO(announcement.published_at)
+                    : null
+                }
+                onChange={handleDateChange}
+                placeholder="選擇發布日期"
+                required={true}
+                error={errors.published_at}
+                includeTime={false}
+              />
               <Input
                 type="hidden"
                 name="published_at"
