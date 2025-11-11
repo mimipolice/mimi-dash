@@ -82,10 +82,13 @@ export function getDocumentConfig(slug: string, metadata: DocumentMetadata) {
 export async function getDocsMetadata(): Promise<DocumentMetadata[]> {
   try {
     const response = await fetch("/api/docs");
-    if (!response.ok) {
-      throw new Error("Failed to fetch docs");
+    if (!response.ok) throw new Error("Failed to fetch docs metadata");
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error?.message || "API returned an error");
     }
-    return await response.json();
+    return result.data || [];
   } catch (error) {
     console.error("Failed to load docs metadata:", error);
     return [];

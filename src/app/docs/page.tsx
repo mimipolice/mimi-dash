@@ -120,13 +120,13 @@ export default function DocsIndexPage() {
 
       <div className="grid md:grid-cols-2 gap-6">
         {filteredDocuments.length > 0 ? (
-          filteredDocuments.map((doc) => {
+          filteredDocuments.map((doc, index) => {
             const config = getDocumentConfig(doc.slug, doc);
             const IconComponent = config.icon;
 
             return (
               <Card
-                key={doc.slug}
+                key={doc.slug || index}
                 className={`group hover:shadow-lg transition-all duration-300 border-l-4 ${config.colors.border}`}
               >
                 <CardHeader className="pb-4">

@@ -53,8 +53,8 @@ export function BannerFormDialog({
   useEffect(() => {
     async function fetchRoutes() {
       const response = await fetch("/api/docs");
-      const data = await response.json();
-      setRoutes(data);
+      const result = await response.json();
+      if (result.success) setRoutes(result.data);
     }
     fetchRoutes();
   }, []);
@@ -69,7 +69,7 @@ export function BannerFormDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange} modal={false}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
