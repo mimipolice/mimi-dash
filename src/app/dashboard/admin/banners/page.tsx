@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { Banner } from "@/lib/apiClient";
 import { fetchBanners, createBanner, updateBanner } from "@/lib/api/banners";
+import { fetchRouteOptions } from "@/lib/api/routes";
 import { getColumns } from "@/components/banners/columns";
 import { BannerFormDialog } from "@/components/banners/banner-form-dialog";
 
@@ -36,6 +37,9 @@ export default function BannersAdminPage() {
   const [currentBanner, setCurrentBanner] = useState<Partial<Banner> | null>(
     null
   );
+  const [routeOptions, setRouteOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   const refreshBanners = useCallback(async () => {
     try {
@@ -53,6 +57,15 @@ export default function BannersAdminPage() {
       router.push("/dashboard");
     } else {
       refreshBanners();
+      const fetchOptions = async () => {
+        try {
+          const options = await fetchRouteOptions();
+          setRouteOptions(options);
+        } catch (error) {
+          toast.error(t("toasts.loadOptionsError"));
+        }
+      };
+      fetchOptions();
     }
   }, [session, status, router, refreshBanners]);
 
@@ -180,6 +193,7 @@ export default function BannersAdminPage() {
         banner={currentBanner}
         setBanner={setCurrentBanner}
         onSubmit={handleFormSubmit}
+        routeOptions={routeOptions}
       />
     </div>
   );

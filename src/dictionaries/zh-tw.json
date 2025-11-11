@@ -455,7 +455,8 @@
     "title": "公告",
     "subtitle": "最新消息與更新",
     "backToDashboard": "返回儀表板",
-    "copyright": "© 2025 MimiDLC - 保留所有權利。"
+    "copyright": "© 2025 MimiDLC - 保留所有權利。",
+    "loading": "載入中..."
   },
   "announcement": {
     "title": "新功能上線！",

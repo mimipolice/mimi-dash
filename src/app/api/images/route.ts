@@ -29,5 +29,5 @@ export async function GET() {
     path.join(process.cwd(), "public/images"),
     "/images"
   );
-  return NextResponse.json(routes);
+  return NextResponse.json({ success: true, data: routes });
 }

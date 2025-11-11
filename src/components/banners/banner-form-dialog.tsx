@@ -37,6 +37,7 @@ interface BannerFormDialogProps {
   banner: Partial<Banner> | null;
   setBanner: (banner: Partial<Banner> | null) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  routeOptions: { label: string; value: string }[];
 }
 
 export function BannerFormDialog({
@@ -45,19 +46,10 @@ export function BannerFormDialog({
   banner,
   setBanner,
   onSubmit,
+  routeOptions,
 }: BannerFormDialogProps) {
   const t = useTranslations("bannersManagement.dialog");
   const tSeverity = useTranslations("bannersManagement.severities");
-  const [routes, setRoutes] = useState<{ label: string; value: string }[]>([]);
-
-  useEffect(() => {
-    async function fetchRoutes() {
-      const response = await fetch("/api/docs");
-      const result = await response.json();
-      if (result.success) setRoutes(result.data);
-    }
-    fetchRoutes();
-  }, []);
 
   const isEditing = !!banner?.id;
 
@@ -104,7 +96,7 @@ export function BannerFormDialog({
           <div className="space-y-2">
             <Label htmlFor="url">{t("urlLabel")}</Label>
             <Combobox
-              options={routes}
+              options={routeOptions}
               value={banner?.url || ""}
               onChange={(value) => setBanner({ ...banner, url: value })}
               placeholder="Select a route..."

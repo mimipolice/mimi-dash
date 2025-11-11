@@ -27,6 +27,7 @@ import {
   createAnnouncement,
   updateAnnouncement,
 } from "@/lib/api/announcements";
+import { fetchImageOptions } from "@/lib/api/routes";
 import { getColumns } from "@/components/announcements/columns";
 import { AnnouncementFormDialog } from "@/components/announcements/announcement-form-dialog";
 
@@ -39,6 +40,9 @@ export default function AnnouncementsAdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] =
     useState<Partial<Announcement> | null>(null);
+  const [imageOptions, setImageOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
 
   const refreshAnnouncements = useCallback(async () => {
     try {
@@ -56,6 +60,15 @@ export default function AnnouncementsAdminPage() {
       router.push("/dashboard");
     } else {
       refreshAnnouncements();
+      const fetchOptions = async () => {
+        try {
+          const options = await fetchImageOptions();
+          setImageOptions(options);
+        } catch (error) {
+          toast.error(t("toasts.loadOptionsError"));
+        }
+      };
+      fetchOptions();
     }
   }, [session, status, router, refreshAnnouncements]);
 
@@ -183,6 +196,7 @@ export default function AnnouncementsAdminPage() {
         announcement={currentAnnouncement}
         setAnnouncement={setCurrentAnnouncement}
         onSubmit={handleFormSubmit}
+        imageOptions={imageOptions}
       />
     </div>
   );

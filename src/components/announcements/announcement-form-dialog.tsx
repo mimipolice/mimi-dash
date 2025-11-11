@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/popover";
 import { Combobox } from "@/components/ui/combobox";
 import { useEffect, useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar"; // Assuming you might use it elsewhere. If not, it can be removed.
 import { CalendarIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -38,6 +38,7 @@ interface AnnouncementFormDialogProps {
   announcement: Partial<Announcement> | null;
   setAnnouncement: (announcement: Partial<Announcement> | null) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  imageOptions: { label: string; value: string }[];
 }
 
 export function AnnouncementFormDialog({
@@ -46,21 +47,10 @@ export function AnnouncementFormDialog({
   announcement,
   setAnnouncement,
   onSubmit,
+  imageOptions,
 }: AnnouncementFormDialogProps) {
   const t = useTranslations("announcementsManagement.dialog");
   const tSeverity = useTranslations("announcementsManagement.severities");
-  const [imageRoutes, setImageRoutes] = useState<
-    { label: string; value: string }[]
-  >([]);
-
-  useEffect(() => {
-    async function fetchImageRoutes() {
-      const response = await fetch("/api/images");
-      const data = await response.json();
-      setImageRoutes(data);
-    }
-    fetchImageRoutes();
-  }, []);
 
   const isEditing = !!announcement?.id;
 
@@ -175,7 +165,7 @@ export function AnnouncementFormDialog({
           <div className="space-y-2">
             <Label htmlFor="imageUrl">{t("imageUrlLabel")}</Label>
             <Combobox
-              options={imageRoutes}
+              options={imageOptions}
               value={announcement?.image_url || ""}
               onChange={(value) =>
                 setAnnouncement({ ...announcement, image_url: value })
