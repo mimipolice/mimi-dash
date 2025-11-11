@@ -28,6 +28,8 @@ import { type Banner } from "@/lib/apiClient";
 import { useTranslations } from "next-intl";
 import { format, parseISO } from "date-fns";
 import { cn } from "@/lib/utils";
+import { Combobox } from "@/components/ui/combobox";
+import { useEffect, useState } from "react";
 
 interface BannerFormDialogProps {
   open: boolean;
@@ -46,6 +48,16 @@ export function BannerFormDialog({
 }: BannerFormDialogProps) {
   const t = useTranslations("bannersManagement.dialog");
   const tSeverity = useTranslations("bannersManagement.severities");
+  const [routes, setRoutes] = useState<{ label: string; value: string }[]>([]);
+
+  useEffect(() => {
+    async function fetchRoutes() {
+      const response = await fetch("/api/docs");
+      const data = await response.json();
+      setRoutes(data);
+    }
+    fetchRoutes();
+  }, []);
 
   const isEditing = !!banner?.id;
 
@@ -57,7 +69,7 @@ export function BannerFormDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} modal={false}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
@@ -91,12 +103,15 @@ export function BannerFormDialog({
 
           <div className="space-y-2">
             <Label htmlFor="url">{t("urlLabel")}</Label>
-            <Input
-              id="url"
-              name="url"
-              defaultValue={banner?.url || ""}
-              placeholder="/docs/community"
+            <Combobox
+              options={routes}
+              value={banner?.url || ""}
+              onChange={(value) => setBanner({ ...banner, url: value })}
+              placeholder="Select a route..."
+              searchPlaceholder="Search routes..."
+              noResultsMessage="No routes found."
             />
+            <Input type="hidden" name="url" value={banner?.url || ""} />
           </div>
 
           <div className="space-y-2">

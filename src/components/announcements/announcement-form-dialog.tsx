@@ -25,6 +25,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Combobox } from "@/components/ui/combobox";
+import { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
@@ -47,6 +49,18 @@ export function AnnouncementFormDialog({
 }: AnnouncementFormDialogProps) {
   const t = useTranslations("announcementsManagement.dialog");
   const tSeverity = useTranslations("announcementsManagement.severities");
+  const [imageRoutes, setImageRoutes] = useState<
+    { label: string; value: string }[]
+  >([]);
+
+  useEffect(() => {
+    async function fetchImageRoutes() {
+      const response = await fetch("/api/images");
+      const data = await response.json();
+      setImageRoutes(data);
+    }
+    fetchImageRoutes();
+  }, []);
 
   const isEditing = !!announcement?.id;
 
@@ -66,7 +80,7 @@ export function AnnouncementFormDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange} modal={false}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>
@@ -160,11 +174,20 @@ export function AnnouncementFormDialog({
 
           <div className="space-y-2">
             <Label htmlFor="imageUrl">{t("imageUrlLabel")}</Label>
+            <Combobox
+              options={imageRoutes}
+              value={announcement?.image_url || ""}
+              onChange={(value) =>
+                setAnnouncement({ ...announcement, image_url: value })
+              }
+              placeholder="Select an image..."
+              searchPlaceholder="Search images..."
+              noResultsMessage="No images found."
+            />
             <Input
-              id="imageUrl"
+              type="hidden"
               name="image_url"
-              defaultValue={announcement?.image_url || ""}
-              placeholder="/images/announcements/image.png"
+              value={announcement?.image_url || ""}
             />
           </div>
 
