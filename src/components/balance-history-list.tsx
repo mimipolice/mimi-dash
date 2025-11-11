@@ -5,7 +5,7 @@ import { ArrowUpRight, ArrowDownLeft, Wallet } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";

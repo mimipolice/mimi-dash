@@ -256,6 +256,7 @@
     "copied": "Copied",
     "assets": "Assets",
     "oilTicket": "Oil Ticket",
+    "oilTicketDescription": "Number of oil tickets you currently own",
     "totalCardValue": "Total Card Value",
     "totalStockValue": "Total Stock Value",
     "statistics": "Main Statistics",

@@ -10,11 +10,14 @@ export async function GET() {
       }
     );
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json({ success: true, data: data.data });
   } catch (error) {
     console.error("Failed to fetch active banners:", error);
     return NextResponse.json(
-      { error: "Failed to fetch active banners" },
+      {
+        success: false,
+        error: { message: "Failed to fetch active banners", status: 500 },
+      },
       { status: 500 }
     );
   }

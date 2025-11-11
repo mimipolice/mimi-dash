@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/dialog";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import axios from "axios";
 
 export default function Dashboard() {

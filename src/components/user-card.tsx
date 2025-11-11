@@ -7,6 +7,7 @@ import {
   User,
   Droplets,
   Server,
+  Ticket,
   ExternalLink,
   Copy,
   Library,
@@ -139,22 +140,24 @@ export function UserCard({ userId }: { userId?: string }) {
           <div className="border-t pt-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Server className="h-4 w-4 text-emerald-500" />
+                <Ticket className="h-4 w-4 text-emerald-500" />
                 <span className="text-sm font-medium">
-                  {t("servers", { defaultValue: "伺服器" })}
+                  {t("oilTicket", { defaultValue: "油票" })}
                 </span>
               </div>
               <Badge
                 variant="secondary"
                 className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
               >
-                {loading ? "..." : "N/A"}
+                {loading
+                  ? "..."
+                  : userInfo?.assets?.oil_ticket.toLocaleString()}
               </Badge>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              {t("serversDescription", {
-                defaultValue: "您目前擁有的伺服器數量",
-                count: "N/A",
+              {t("oilTicketDescription", {
+                defaultValue: "您目前擁有的油票數量",
+                count: userInfo?.assets?.oil_ticket || 0,
               })}
             </p>
           </div>
@@ -176,12 +179,6 @@ export function UserCard({ userId }: { userId?: string }) {
                     </div>
                   </div>
                   <div className="space-y-1 text-xs text-muted-foreground pl-6">
-                    <p>
-                      {t("oilTicket")}:{" "}
-                      {loading
-                        ? "..."
-                        : userInfo?.assets?.oil_ticket.toLocaleString()}
-                    </p>
                     <p>
                       {t("totalCardValue")}:{" "}
                       {loading

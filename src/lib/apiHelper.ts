@@ -1,21 +1,27 @@
 export async function handleApiResponse(response: Response) {
-  // 步驟 1: 檢查 HTTP 狀態碼是否成功
+  // Step 1: Check if the HTTP status code indicates success
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({
-      error: { message: `HTTP error! Status: ${response.status}` },
-    }));
-    throw new Error(
-      errorData.error?.message || "An unknown network error occurred"
-    );
+    let errorMessage = `HTTP error! Status: ${response.status}`;
+    try {
+      const errorData = await response.json();
+      // Prefer the structured error message from our standard format
+      errorMessage =
+        errorData?.error?.message ||
+        errorData?.message || // Handle legacy formats
+        JSON.stringify(errorData);
+    } catch (e) {
+      // If parsing fails, use the status text
+      errorMessage = response.statusText;
+    }
+    throw new Error(errorMessage);
   }
 
   const data = await response.json();
 
-  // 步驟 2: 檢查後端回傳的業務邏輯是否成功
+  // Step 2: Check the business logic success flag from the backend
   if (data.success === false) {
     throw new Error(data.error?.message || "An API error occurred");
   }
-
-  // 步驟 3: 回傳核心資料，如果沒有則提供一個安全的預設值
-  return data.data || null; // 使用 null 或 [] 取決於你對 API 的預期
+  // Step 3: Return the core data. It might be null for success responses without data.
+  return data.data;
 }

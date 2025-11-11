@@ -1,16 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
-async function checkAdmin() {
-  const session = await auth();
-  const adminIds = (process.env.ADMIN_DISCORD_ID || "").split(",");
-  if (!session?.user?.id || !adminIds.includes(session.user.id)) {
-    return NextResponse.json(
-      { success: false, error: { message: "Unauthorized", status: 401 } },
-      { status: 401 }
-    );
-  }
-  return null;
-}
+import { checkAdmin } from "@/lib/auth-utils";
 
 export async function GET(
   req: NextRequest,

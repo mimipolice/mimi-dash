@@ -256,6 +256,7 @@
     "copied": "已复制",
     "assets": "资产",
     "oilTicket": "油票",
+    "oilTicketDescription": "您目前拥有的油票数量",
     "totalCardValue": "卡片总价值",
     "totalStockValue": "股票总价值",
     "statistics": "主要统计",
