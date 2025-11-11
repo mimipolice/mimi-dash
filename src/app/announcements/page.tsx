@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import apiClient, { Announcement } from "@/lib/apiClient";
 import { formatInTimeZone } from "date-fns-tz";
 import { useTranslations } from "next-intl";
+import { useAutoRefresh } from "@/hooks/useAutoRefresh";
 
 export default function AnnouncementsPage() {
   const t = useTranslations("announcements");
@@ -14,23 +15,32 @@ export default function AnnouncementsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        setLoading(true);
-        const data = await apiClient.getAnnouncements();
-        setAnnouncements(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "An unknown error occurred"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAnnouncements();
+  const fetchAnnouncements = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await apiClient.getAnnouncements();
+      setAnnouncements(data);
+      setError(null);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred"
+      );
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  // 初始加載
+  useEffect(() => {
+    fetchAnnouncements();
+  }, [fetchAnnouncements]);
+
+  // 自動刷新（每 30 秒）
+  useAutoRefresh({
+    interval: 30000,
+    enabled: true,
+    onRefresh: fetchAnnouncements,
+  });
 
   if (loading) {
     return (
