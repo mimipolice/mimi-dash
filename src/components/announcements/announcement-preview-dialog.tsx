@@ -1,83 +1,40 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import apiClient, { Announcement } from "@/lib/apiClient";
+import { Announcement } from "@/lib/apiClient";
 import { formatInTimeZone } from "date-fns-tz";
-import { useTranslations } from "next-intl";
-import { useAutoRefresh } from "@/hooks/useAutoRefresh";
 import { parseDiscordTimestamp } from "@/lib/discord-timestamp";
 
-export default function AnnouncementsPage() {
-  const t = useTranslations("announcements");
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface AnnouncementPreviewDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  announcement: Announcement | null;
+}
 
-  const fetchAnnouncements = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await apiClient.getAnnouncements();
-
-      // 過濾掉未來的公告（只顯示已發布的）
-      const now = new Date();
-      now.setHours(0, 0, 0, 0); // 設定為今天 00:00
-
-      const publishedAnnouncements = data.filter((announcement) => {
-        const publishDate = new Date(announcement.published_at);
-        publishDate.setHours(0, 0, 0, 0);
-        return publishDate <= now;
-      });
-
-      setAnnouncements(publishedAnnouncements);
-      setError(null);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An unknown error occurred"
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // 初始加載
-  useEffect(() => {
-    fetchAnnouncements();
-  }, [fetchAnnouncements]);
-
-  // 自動刷新（每 30 秒）
-  useAutoRefresh({
-    interval: 30000,
-    enabled: true,
-    onRefresh: fetchAnnouncements,
-  });
-
-  if (loading) {
-    return (
-      <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
-        <p>{t("loading")}</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
-        <p>Error: {error}</p>
-      </div>
-    );
-  }
+export function AnnouncementPreviewDialog({
+  open,
+  onOpenChange,
+  announcement,
+}: AnnouncementPreviewDialogProps) {
+  if (!announcement) return null;
 
   return (
-    <>
-      {announcements.map((announcement) => (
-        <Card key={announcement.id}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>公告預覽</DialogTitle>
+        </DialogHeader>
+        <Card className="border-0 shadow-none">
           <CardHeader>
             <div className="flex flex-col space-y-2">
               <div className="flex justify-between items-center">
@@ -131,7 +88,7 @@ export default function AnnouncementsPage() {
             )}
           </CardContent>
         </Card>
-      ))}
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }

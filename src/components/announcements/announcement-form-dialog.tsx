@@ -51,9 +51,23 @@ export function AnnouncementFormDialog({
 
   const handleDateChange = (date: Date | null) => {
     if (date) {
+      // 使用 Date.UTC 創建 UTC 時間，然後轉為 ISO 字串
+      const utcDate = new Date(
+        Date.UTC(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          0,
+          0,
+          0,
+          0
+        )
+      );
+      const isoString = utcDate.toISOString();
+
       setAnnouncement({
         ...announcement,
-        published_at: date.toISOString(),
+        published_at: isoString,
       });
       setErrors({ ...errors, published_at: false });
     } else {
@@ -84,7 +98,7 @@ export function AnnouncementFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>
             {isEditing ? t("editTitle") : t("createTitle")}
@@ -93,7 +107,10 @@ export function AnnouncementFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 overflow-y-auto flex-1 pr-2"
+        >
           <div className="space-y-2">
             <Label htmlFor="title">
               {t("titleLabel")}

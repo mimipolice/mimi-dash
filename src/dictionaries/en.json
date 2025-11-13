@@ -488,6 +488,8 @@
       "severityHeader": "Severity",
       "publishedAtHeader": "Published At",
       "actionsLabel": "Actions",
+      "previewDialogAction": "Quick Preview",
+      "previewPageAction": "Full Preview",
       "editAction": "Edit",
       "deleteAction": "Delete"
     },

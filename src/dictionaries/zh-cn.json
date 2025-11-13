@@ -484,6 +484,8 @@
       "severityHeader": "严重性",
       "publishedAtHeader": "发布于",
       "actionsLabel": "操作",
+      "previewDialogAction": "快速预览",
+      "previewPageAction": "完整预览",
       "editAction": "编辑",
       "deleteAction": "删除"
     },

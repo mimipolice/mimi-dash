@@ -43,10 +43,12 @@ export function DateTimePicker({
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
+      // 創建本地時間的日期，避免時區轉換問題
+      const localDate = new Date(selectedDate);
       const [hours, minutes] = time.split(":");
-      selectedDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-      setDate(selectedDate);
-      onChange?.(selectedDate);
+      localDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+      setDate(localDate);
+      onChange?.(localDate);
     } else {
       setDate(undefined);
       onChange?.(null);

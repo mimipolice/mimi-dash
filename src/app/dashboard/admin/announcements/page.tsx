@@ -30,6 +30,7 @@ import {
 import { fetchImageOptions } from "@/lib/api/routes";
 import { getColumns } from "@/components/announcements/columns";
 import { AnnouncementFormDialog } from "@/components/announcements/announcement-form-dialog";
+import { AnnouncementPreviewDialog } from "@/components/announcements/announcement-preview-dialog";
 
 export default function AnnouncementsAdminPage() {
   const t = useTranslations("announcementsManagement");
@@ -38,8 +39,11 @@ export default function AnnouncementsAdminPage() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [currentAnnouncement, setCurrentAnnouncement] =
     useState<Partial<Announcement> | null>(null);
+  const [previewAnnouncement, setPreviewAnnouncement] =
+    useState<Announcement | null>(null);
   const [imageOptions, setImageOptions] = useState<
     { label: string; value: string }[]
   >([]);
@@ -109,9 +113,14 @@ export default function AnnouncementsAdminPage() {
     setIsDialogOpen(true);
   }, []);
 
+  const handlePreview = useCallback((announcement: Announcement) => {
+    setPreviewAnnouncement(announcement);
+    setIsPreviewOpen(true);
+  }, []);
+
   const columns = useMemo(
-    () => getColumns(t, handleEdit, refreshAnnouncements),
-    [t, handleEdit, refreshAnnouncements]
+    () => getColumns(t, handleEdit, handlePreview, refreshAnnouncements),
+    [t, handleEdit, handlePreview, refreshAnnouncements]
   );
 
   const table = useReactTable({
@@ -197,6 +206,12 @@ export default function AnnouncementsAdminPage() {
         setAnnouncement={setCurrentAnnouncement}
         onSubmit={handleFormSubmit}
         imageOptions={imageOptions}
+      />
+
+      <AnnouncementPreviewDialog
+        open={isPreviewOpen}
+        onOpenChange={setIsPreviewOpen}
+        announcement={previewAnnouncement}
       />
     </div>
   );
