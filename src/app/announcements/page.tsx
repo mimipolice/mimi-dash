@@ -103,9 +103,29 @@ export default function AnnouncementsPage() {
 
 function AnnouncementCard({ announcement }: { announcement: Announcement }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [viewCount, setViewCount] = useState(announcement.view_count);
+  const [hasRecordedView, setHasRecordedView] = useState(false);
 
   // 提取前 150 字作為預覽
   const previewText = announcement.content.substring(0, 150) + "...";
+
+  // 當展開時記錄瀏覽
+  useEffect(() => {
+    if (isExpanded && !hasRecordedView) {
+      setHasRecordedView(true);
+      apiClient
+        .recordAnnouncementView(announcement.id)
+        .then((data) => {
+          setViewCount(data.view_count);
+        })
+        .catch((err) => {
+          // 429 錯誤是正常的（防刷機制），靜默忽略
+          if (err.status !== 429) {
+            console.error("Failed to record view:", err);
+          }
+        });
+    }
+  }, [isExpanded, hasRecordedView, announcement.id]);
 
   return (
     <motion.div
@@ -334,7 +354,7 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
                       <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
                       <circle cx="12" cy="12" r="3" />
                     </svg>
-                    <span>123</span>
+                    <span>{viewCount}</span>
                   </div>
                 </div>
               </div>

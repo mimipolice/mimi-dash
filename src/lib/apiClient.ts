@@ -7,6 +7,7 @@ export interface Announcement {
   author_name: string | null;
   author_avatar_url: string | null;
   published_at: string; // ISO 8601 datetime string
+  view_count: number;
   created_at: string; // ISO 8601 datetime string
   updated_at: string; // ISO 8601 datetime string
 }
@@ -29,6 +30,14 @@ const apiClient = {
   getAnnouncements: async (): Promise<Announcement[]> => {
     const response = await fetch("/api/announcements");
     return (await handleApiResponse(response)) ?? [];
+  },
+  recordAnnouncementView: async (
+    id: number
+  ): Promise<{ view_count: number }> => {
+    const response = await fetch(`/api/announcements/${id}/view`, {
+      method: "POST",
+    });
+    return await handleApiResponse(response);
   },
   getActiveBanners: async (): Promise<Banner[]> => {
     const response = await fetch("/api/banners/active");
