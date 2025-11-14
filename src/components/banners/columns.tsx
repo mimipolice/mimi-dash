@@ -58,7 +58,45 @@ export const getColumns = (
       const { display_from, display_until } = row.original;
       const formatDate = (dateString?: string | null) =>
         dateString ? format(parseISO(dateString), "yyyy-MM-dd") : "N/A";
-      return `${formatDate(display_from)} - ${formatDate(display_until)}`;
+
+      // 計算狀態
+      const now = new Date();
+      let status: "未發布" | "進行中" | "已過期" | null = null;
+
+      if (display_from && display_until) {
+        const fromDate = parseISO(display_from);
+        const untilDate = parseISO(display_until);
+
+        if (now < fromDate) {
+          status = "未發布";
+        } else if (now > untilDate) {
+          status = "已過期";
+        } else {
+          status = "進行中";
+        }
+      }
+
+      return (
+        <div className="flex items-center gap-2">
+          <span>{`${formatDate(display_from)} - ${formatDate(
+            display_until
+          )}`}</span>
+          {status && (
+            <Badge
+              variant="outline"
+              className={
+                status === "未發布"
+                  ? "text-xs bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800"
+                  : status === "已過期"
+                  ? "text-xs bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700"
+                  : "text-xs bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800"
+              }
+            >
+              {status}
+            </Badge>
+          )}
+        </div>
+      );
     },
   },
   {
