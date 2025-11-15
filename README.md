@@ -79,6 +79,32 @@ npm run build
 npm start
 ```
 
+## 🔒 Security
+
+Lolidactyl is built with security in mind. Here's what we've implemented:
+
+### Frontend Security
+
+- ✅ **Authentication & Authorization** - NextAuth.js with Discord OAuth + Admin role checks
+- ✅ **XSS Protection** - React automatic escaping + safe Markdown rendering with `react-markdown`
+- ✅ **CSRF Protection** - Built-in NextAuth.js protection
+- ✅ **Environment Variables** - Sensitive data isolated in environment variables
+- ✅ **No Direct Database Access** - All data operations through backend API
+
+### Backend Security (Verified)
+
+- ✅ **Input Validation** - Complete Zod schema validation on all endpoints
+- ✅ **SQL Injection Protection** - 100% parameterized queries
+- ✅ **Secure Error Handling** - No internal information leakage
+- ✅ **Database Security** - Transactions, row-level locking, unique constraints
+- ✅ **Authentication** - JWT + API Key + Cron Secret
+
+### Security Audit
+
+A comprehensive security audit was conducted on 2025-11-13. See [SECURITY-AUDIT.md](SECURITY-AUDIT.md) for details.
+
+**Overall Security Rating: 🟢 Good**
+
 ## 🔧 Configurations
 
 ### Discord Login Setup
