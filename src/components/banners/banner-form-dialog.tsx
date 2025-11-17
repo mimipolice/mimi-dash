@@ -125,15 +125,34 @@ export function BannerFormDialog({
 
           <div className="space-y-2">
             <Label htmlFor="url">{t("urlLabel")}</Label>
-            <Combobox
-              options={routeOptions}
-              value={banner?.url || ""}
-              onChange={(value) => setBanner({ ...banner, url: value })}
-              placeholder="Select a route..."
-              searchPlaceholder="Search routes..."
-              noResultsMessage="No routes found."
-            />
-            <Input type="hidden" name="url" value={banner?.url || ""} />
+            <div className="flex gap-2">
+              <Input
+                id="url"
+                name="url"
+                value={banner?.url || ""}
+                onChange={(e) => setBanner({ ...banner, url: e.target.value })}
+                placeholder="Select a route 或自訂 URL"
+                className="flex-1"
+              />
+              <Select
+                value=""
+                onValueChange={(value) => setBanner({ ...banner, url: value })}
+              >
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="快速選擇" />
+                </SelectTrigger>
+                <SelectContent>
+                  {routeOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              可直接輸入 URL 或使用快速選擇
+            </p>
           </div>
 
           <div className="space-y-2">

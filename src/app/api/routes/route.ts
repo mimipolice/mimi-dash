@@ -32,6 +32,25 @@ function getRoutes(
 
 export async function GET() {
   const routes = getRoutes(path.join(process.cwd(), "src/app"));
-  // For consistency, we wrap the response in the standard envelope
-  return NextResponse.json({ success: true, data: routes });
+  
+  // 添加常用路由（確保這些路由一定存在）
+  const commonRoutes = [
+    { label: "/announcements", value: "/announcements" },
+    { label: "/dashboard", value: "/dashboard" },
+    { label: "/docs", value: "/docs" },
+    { label: "/docs/terms", value: "/docs/terms" },
+    { label: "/docs/privacy", value: "/docs/privacy" },
+    { label: "/docs/community", value: "/docs/community" },
+  ];
+  
+  // 合併並去重
+  const allRoutes = [...commonRoutes, ...routes];
+  const uniqueRoutes = Array.from(
+    new Map(allRoutes.map((r) => [r.value, r])).values()
+  );
+  
+  // 排序
+  uniqueRoutes.sort((a, b) => a.value.localeCompare(b.value));
+  
+  return NextResponse.json({ success: true, data: uniqueRoutes });
 }
