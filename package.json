@@ -55,7 +55,6 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "framer-motion": "^12.23.24",
-    "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.513.0",
     "mini-svg-data-uri": "^1.4.4",

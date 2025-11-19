@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`Redeeming code '${code}' for user '${id}'`);
-
+    const safeCode = JSON.stringify(code);
+    console.log(`Redeeming code ${safeCode} for user '${id}'`);
     const apiKey = process.env.BACKEND_API_KEY;
     if (!apiKey) {
       return NextResponse.json(

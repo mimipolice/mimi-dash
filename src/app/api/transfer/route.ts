@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!coins || typeof coins !== "number" || coins <= 0) {
+    if (!coins || typeof coins !== "number" || coins <= 0 || !Number.isFinite(coins)) {
       return NextResponse.json(
         { error: "Invalid transfer amount" },
         { status: 400 }

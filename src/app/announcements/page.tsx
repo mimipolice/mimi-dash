@@ -14,6 +14,15 @@ import { useTranslations } from "next-intl";
 import { useAutoRefresh } from "@/hooks/useAutoRefresh";
 import { parseDiscordTimestamp } from "@/lib/discord-timestamp";
 
+function safeUrlTransform(url: string) {
+  const protocols = ["http", "https", "mailto", "tel"];
+  const parsed = new URL(url, "http://localhost");
+  if (protocols.includes(parsed.protocol.slice(0, -1))) {
+    return url;
+  }
+  return url;
+}
+
 export default function AnnouncementsPage() {
   const t = useTranslations("announcements");
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
@@ -232,7 +241,10 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
                   transition={{ delay: 0.1, duration: 0.3 }}
                   className="prose prose-slate dark:prose-invert max-w-none prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-6 prose-h3:mb-3 prose-p:leading-7 prose-p:mb-4 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:font-medium prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-strong:font-semibold prose-strong:text-foreground prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-mono prose-pre:bg-muted prose-pre:p-4 prose-pre:rounded-lg prose-table:border-collapse prose-th:border prose-th:border-border prose-th:bg-muted prose-th:p-2 prose-td:border prose-td:border-border prose-td:p-2"
                 >
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    urlTransform={safeUrlTransform}
+                  >
                     {parseDiscordTimestamp(announcement.content)}
                   </ReactMarkdown>
                 </motion.div>
