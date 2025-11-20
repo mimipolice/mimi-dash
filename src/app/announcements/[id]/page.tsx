@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import AnnouncementsPageClient from "../page";
+import AnnouncementsPageClient from "../page-client";
 
 async function getAnnouncement(id: string) {
   const backendUrl = process.env.BACKEND_API_URL;
@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   if (!announcement) {
     return {
-      title: "公告不存在 | Lolidactyl",
+      title: "公告不存在 | Mimidactyl",
     };
   }
 
@@ -50,7 +50,7 @@ export async function generateMetadata({
   const ogImageUrl = `${baseUrl}/api/og/announcement?id=${id}`;
 
   return {
-    title: `${announcement.title} | Lolidactyl`,
+    title: `${announcement.title} | Mimidactyl`,
     description: description || announcement.title,
     openGraph: {
       title: announcement.title,

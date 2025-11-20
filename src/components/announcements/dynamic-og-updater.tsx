@@ -43,25 +43,25 @@ export function DynamicOGUpdater({ announcements }: DynamicOGUpdaterProps) {
           updateMetaTag("twitter:image", ogImageUrl);
 
           // 更新頁面標題
-          document.title = `${announcement.title} | Lolidactyl`;
+          document.title = `${announcement.title} | Mimidactyl`;
         }
       } else {
         // 恢復預設
         const baseUrl = window.location.origin;
-        updateMetaTag("og:title", "公告 | Lolidactyl");
-        updateMetaTag("og:description", "查看 Lolidactyl 的最新公告和更新資訊");
+        updateMetaTag("og:title", "公告 | Mimidactyl");
+        updateMetaTag("og:description", "查看 Mimidactyl 的最新公告和更新資訊");
         updateMetaTag("og:image", `${baseUrl}/api/og/announcements`);
         updateMetaTag("og:type", "website");
         updateMetaTag("og:url", window.location.href);
 
-        updateMetaTag("twitter:title", "公告 | Lolidactyl");
+        updateMetaTag("twitter:title", "公告 | Mimidactyl");
         updateMetaTag(
           "twitter:description",
-          "查看 Lolidactyl 的最新公告和更新資訊"
+          "查看 Mimidactyl 的最新公告和更新資訊"
         );
         updateMetaTag("twitter:image", `${baseUrl}/api/og/announcements`);
 
-        document.title = "公告 | Lolidactyl";
+        document.title = "公告 | Mimidactyl";
       }
     };
 
