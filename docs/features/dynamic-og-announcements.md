@@ -17,14 +17,19 @@ https://your-domain.com/announcements
 ### 分享特定公告
 
 ```
-https://your-domain.com/announcements#123
+https://your-domain.com/announcements/123
 ```
 
 其中 `123` 是公告的 ID。這會：
-1. 自動展開該公告
-2. 滾動到該公告位置
-3. 動態更新頁面的 OG meta tags
-4. 生成該公告專屬的 OG 圖片
+1. 在伺服器端生成該公告專屬的 OG metadata
+2. 自動重定向到 `/announcements#123`
+3. 自動展開該公告並滾動到位置
+4. 社交平台爬蟲會看到正確的標題、描述和圖片
+
+**為什麼不直接用 hash？**
+- URL hash (`#123`) 不會發送到伺服器
+- 社交平台爬蟲無法看到 hash 後的內容
+- 使用真正的路由 (`/123`) 才能在伺服器端生成動態 metadata
 
 ## 技術實現
 
@@ -63,19 +68,20 @@ https://your-domain.com/announcements#123
 
 ### 分享效果
 
-當用戶分享 `https://your-domain.com/announcements#42` 時：
+當用戶分享 `https://your-domain.com/announcements/42` 時：
 
-**Discord/Twitter/Facebook 會顯示：**
+**社交平台爬蟲會看到：**
 - 標題：公告的實際標題
-- 描述：公告內容前 150 字
-- 圖片：動態生成的精美卡片，包含標題、摘要、作者資訊
+- 描述：公告內容前 160 字
+- 圖片：公告的 `image_url` 或預設 OG 圖片
 
-### 用戶體驗
-
-1. 用戶點擊分享連結
-2. 頁面載入並自動展開該公告
-3. 平滑滾動到公告位置
-4. 可以繼續瀏覽其他公告
+**用戶體驗：**
+1. 點擊連結 `/announcements/42`
+2. 伺服器生成動態 metadata
+3. 自動重定向到 `/announcements#42`
+4. 頁面載入並自動展開該公告
+5. 平滑滾動到公告位置
+6. 可以繼續瀏覽其他公告
 
 ## 配置
 
@@ -90,13 +96,13 @@ BACKEND_API_KEY=your-api-key
 ## Preview 頁面 vs Hash Anchor
 
 ### 一般用戶分享（已發布公告）
-使用 hash anchor 方式：
+使用動態路由方式：
 ```
-/announcements#123
+/announcements/123
 ```
-- 所有公告在同一頁
-- 支援動態 OG
-- URL 簡潔易分享
+- 伺服器端生成動態 OG metadata
+- 自動重定向到 `/announcements#123` 並展開
+- 社交平台爬蟲看到正確的預覽資訊
 
 ### 管理員預覽（未發布公告）
 使用獨立 preview 頁面：

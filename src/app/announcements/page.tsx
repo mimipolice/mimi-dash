@@ -67,13 +67,17 @@ export default function AnnouncementsPage() {
     fetchAnnouncements(true);
   }, [fetchAnnouncements]);
 
-  // 處理 URL hash，自動展開並滾動到指定公告
+  // 處理 URL 路徑或 hash，自動展開並滾動到指定公告
   useEffect(() => {
     if (announcements.length === 0 || hasScrolled.current) return;
 
-    const hash = window.location.hash.slice(1); // 移除 #
-    if (hash) {
-      const id = parseInt(hash);
+    // 檢查路徑 /announcements/123 或 hash #123
+    const pathMatch = window.location.pathname.match(/\/announcements\/(\d+)/);
+    const hash = window.location.hash.slice(1);
+    const idStr = pathMatch ? pathMatch[1] : hash;
+
+    if (idStr) {
+      const id = parseInt(idStr);
       if (!isNaN(id)) {
         const announcement = announcements.find((a) => a.id === id);
         if (announcement) {
@@ -91,6 +95,35 @@ export default function AnnouncementsPage() {
       }
     }
   }, [announcements]);
+
+  // 監聽瀏覽器前進/後退按鈕
+  useEffect(() => {
+    const handlePopState = () => {
+      const pathMatch = window.location.pathname.match(
+        /\/announcements\/(\d+)/
+      );
+      const hash = window.location.hash.slice(1);
+      const idStr = pathMatch ? pathMatch[1] : hash;
+
+      if (idStr) {
+        const id = parseInt(idStr);
+        if (!isNaN(id)) {
+          setExpandedId(id);
+          setTimeout(() => {
+            const element = document.getElementById(`announcement-${id}`);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }, 100);
+        }
+      } else {
+        setExpandedId(null);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   // 自動刷新（每 30 秒）
   useAutoRefresh({
@@ -120,11 +153,11 @@ export default function AnnouncementsPage() {
   const handleToggle = (id: number, isExpanded: boolean) => {
     setExpandedId(isExpanded ? id : null);
 
-    // 更新 URL hash
+    // 更新 URL（不刷新頁面）
     if (isExpanded) {
-      window.history.replaceState(null, "", `#${id}`);
+      window.history.pushState(null, "", `/announcements/${id}`);
     } else {
-      window.history.replaceState(null, "", window.location.pathname);
+      window.history.pushState(null, "", "/announcements");
     }
   };
 

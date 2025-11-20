@@ -10,10 +10,15 @@ interface DynamicOGUpdaterProps {
 export function DynamicOGUpdater({ announcements }: DynamicOGUpdaterProps) {
   useEffect(() => {
     const updateMetaTags = () => {
+      // 檢查路徑 /announcements/123 或 hash #123
+      const pathMatch = window.location.pathname.match(
+        /\/announcements\/(\d+)/
+      );
       const hash = window.location.hash.slice(1);
+      const idStr = pathMatch ? pathMatch[1] : hash;
 
-      if (hash) {
-        const id = parseInt(hash);
+      if (idStr) {
+        const id = parseInt(idStr);
         const announcement = announcements.find((a) => a.id === id);
 
         if (announcement) {
@@ -63,11 +68,13 @@ export function DynamicOGUpdater({ announcements }: DynamicOGUpdaterProps) {
     // 初始更新
     updateMetaTags();
 
-    // 監聽 hash 變化
+    // 監聽 hash 和 popstate 變化
     window.addEventListener("hashchange", updateMetaTags);
+    window.addEventListener("popstate", updateMetaTags);
 
     return () => {
       window.removeEventListener("hashchange", updateMetaTags);
+      window.removeEventListener("popstate", updateMetaTags);
     };
   }, [announcements]);
 
