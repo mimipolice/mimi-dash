@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import { useTranslations } from "next-intl";
 import { useAutoRefresh } from "@/hooks/useAutoRefresh";
 import { parseDiscordTimestamp } from "@/lib/discord-timestamp";
+import { DynamicOGUpdater } from "@/components/announcements/dynamic-og-updater";
 
 function safeUrlTransform(url: string) {
   const protocols = ["http", "https", "mailto", "tel"];
@@ -28,6 +29,8 @@ export default function AnnouncementsPage() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const hasScrolled = useRef(false);
 
   const fetchAnnouncements = useCallback(async (showLoading = false) => {
     try {
@@ -63,6 +66,31 @@ export default function AnnouncementsPage() {
   useEffect(() => {
     fetchAnnouncements(true);
   }, [fetchAnnouncements]);
+
+  // 處理 URL hash，自動展開並滾動到指定公告
+  useEffect(() => {
+    if (announcements.length === 0 || hasScrolled.current) return;
+
+    const hash = window.location.hash.slice(1); // 移除 #
+    if (hash) {
+      const id = parseInt(hash);
+      if (!isNaN(id)) {
+        const announcement = announcements.find((a) => a.id === id);
+        if (announcement) {
+          setExpandedId(id);
+          hasScrolled.current = true;
+
+          // 等待 DOM 更新後滾動
+          setTimeout(() => {
+            const element = document.getElementById(`announcement-${id}`);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }, 300);
+        }
+      }
+    }
+  }, [announcements]);
 
   // 自動刷新（每 30 秒）
   useAutoRefresh({
@@ -101,17 +129,41 @@ export default function AnnouncementsPage() {
     );
   }
 
+  const handleToggle = (id: number, isExpanded: boolean) => {
+    setExpandedId(isExpanded ? id : null);
+
+    // 更新 URL hash
+    if (isExpanded) {
+      window.history.replaceState(null, "", `#${id}`);
+    } else {
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  };
+
   return (
     <>
+      <DynamicOGUpdater announcements={announcements} />
       {announcements.map((announcement) => (
-        <AnnouncementCard key={announcement.id} announcement={announcement} />
+        <AnnouncementCard
+          key={announcement.id}
+          announcement={announcement}
+          isExpanded={expandedId === announcement.id}
+          onToggle={handleToggle}
+        />
       ))}
     </>
   );
 }
 
-function AnnouncementCard({ announcement }: { announcement: Announcement }) {
-  const [isExpanded, setIsExpanded] = useState(false);
+function AnnouncementCard({
+  announcement,
+  isExpanded,
+  onToggle,
+}: {
+  announcement: Announcement;
+  isExpanded: boolean;
+  onToggle: (id: number, isExpanded: boolean) => void;
+}) {
   const [viewCount, setViewCount] = useState(announcement.view_count);
   const [hasRecordedView, setHasRecordedView] = useState(false);
 
@@ -138,6 +190,7 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
 
   return (
     <motion.div
+      id={`announcement-${announcement.id}`}
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -158,7 +211,7 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
 
       <Card
         className="cursor-pointer hover:shadow-lg transition-shadow duration-300 overflow-hidden"
-        onClick={() => setIsExpanded(!isExpanded)}
+        onClick={() => onToggle(announcement.id, !isExpanded)}
       >
         <AnimatePresence mode="wait">
           {isExpanded ? (

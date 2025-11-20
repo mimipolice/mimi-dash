@@ -1,62 +1,44 @@
-"use client";
+import { Metadata } from "next";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Rss } from "lucide-react";
-import Link from "next/link";
-import { useTranslations } from "next-intl";
+export async function generateMetadata(): Promise<Metadata> {
+  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+
+  // 如果有特定公告 ID，生成動態 OG
+  // 這會在客戶端通過 hash 處理，但我們可以提供一個通用的 OG
+
+  return {
+    title: "公告 | Lolidactyl",
+    description: "查看 Lolidactyl 的最新公告和更新資訊",
+    openGraph: {
+      title: "公告 | Lolidactyl",
+      description: "查看 Lolidactyl 的最新公告和更新資訊",
+      type: "website",
+      images: [
+        {
+          url: `${baseUrl}/api/og/announcements`,
+          width: 1200,
+          height: 630,
+          alt: "Lolidactyl 公告",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "公告 | Lolidactyl",
+      description: "查看 Lolidactyl 的最新公告和更新資訊",
+    },
+  };
+}
 
 export default function AnnouncementsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const t = useTranslations("announcements");
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="mb-6">
-          <Button asChild variant="ghost" className="gap-2 hover:bg-primary/10">
-            <Link href="/dashboard">
-              <ArrowLeft className="w-4 h-4" />
-              {t("backToDashboard")}
-            </Link>
-          </Button>
-        </div>
-
-        <Card className="mb-8 border-primary/30 bg-gradient-to-r from-primary/10 via-primary/5 to-background shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-primary/20 border border-primary/30">
-                  <Rss className="w-6 h-6 text-primary" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl font-bold text-foreground mb-1">
-                    {t("title")}
-                  </CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    {t("subtitle")}
-                  </CardDescription>
-                </div>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
-
-        <div className="space-y-6">{children}</div>
-
-        <div className="mt-8 text-center text-sm text-muted-foreground">
-          <p>{t("copyright")}</p>
-        </div>
-      </div>
+    <div className="container mx-auto max-w-2xl py-8">
+      <h1 className="mb-6 text-3xl font-bold">公告</h1>
+      <div className="space-y-4">{children}</div>
     </div>
   );
 }

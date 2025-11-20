@@ -150,10 +150,18 @@ export const getColumns = (
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                window.open(
-                  `/announcements/preview/${announcement.id}`,
-                  "_blank"
-                );
+                // 如果公告已發布，使用 hash 方式；未發布則用 preview 頁面
+                const now = new Date();
+                now.setHours(0, 0, 0, 0);
+                const publishDate = new Date(announcement.published_at);
+                publishDate.setHours(0, 0, 0, 0);
+
+                const url =
+                  publishDate <= now
+                    ? `/announcements#${announcement.id}`
+                    : `/announcements/preview/${announcement.id}`;
+
+                window.open(url, "_blank");
               }}
             >
               {t("table.previewPageAction")}
