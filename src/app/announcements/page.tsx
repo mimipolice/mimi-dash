@@ -100,31 +100,19 @@ export default function AnnouncementsPage() {
   });
 
   if (loading) {
-    return (
-      <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
-        <p>{t("loading")}</p>
-      </div>
-    );
+    return <p>{t("loading")}</p>;
   }
 
   if (error) {
-    return (
-      <div className="container mx-auto max-w-2xl py-8">
-        <h1 className="mb-6 text-3xl font-bold">{t("title")}</h1>
-        <p>Error: {error}</p>
-      </div>
-    );
+    return <p>Error: {error}</p>;
   }
 
   if (announcements.length === 0) {
     return (
-      <div className="container mx-auto max-w-2xl py-8">
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <p className="text-2xl text-muted-foreground">
-            Σヽ(ﾟД ﾟ; )ﾉ 本站尚無公告
-          </p>
-        </div>
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <p className="text-2xl text-muted-foreground">
+          Σヽ(ﾟД ﾟ; )ﾉ 本站尚無公告
+        </p>
       </div>
     );
   }
