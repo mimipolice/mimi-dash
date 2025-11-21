@@ -77,9 +77,13 @@ export async function GET(request: NextRequest) {
 
     // 如果有圖片，生成裁切後的 OG 圖片；否則使用預設圖片
     if (announcement.image_url) {
-      console.log(
-        `[OG] Generating cropped image for: ${announcement.image_url}`
-      );
+      // 將相對路徑轉換成完整 URL
+      let imageUrl = announcement.image_url;
+      if (imageUrl.startsWith("/")) {
+        imageUrl = `${baseUrl}${imageUrl}`;
+      }
+
+      console.log(`[OG] Generating cropped image for: ${imageUrl}`);
 
       return new ImageResponse(
         (
@@ -95,7 +99,7 @@ export async function GET(request: NextRequest) {
             }}
           >
             <img
-              src={announcement.image_url}
+              src={imageUrl}
               alt={announcement.title}
               style={{
                 width: "100%",
