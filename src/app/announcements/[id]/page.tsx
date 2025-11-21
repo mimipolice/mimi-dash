@@ -33,7 +33,25 @@ async function getAnnouncement(id: string) {
       return null;
     }
 
-    const announcements = await response.json();
+    const data = await response.json();
+
+    // 處理不同的響應格式
+    let announcements: any[];
+    if (Array.isArray(data)) {
+      announcements = data;
+    } else if (data.data && Array.isArray(data.data)) {
+      announcements = data.data;
+    } else if (data.announcements && Array.isArray(data.announcements)) {
+      announcements = data.announcements;
+    } else {
+      console.error(
+        `[Metadata] Unexpected response format:`,
+        typeof data,
+        Object.keys(data || {})
+      );
+      return null;
+    }
+
     const announcement = announcements.find(
       (a: { id: number }) => a.id.toString() === id
     );
@@ -41,7 +59,9 @@ async function getAnnouncement(id: string) {
     if (announcement) {
       console.log(`[Metadata] Found announcement ${id}: ${announcement.title}`);
     } else {
-      console.warn(`[Metadata] Announcement ${id} not found in list`);
+      console.warn(
+        `[Metadata] Announcement ${id} not found in list of ${announcements.length} items`
+      );
     }
 
     return announcement;
