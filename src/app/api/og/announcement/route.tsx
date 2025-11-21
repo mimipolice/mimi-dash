@@ -15,14 +15,17 @@ export async function GET(request: NextRequest) {
     const backendUrl = process.env.BACKEND_API_URL;
     const apiKey = process.env.BACKEND_API_KEY;
 
-    const response = await fetch(`${backendUrl}/announcements`, {
+    const response = await fetch(`${backendUrl}/api/announcements`, {
       headers: {
-        "X-API-Key": apiKey || "",
+        Authorization: `Bearer ${apiKey}`,
       },
     });
 
     if (!response.ok) {
-      return new Response("Failed to fetch announcement", { status: 500 });
+      console.error(`Failed to fetch announcements: ${response.status}`);
+      // 返回預設圖片
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+      return Response.redirect(`${baseUrl}/OG/Murasame_25-10-9.jpg`, 302);
     }
 
     const announcements = await response.json();
@@ -31,7 +34,10 @@ export async function GET(request: NextRequest) {
     );
 
     if (!announcement) {
-      return new Response("Announcement not found", { status: 404 });
+      console.warn(`Announcement ${id} not found`);
+      // 返回預設圖片
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+      return Response.redirect(`${baseUrl}/OG/Murasame_25-10-9.jpg`, 302);
     }
 
     // 優先使用後端圖片，否則使用預設圖片

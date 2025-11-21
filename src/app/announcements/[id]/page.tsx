@@ -6,14 +6,17 @@ async function getAnnouncement(id: string) {
   const apiKey = process.env.BACKEND_API_KEY;
 
   try {
-    const response = await fetch(`${backendUrl}/announcements`, {
+    const response = await fetch(`${backendUrl}/api/announcements`, {
       headers: {
-        "X-API-Key": apiKey || "",
+        Authorization: `Bearer ${apiKey}`,
       },
       cache: "no-store",
     });
 
     if (!response.ok) {
+      console.error(
+        `Failed to fetch announcements: ${response.status} ${response.statusText}`
+      );
       return null;
     }
 
