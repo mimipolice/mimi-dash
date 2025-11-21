@@ -2,15 +2,12 @@ import { Metadata } from "next";
 import AnnouncementsPageClient from "../page-client";
 
 async function getAnnouncement(id: string) {
-  const backendUrl = process.env.BACKEND_API_URL;
-  const apiKey = process.env.BACKEND_API_KEY;
-
   try {
-    const response = await fetch(`${backendUrl}/api/announcements`, {
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
+    // 使用前端 API 路由，這樣可以在運行時訪問
+    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/announcements`, {
       cache: "no-store",
+      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
@@ -21,7 +18,17 @@ async function getAnnouncement(id: string) {
     }
 
     const announcements = await response.json();
-    return announcements.find((a: { id: number }) => a.id.toString() === id);
+    const announcement = announcements.find(
+      (a: { id: number }) => a.id.toString() === id
+    );
+
+    if (announcement) {
+      console.log(`[Metadata] Found announcement ${id}: ${announcement.title}`);
+    } else {
+      console.warn(`[Metadata] Announcement ${id} not found in list`);
+    }
+
+    return announcement;
   } catch (error) {
     console.error("Error fetching announcement:", error);
     return null;

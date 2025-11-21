@@ -11,9 +11,15 @@ export async function GET(request: NextRequest) {
       return new Response("Missing announcement ID", { status: 400 });
     }
 
-    // Fetch announcement data
+    // Fetch announcement data from backend
     const backendUrl = process.env.BACKEND_API_URL;
     const apiKey = process.env.BACKEND_API_KEY;
+
+    if (!backendUrl || !apiKey) {
+      console.error("Missing BACKEND_API_URL or BACKEND_API_KEY");
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+      return Response.redirect(`${baseUrl}/OG/Murasame_25-10-9.jpg`, 302);
+    }
 
     const response = await fetch(`${backendUrl}/api/announcements`, {
       headers: {
