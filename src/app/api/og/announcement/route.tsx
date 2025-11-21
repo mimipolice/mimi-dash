@@ -74,12 +74,22 @@ export async function GET(request: NextRequest) {
       `[OG] Found announcement ${id}, has image: ${!!announcement.image_url}`
     );
 
-    // 如果有圖片，直接使用；否則使用預設圖片
+    // 如果有圖片，檢查格式；否則使用預設圖片
     if (announcement.image_url) {
       // 將相對路徑轉換成完整 URL
       let imageUrl = announcement.image_url;
       if (imageUrl.startsWith("/")) {
         imageUrl = `${baseUrl}${imageUrl}`;
+      }
+
+      // 檢查是否為 WebP 格式（Discord 可能不支援）
+      const isWebP = imageUrl.toLowerCase().endsWith(".webp");
+
+      if (isWebP) {
+        console.log(
+          `[OG] Image is WebP format, using default image instead: ${imageUrl}`
+        );
+        return Response.redirect(defaultImage, 302);
       }
 
       console.log(`[OG] Using announcement image: ${imageUrl}`);
