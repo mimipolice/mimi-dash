@@ -1,4 +1,3 @@
-import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
 export const runtime = "edge";
@@ -75,7 +74,7 @@ export async function GET(request: NextRequest) {
       `[OG] Found announcement ${id}, has image: ${!!announcement.image_url}`
     );
 
-    // 如果有圖片，生成裁切後的 OG 圖片；否則使用預設圖片
+    // 如果有圖片，直接使用；否則使用預設圖片
     if (announcement.image_url) {
       // 將相對路徑轉換成完整 URL
       let imageUrl = announcement.image_url;
@@ -83,37 +82,8 @@ export async function GET(request: NextRequest) {
         imageUrl = `${baseUrl}${imageUrl}`;
       }
 
-      console.log(`[OG] Generating cropped image for: ${imageUrl}`);
-
-      return new ImageResponse(
-        (
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "#000",
-              overflow: "hidden",
-            }}
-          >
-            <img
-              src={imageUrl}
-              alt={announcement.title}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        ),
-        {
-          width: 1200,
-          height: 630,
-        }
-      );
+      console.log(`[OG] Using announcement image: ${imageUrl}`);
+      return Response.redirect(imageUrl, 302);
     }
 
     // 沒有圖片時使用預設圖片
