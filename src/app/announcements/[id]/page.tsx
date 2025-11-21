@@ -1,18 +1,34 @@
 import { Metadata } from "next";
 import AnnouncementsPageClient from "../page-client";
 
+// 強制動態渲染
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 async function getAnnouncement(id: string) {
+  const backendUrl = process.env.BACKEND_API_URL;
+  const apiKey = process.env.BACKEND_API_KEY;
+
+  if (!backendUrl || !apiKey) {
+    console.error("[Metadata] Missing BACKEND_API_URL or BACKEND_API_KEY");
+    return null;
+  }
+
   try {
-    // 使用前端 API 路由，這樣可以在運行時訪問
-    const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/announcements`, {
+    console.log(
+      `[Metadata] Fetching announcement ${id} from ${backendUrl}/api/announcements`
+    );
+
+    const response = await fetch(`${backendUrl}/api/announcements`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
       cache: "no-store",
-      next: { revalidate: 0 },
     });
 
     if (!response.ok) {
       console.error(
-        `Failed to fetch announcements: ${response.status} ${response.statusText}`
+        `[Metadata] Failed to fetch announcements: ${response.status} ${response.statusText}`
       );
       return null;
     }
@@ -30,7 +46,7 @@ async function getAnnouncement(id: string) {
 
     return announcement;
   } catch (error) {
-    console.error("Error fetching announcement:", error);
+    console.error("[Metadata] Error fetching announcement:", error);
     return null;
   }
 }
