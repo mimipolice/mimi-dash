@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 
     if (id === to) {
       return NextResponse.json(
-        { status: "error", errors: ["Same user transfer is not allowed"] },
+        { message: "Cannot transfer to yourself" },
         { status: 400 }
       );
     }
@@ -64,14 +64,41 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    return NextResponse.json(response.data);
-  } catch (error) {
-    // In a real-world application, you might want to log this error to a service
-    // For now, we just forward the error response
+    // Forward rate limit headers from backend
+    const headers: Record<string, string> = {};
+    const rateLimitHeaders = [
+      "X-RateLimit-Limit",
+      "X-RateLimit-Remaining",
+      "X-RateLimit-Reset",
+    ];
+    rateLimitHeaders.forEach((header) => {
+      const value = response.headers[header.toLowerCase()];
+      if (value) {
+        headers[header] = value;
+      }
+    });
 
+    return NextResponse.json(response.data, { headers });
+  } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
+      // Forward rate limit headers on error responses too
+      const headers: Record<string, string> = {};
+      const rateLimitHeaders = [
+        "X-RateLimit-Limit",
+        "X-RateLimit-Remaining",
+        "X-RateLimit-Reset",
+        "Retry-After",
+      ];
+      rateLimitHeaders.forEach((header) => {
+        const value = error.response?.headers[header.toLowerCase()];
+        if (value) {
+          headers[header] = value;
+        }
+      });
+
       return NextResponse.json(error.response.data, {
         status: error.response.status,
+        headers,
       });
     }
 

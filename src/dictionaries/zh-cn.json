@@ -331,7 +331,10 @@
       "invalidAmount": "无效金额",
       "invalidRecipient": "无效收款人 ID",
       "amountTooLow": "输入金额低于最低转账金额",
-      "sameUserTransfer": "不能转账给自己"
+      "sameUserTransfer": "不能转账给自己",
+      "rateLimitExceeded": "转账请求过于频繁，请稍后再试",
+      "accountTooNew": "您的 Discord 帐户年龄不符合转账要求（需超过 4 个月）",
+      "blacklisted": "您的帐户已被限制转账功能"
     }
   },
   "couponsManagement": {

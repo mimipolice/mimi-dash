@@ -323,7 +323,10 @@
       "invalidAmount": "無效金額",
       "invalidRecipient": "無效收款人 ID",
       "amountTooLow": "輸入金額低於最低轉帳金額",
-      "sameUserTransfer": "不能轉帳給自己"
+      "sameUserTransfer": "不能轉帳給自己",
+      "rateLimitExceeded": "轉帳請求過於頻繁，請稍後再試",
+      "accountTooNew": "您的 Discord 帳戶年齡不符合轉帳要求（需超過 4 個月）",
+      "blacklisted": "您的帳戶已被限制轉帳功能"
     }
   },
   "couponsManagement": {

@@ -38,14 +38,16 @@ interface TransferResponse {
   transfer_details?: {
     sender_id: string;
     receiver_id: string;
-    gross_amount: number;
-    fee_amount: number;
-    net_amount: number;
+    transfer_amount: number; // 接收者實收金額
+    fee_amount: number; // 手續費
+    total_deducted: number; // 發送者實際支付（transfer_amount + fee_amount）
     sender_balance_after: number;
     receiver_balance_after: number;
   };
-  errors?: string[];
-  error?: string; // For backend proxy errors
+  // Rate limit error fields
+  error?: string;
+  resetTime?: number; // Unix timestamp in milliseconds
+  remainingRequests?: number;
 }
 
 export default function TransferPage() {
@@ -96,58 +98,53 @@ export default function TransferPage() {
           from: data.transfer_details.sender_balance_after,
           to: data.transfer_details.receiver_balance_after,
           fee: data.transfer_details.fee_amount,
-          actualTransfer: data.transfer_details.net_amount,
+          actualTransfer: data.transfer_details.transfer_amount,
         });
         setRecipientId("");
         setAmount("");
       } else {
-        // Handle errors from the backend API
-        const errorMessage =
-          data.message || data.error || (data.errors && data.errors[0]);
-        if (errorMessage) {
-          if (errorMessage.includes("not found")) {
-            toast.error(t("errors.receiverNotFound"));
-          } else if (errorMessage.includes("Insufficient balance")) {
-            toast.error(t("errors.insufficientBalance"));
-          } else if (errorMessage.includes("too low")) {
-            toast.error(t("errors.amountTooLow"));
-          } else if (errorMessage.includes("Same user")) {
-            toast.error(t("errors.sameUserTransfer"));
-          } else {
-            toast.error(errorMessage);
-          }
-        } else {
-          toast.error(t("errors.transferFailed"));
-        }
+        handleTransferError(data.message || data.error);
       }
     } catch (error) {
-      // The error is displayed to the user via toast, no need to log to console
       if (axios.isAxiosError(error) && error.response?.data) {
         const errorData = error.response.data;
-        const errorMessage =
-          errorData.message ||
-          errorData.error ||
-          (errorData.errors && errorData.errors[0]);
-        if (errorMessage) {
-          if (errorMessage.includes("not found")) {
-            toast.error(t("errors.receiverNotFound"));
-          } else if (errorMessage.includes("Insufficient balance")) {
-            toast.error(t("errors.insufficientBalance"));
-          } else if (errorMessage.includes("too low")) {
-            toast.error(t("errors.amountTooLow"));
-          } else if (errorMessage.includes("Same user")) {
-            toast.error(t("errors.sameUserTransfer"));
-          } else {
-            toast.error(errorMessage);
-          }
-        } else {
-          toast.error(t("errors.transferFailed"));
-        }
+        handleTransferError(errorData.message || errorData.error);
       } else {
         toast.error(t("errors.transferFailed"));
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleTransferError = (errorMessage?: string) => {
+    if (!errorMessage) {
+      toast.error(t("errors.transferFailed"));
+      return;
+    }
+
+    if (errorMessage.includes("not found")) {
+      toast.error(t("errors.receiverNotFound"));
+    } else if (errorMessage.includes("Insufficient balance")) {
+      toast.error(t("errors.insufficientBalance"));
+    } else if (errorMessage.includes("too low")) {
+      toast.error(t("errors.amountTooLow"));
+    } else if (
+      errorMessage.includes("Cannot transfer to yourself") ||
+      errorMessage.includes("Same user")
+    ) {
+      toast.error(t("errors.sameUserTransfer"));
+    } else if (
+      errorMessage.includes("Rate limit") ||
+      errorMessage.includes("Too many")
+    ) {
+      toast.error(t("errors.rateLimitExceeded"));
+    } else if (errorMessage.includes("age requirement")) {
+      toast.error(t("errors.accountTooNew"));
+    } else if (errorMessage.includes("blacklisted")) {
+      toast.error(t("errors.blacklisted"));
+    } else {
+      toast.error(errorMessage);
     }
   };
 

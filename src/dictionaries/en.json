@@ -331,7 +331,10 @@
       "invalidAmount": "Invalid amount",
       "invalidRecipient": "Invalid recipient ID",
       "amountTooLow": "Transfer amount is below the minimum transfer amount",
-      "sameUserTransfer": "You cannot transfer droplets to yourself"
+      "sameUserTransfer": "You cannot transfer droplets to yourself",
+      "rateLimitExceeded": "Too many transfer requests. Please try again later",
+      "accountTooNew": "Your Discord account does not meet the age requirement (must be older than 4 months)",
+      "blacklisted": "Your account has been restricted from making transfers"
     }
   },
   "couponsManagement": {
