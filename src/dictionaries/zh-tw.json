@@ -1,0 +1,568 @@
+{
+  "appName": "MimiDLC",
+  "common": {
+    "droplets": "油幣",
+    "languages": "語言",
+    "login": "登入",
+    "logout": "登出",
+    "resources": "資源",
+    "dashboard": "儀表板"
+  },
+  "landing": {
+    "nav": {
+      "features": "功能特色",
+      "pricing": "價格方案",
+      "contact": "客戶評價",
+      "getStarted": "檢視舊版界面🦊"
+    },
+    "hero": {
+      "title": "重新想像「 婆 」",
+      "subtitle": "米米警察提供酷酷的抽婆&強大的經濟系統，以及活躍的支援社群。",
+      "cta": "立即開始",
+      "inviteAmamiyaBot": "邀請 米米DLC",
+      "inviteMimiBot": "邀請 米米警察"
+    },
+    "features": {
+      "title": "豐富功能，滿足您的需求",
+      "subtitle": "我們帶來全新的Discord bot體驗",
+      "security": {
+        "title": "安全",
+        "description": "我們不會偷啃您的 Token"
+      },
+      "global": {
+        "title": "語言",
+        "description": "我們支援多種語言"
+      },
+      "scalable": {
+        "title": "彈性",
+        "description": "快速致富，快速破產"
+      },
+      "support": {
+        "title": "支援",
+        "description": "支援團隊在 Discord 等著您"
+      }
+    },
+    "testimonials": {
+      "title": "客戶評價",
+      "subtitle": "看看我們的客戶怎麼說",
+      "tCount": "3",
+      "t": {
+        "1": {
+          "quote": "喵？",
+          "name": "Honkomagake",
+          "title": "可愛小男娘"
+        },
+        "2": {
+          "quote": "去了 /////////",
+          "name": "RynoTheCatgirl",
+          "title": "資深貓娘"
+        },
+        "3": {
+          "quote": ":BongoYes:",
+          "name": "Aquatf",
+          "title": "osu! #1 Player / maimai DX w6"
+        }
+      }
+    },
+    "cta": {
+      "title": "準備好開始了嗎？",
+      "subtitle": "加入數千位滿意客戶的行列，體驗 MimiDLC 的卓越服務",
+      "button": "加入"
+    },
+    "footer": {
+      "description": "MimiDLC 致力於提供最可愛的機器人體驗，快點喵喵叫！",
+      "company": "公司",
+      "about": "關於我們",
+      "careers": "職涯機會",
+      "contact": "聯絡我們",
+      "support": "支援",
+      "help": "幫助中心",
+      "docs": "文檔",
+      "status": "服務狀態",
+      "rights": "保留所有權利"
+    }
+  },
+  "dashboard": {
+    "breadcrumbs": "索引",
+    "additionalResources": "其他資源",
+    "balance-history": {
+      "title": "餘額歷史",
+      "fetch-error": "獲取餘額歷史失敗。",
+      "no-records": "找不到任何記錄。"
+    },
+    "manage": {
+      "title": "管理",
+      "users": "用戶",
+      "my-profile": "個人資料"
+    },
+    "gacha-stats": {
+      "title": "抽卡統計",
+      "loading": "正在載入統計數據...",
+      "basic_stats": {
+        "total_draws": "抽卡次數",
+        "unique_cards": "不同卡片",
+        "new_cards": "新卡次數",
+        "wish_hits": "許願命中"
+      },
+      "rarity_distribution": {
+        "title": "稀有度分布"
+      },
+      "pool_distribution": {
+        "title": "卡池分布",
+        "pools": {
+          "ua": "UNION ARENA卡池",
+          "vd": "情人節卡池",
+          "sve": "Shadowverse Evolve卡池",
+          "main": "主卡池",
+          "ongeki": "音擊卡池",
+          "summer": "泳裝卡池",
+          "wixoss": "WIXOSS卡池",
+          "special": "典藏卡池",
+          "hololive": "Hololive卡池",
+          "special_maid": "典藏女僕卡池"
+        }
+      },
+      "luck_analysis": {
+        "title": "運氣分析",
+        "avg_top_tier_draw": "平均出頂級卡",
+        "longest_drought": "最長乾旱",
+        "luck_index": "運氣指數",
+        "avg_top_tier_draw_value": "{value} 抽",
+        "longest_drought_value": "{value} 抽",
+        "moods": {
+          "never_luck": "從未出貨",
+          "super_emperor": "超級歐皇",
+          "emperor": "歐皇",
+          "lucky": "小歐",
+          "normal": "平民",
+          "unlucky": "小非",
+          "very_unlucky": "非酋",
+          "super_unlucky": "超級非酋"
+        }
+      },
+      "server_comparison": {
+        "title": "全服比較 (每小時更新)",
+        "top_tier_rate": "頂級卡出率",
+        "user_top_tier_rate": "你的頂級卡率",
+        "total_draws_rank": "抽卡次數排名",
+        "top_tier_rate_value": "比全服平均{comparison} {value}% {emoji}",
+        "higher": "高",
+        "lower": "低",
+        "total_draws_rank_value": "全服第 {rank} 名"
+      },
+      "most_drawn": {
+        "title": "最常抽到",
+        "draws": "次"
+      },
+      "hover_for_details": "懸停查看詳細資訊",
+      "hover_for_preview": "Ciallo～(∠・ω< )⌒☆",
+      "pool_selection": {
+        "placeholder": "選擇卡池",
+        "all": "所有卡池"
+      }
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "description": "調整成您喜愛的偏好設定"
+  },
+  "loginForm": {
+    "welcomeBack": "歡迎回來！",
+    "description": "登入以繼續使用 MimiDLC",
+    "continueWith": "使用以下方式繼續",
+    "comingSoon": "即將推出",
+    "agreement": "使用本服務即表示您同意我們的服務條款及隱私政策。",
+    "agreementPrefix": "使用本服務即表示您同意我們的",
+    "agreementTerms": "服務條款",
+    "agreementAnd": "及",
+    "agreementPrivacy": "隱私政策",
+    "agreementSuffix": "。"
+  },
+  "sidebar": {
+    "dashboard": "儀表板",
+    "home": "首頁",
+    "panel": "面板",
+    "docs": "文檔",
+    "index": "索引",
+    "servers": "伺服器",
+    "create": "創建",
+    "manage": "管理",
+    "users": "用戶",
+    "overview": "概覽",
+    "droplets": "油幣",
+    "coupons": "兌換代碼",
+    "transfer": "轉帳",
+    "store": "商店",
+    "general": "一般",
+    "resources": "資源",
+    "platform": "平台",
+    "go": "前往",
+    "destination": "跳轉至",
+    "admin": "管理",
+    "manage_coupons": "管理優惠碼",
+    "announcements": "公告",
+    "manage_announcements": "管理公告",
+    "manage_banners": "管理橫幅"
+  },
+  "auth": {
+    "welcomeBack": "歡迎回來！",
+    "error": {
+      "accessDenied": {
+        "title": "拒絕存取",
+        "description": "您可能使用了 VPN / Proxy / Hosting 或是有創立多重帳號的行為，這些都是不被我們的條款允許的。",
+        "suggestion": "請聯繫管理員以獲得進一步協助。"
+      },
+      "configuration": {
+        "title": "配置錯誤",
+        "description": "服務配置出現問題。",
+        "suggestion": "請稍後再試或聯繫技術支援。"
+      },
+      "verification": {
+        "title": "驗證失敗",
+        "description": "無法驗證您的身份。",
+        "suggestion": "請檢查您的網路連線並重試。"
+      },
+      "default": {
+        "title": "登入錯誤",
+        "description": "登入過程中發生未知錯誤。",
+        "suggestion": "請稍後再試或聯繫技術支援。"
+      },
+      "technicalDetails": "技術詳情",
+      "errorCode": "錯誤代碼",
+      "retryLogin": "重新登入",
+      "returnHome": "返回首頁"
+    }
+  },
+  "userCard": {
+    "title": "使用者資訊",
+    "unknownUser": "未知使用者",
+    "unknownId": "未知",
+    "droplets": "油幣",
+    "dropletsDescription": "您的貨幣餘額",
+    "servers": "伺服器",
+    "serversDescription": "您目前擁有的伺服器數量",
+    "goToSupportServer": "前往支援伺服器",
+    "userId": "Discord ID",
+    "close": "關閉",
+    "copyUserId": "複製 ID",
+    "copied": "已複製",
+    "assets": "資產",
+    "oilTicket": "油票",
+    "oilTicketDescription": "您目前擁有的油票數量",
+    "totalCardValue": "卡片總價值",
+    "totalStockValue": "股票總價值",
+    "statistics": "主要統計",
+    "totalDraw": "總抽卡數",
+    "totalGamePlayed": "總遊戲次數",
+    "cardCollectionRate": "卡片收集率"
+  },
+  "navUser": {
+    "logout": "登出",
+    "droplets": "油幣",
+    "language": "語言"
+  },
+  "adCard": {
+    "title": "推薦服務",
+    "learnMore": "了解更多",
+    "advertisement": "廣告",
+    "clickToViewMore": "點擊查看更多",
+    "goToView": "前往查看",
+    "close": "關閉"
+  },
+  "coupons": {
+    "breadcrumbs": "兌換代碼",
+    "title": "兌換代碼",
+    "description": "輸入兌換代碼以兌換油幣",
+    "form": {
+      "label": "兌換代碼",
+      "placeholder": "請輸入您的兌換代碼",
+      "submit": "兌換"
+    },
+    "success": {
+      "title": "兌換代碼成功！",
+      "description": "您已成功兌換代碼",
+      "rewardReceived": "獲得獎勵",
+      "currentBalance": "目前餘額",
+      "droplets": "油幣"
+    },
+    "errors": {
+      "alreadyUsed": "該兌換代碼已被兌換過",
+      "notFound": "無效的兌換代碼",
+      "limitReached": "該兌換代碼已被兌換完畢",
+      "redeemFailed": "兌換代碼失敗"
+    }
+  },
+  "transfer": {
+    "breadcrumbs": "轉帳",
+    "title": "轉帳油幣",
+    "description": "將您的油幣轉帳給其他使用者",
+    "form": {
+      "processing": "處理中...",
+      "recipientLabel": "收款人 Discord ID",
+      "recipientPlaceholder": "輸入 Discord ID",
+      "amountLabel": "金額",
+      "amountPlaceholder": "輸入轉帳金額",
+      "submit": "轉帳",
+      "feeNotice": "轉帳將收取 3% 手續費。"
+    },
+    "success": {
+      "title": "轉帳成功！",
+      "description": "您的油幣已成功轉帳",
+      "details": "轉帳詳情",
+      "yourBalance": "您的餘額",
+      "recipientBalance": "收款人餘額",
+      "fee": "手續費",
+      "actualTransfer": "實際收款",
+      "droplets": "油幣",
+      "close": "完成"
+    },
+    "errors": {
+      "receiverNotFound": "找不到收款人",
+      "insufficientBalance": "餘額不足",
+      "transferFailed": "轉帳失敗",
+      "invalidAmount": "無效金額",
+      "invalidRecipient": "無效收款人 ID",
+      "amountTooLow": "輸入金額低於最低轉帳金額",
+      "sameUserTransfer": "不能轉帳給自己",
+      "rateLimitExceeded": "轉帳請求過於頻繁，請稍後再試",
+      "accountTooNew": "您的 Discord 帳戶年齡不符合轉帳要求（需超過 4 個月）",
+      "blacklisted": "您的帳戶已被限制轉帳功能"
+    }
+  },
+  "couponsManagement": {
+    "title": "優惠碼管理",
+    "createCoupon": "建立優惠碼",
+    "noResults": "沒有結果。",
+    "dialog": {
+      "editTitle": "編輯優惠碼",
+      "createTitle": "建立優惠碼",
+      "editDescription": "編輯您的優惠碼詳細資訊。",
+      "createDescription": "在這裡建立新的優惠碼。完成後點擊儲存。",
+      "codeLabel": "代碼",
+      "rewardAmountLabel": "油幣數量",
+      "usageLimitLabel": "使用限制",
+      "expiresAtLabel": "到期日",
+      "activeLabel": "啟用",
+      "saveButton": "儲存變更"
+    },
+    "table": {
+      "codeHeader": "代碼",
+      "rewardAmountHeader": "油幣數量",
+      "usageLimitHeader": "使用限制",
+      "usedCountHeader": "已使用次數",
+      "expiresAtHeader": "到期日",
+      "createdAtHeader": "建立時間",
+      "updatedAtHeader": "更新時間",
+      "statusHeader": "狀態",
+      "actionsLabel": "操作",
+      "editAction": "編輯",
+      "deleteAction": "刪除",
+      "usageDetailsAction": "使用詳情",
+      "openMenu": "開啟選單",
+      "notAvailable": "N/A",
+      "copyTooltip": "點擊以複製"
+    },
+    "status": {
+      "active": "啟用",
+      "inactive": "停用",
+      "permanent": "永久"
+    },
+    "toasts": {
+      "loading": "正在載入優惠碼...",
+      "loadSuccess": "優惠碼載入成功。",
+      "loadError": "載入優惠碼失敗。",
+      "updating": "正在更新優惠碼...",
+      "creating": "正在建立優惠碼...",
+      "updateSuccess": "優惠碼更新成功。",
+      "createSuccess": "優惠碼建立成功。",
+      "updateError": "更新優惠碼失敗。",
+      "createError": "建立優惠碼失敗。",
+      "deleting": "正在刪除優惠碼...",
+      "deleteSuccess": "優惠碼刪除成功。",
+      "deleteError": "刪除優惠碼失敗。",
+      "fetchUsageError": "獲取優惠碼使用情況失敗。"
+    },
+    "deleteDialog": {
+      "title": "您確定要這麼做嗎？",
+      "description": "此操作無法復原。這將會永久刪除優惠碼：{code}。",
+      "cancel": "取消",
+      "confirm": "確認"
+    },
+    "usageDialog": {
+      "title": "優惠碼使用詳情",
+      "description": "優惠碼的使用統計：{code}",
+      "statisticsTitle": "統計",
+      "totalUsed": "總使用次數",
+      "uniqueUsers": "不重複使用者",
+      "remainingUses": "剩餘使用次數",
+      "firstUsed": "首次使用",
+      "lastUsed": "最後使用",
+      "usageDetailsTitle": "使用詳情",
+      "userIdHeader": "使用者 ID",
+      "userNameHeader": "使用者名稱",
+      "usedAtHeader": "使用時間",
+      "closeButton": "關閉",
+      "loading": "正在載入使用數據...",
+      "noData": "此優惠碼暫無使用數據。"
+    },
+    "summary": {
+      "totalCoupons": "現有優惠碼數量",
+      "totalUsage": "總使用量",
+      "totalRewardAmount": "總發放金額"
+    },
+    "history": {
+      "title": "歷史使用統計",
+      "usage": "使用量",
+      "titleInteractive": "互動式區域圖",
+      "description": "顯示 {timeRangeText} 的總使用量",
+      "last3Months": "最近 3 個月",
+      "last30Days": "最近 30 天",
+      "last7Days": "最近 7 天",
+      "selectTimeRange": "選擇時間範圍",
+      "timeRangeText": {
+        "90d": "最近 3 個月",
+        "30d": "最近 30 天",
+        "7d": "最近 7 天"
+      }
+    }
+  },
+  "docs": {
+    "title": "文件中心",
+    "subtitle": "重要政策與規範說明",
+    "copyright": "© 2025 MimiDLC - 保留所有權利。",
+    "index": {
+      "title": "文件索引",
+      "subtitle": "瀏覽所有可用的文件",
+      "loading": "載入中...",
+      "lastUpdated": "最後更新",
+      "readMore": "閱讀更多",
+      "backToHome": "返回文件索引",
+      "backToDashboard": "返回儀表板",
+      "searchPlaceholder": "搜尋文件...",
+      "noResults": "找不到相關文件",
+      "noResultsHint": "請嘗試不同的搜尋關鍵字",
+      "privacy": {
+        "title": "隱私權政策",
+        "description": "了解我們如何收集、使用和保護您的個人資訊",
+        "updated": "最後更新"
+      },
+      "terms": {
+        "title": "服務條款",
+        "description": "使用我們服務的重要條款和條件",
+        "updated": "最後更新"
+      },
+      "noDocuments": "沒有可用的文件"
+    }
+  },
+  "announcements": {
+    "title": "公告",
+    "subtitle": "最新消息與更新",
+    "backToDashboard": "返回儀表板",
+    "copyright": "© 2025 MimiDLC - 保留所有權利。",
+    "loading": "載入中..."
+  },
+  "announcement": {
+    "title": "新功能上線！",
+    "shortDescription": "我們推出了一系列令人興奮的新功能，快來看看吧！"
+  },
+  "announcementsManagement": {
+    "title": "公告管理",
+    "createAnnouncement": "建立公告",
+    "noResults": "找不到任何公告。",
+    "dialog": {
+      "editTitle": "編輯公告",
+      "createTitle": "建立公告",
+      "editDescription": "編輯您的公告詳細資訊。",
+      "createDescription": "在這裡建立新的公告。完成後點擊儲存。",
+      "titleLabel": "標題",
+      "contentLabel": "內容",
+      "severityLabel": "嚴重性",
+      "publishedAtLabel": "發布於",
+      "shortDescriptionLabel": "簡短描述 (用於橫幅)",
+      "imageUrlLabel": "圖片 URL",
+      "saveButton": "儲存變更"
+    },
+    "table": {
+      "titleHeader": "標題",
+      "severityHeader": "嚴重性",
+      "publishedAtHeader": "發布於",
+      "actionsLabel": "操作",
+      "previewDialogAction": "快速預覽",
+      "previewPageAction": "完整預覽",
+      "editAction": "編輯",
+      "deleteAction": "刪除"
+    },
+    "severities": {
+      "info": "資訊",
+      "warning": "警告",
+      "alert": "警報"
+    },
+    "toasts": {
+      "loading": "正在載入公告...",
+      "loadSuccess": "公告載入成功。",
+      "loadError": "載入公告失敗。",
+      "updating": "正在更新公告...",
+      "creating": "正在建立公告...",
+      "updateSuccess": "公告更新成功。",
+      "createSuccess": "公告建立成功。",
+      "updateError": "更新公告失敗。",
+      "createError": "建立公告失敗。",
+      "deleting": "正在刪除公告...",
+      "deleteSuccess": "公告刪除成功。",
+      "deleteError": "刪除公告失敗。"
+    }
+  },
+  "bannersManagement": {
+    "title": "橫幅管理",
+    "createBanner": "建立橫幅",
+    "noResults": "沒有結果。",
+    "dialog": {
+      "editTitle": "編輯橫幅",
+      "createTitle": "建立橫幅",
+      "editDescription": "編輯您的橫幅詳細資訊。",
+      "createDescription": "在這裡建立新的橫幅。完成後點擊儲存。",
+      "titleLabel": "標題",
+      "shortDescriptionLabel": "簡短描述",
+      "urlLabel": "URL",
+      "severityLabel": "嚴重性",
+      "displayFromLabel": "顯示開始於",
+      "displayUntilLabel": "顯示結束於",
+      "saveButton": "儲存變更"
+    },
+    "table": {
+      "titleHeader": "標題",
+      "shortDescriptionHeader": "簡短描述",
+      "urlHeader": "URL",
+      "severityHeader": "嚴重性",
+      "displayRangeHeader": "顯示範圍",
+      "actionsLabel": "操作",
+      "editAction": "編輯",
+      "deleteAction": "刪除"
+    },
+    "severities": {
+      "info": "資訊",
+      "warning": "警告",
+      "alert": "警報"
+    },
+    "toasts": {
+      "loading": "正在載入橫幅...",
+      "loadSuccess": "橫幅載入成功。",
+      "loadError": "載入橫幅失敗。",
+      "updating": "正在更新橫幅...",
+      "creating": "正在建立橫幅...",
+      "updateSuccess": "橫幅更新成功。",
+      "createSuccess": "橫幅建立成功。",
+      "updateError": "更新橫幅失敗。",
+      "createError": "建立橫幅失敗。",
+      "deleting": "正在刪除橫幅...",
+      "deleteSuccess": "橫幅刪除成功。",
+      "deleteError": "刪除橫幅失敗。"
+    },
+    "deleteDialog": {
+      "title": "您確定要這麼做嗎？",
+      "description": "此操作無法復原。這將會永久刪除橫幅：{title}。",
+      "cancel": "取消",
+      "confirm": "確認"
+    }
+  }
+}

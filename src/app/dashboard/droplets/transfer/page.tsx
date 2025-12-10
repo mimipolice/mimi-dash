@@ -1,0 +1,323 @@
+"use client";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { useTranslations } from "next-intl";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { toast } from "sonner";
+import axios from "axios";
+import { ArrowRightLeft, Droplets, Send } from "lucide-react";
+import { Cover } from "@/components/ui/cover";
+interface TransferResponse {
+  success: boolean;
+  message?: string;
+  transfer_details?: {
+    sender_id: string;
+    receiver_id: string;
+    transfer_amount: number; // 接收者實收金額
+    fee_amount: number; // 手續費
+    total_deducted: number; // 發送者實際支付（transfer_amount + fee_amount）
+    sender_balance_after: number;
+    receiver_balance_after: number;
+  };
+  // Rate limit error fields
+  error?: string;
+  resetTime?: number; // Unix timestamp in milliseconds
+  remainingRequests?: number;
+}
+
+export default function TransferPage() {
+  const t = useTranslations("transfer");
+  const tCommon = useTranslations("common");
+  const [recipientId, setRecipientId] = useState("");
+  const [amount, setAmount] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [successDialog, setSuccessDialog] = useState<{
+    open: boolean;
+    from: number;
+    to: number;
+    fee: number;
+    actualTransfer: number;
+  }>({
+    open: false,
+    from: 0,
+    to: 0,
+    fee: 0,
+    actualTransfer: 0,
+  });
+
+  const handleTransfer = async () => {
+    if (!recipientId.trim()) {
+      toast.error(t("errors.invalidRecipient"));
+      return;
+    }
+
+    const transferAmount = parseFloat(amount);
+    if (!transferAmount || transferAmount <= 0) {
+      toast.error(t("errors.invalidAmount"));
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post("/api/transfer", {
+        to: recipientId.trim(),
+        coins: transferAmount,
+      });
+
+      const data: TransferResponse = response.data;
+
+      if (data.success && data.transfer_details) {
+        setSuccessDialog({
+          open: true,
+          from: data.transfer_details.sender_balance_after,
+          to: data.transfer_details.receiver_balance_after,
+          fee: data.transfer_details.fee_amount,
+          actualTransfer: data.transfer_details.transfer_amount,
+        });
+        setRecipientId("");
+        setAmount("");
+      } else {
+        handleTransferError(data.message || data.error);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        const errorData = error.response.data;
+        handleTransferError(errorData.message || errorData.error);
+      } else {
+        toast.error(t("errors.transferFailed"));
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTransferError = (errorMessage?: string) => {
+    if (!errorMessage) {
+      toast.error(t("errors.transferFailed"));
+      return;
+    }
+
+    if (errorMessage.includes("not found")) {
+      toast.error(t("errors.receiverNotFound"));
+    } else if (errorMessage.includes("Insufficient balance")) {
+      toast.error(t("errors.insufficientBalance"));
+    } else if (errorMessage.includes("too low")) {
+      toast.error(t("errors.amountTooLow"));
+    } else if (
+      errorMessage.includes("Cannot transfer to yourself") ||
+      errorMessage.includes("Same user")
+    ) {
+      toast.error(t("errors.sameUserTransfer"));
+    } else if (
+      errorMessage.includes("Rate limit") ||
+      errorMessage.includes("Too many")
+    ) {
+      toast.error(t("errors.rateLimitExceeded"));
+    } else if (errorMessage.includes("age requirement")) {
+      toast.error(t("errors.accountTooNew"));
+    } else if (errorMessage.includes("blacklisted")) {
+      toast.error(t("errors.blacklisted"));
+    } else {
+      toast.error(errorMessage);
+    }
+  };
+
+  return (
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/dashboard">
+                  {tCommon("dashboard")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/dashboard">
+                  {tCommon("droplets")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{t("breadcrumbs")}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
+
+      <div className="flex flex-1 flex-col gap-6 p-6 pt-0">
+        <div className="mx-auto w-full max-w-4xl">
+          <Card className="border border-border shadow-2xl bg-card">
+            <CardHeader className="text-center pb-8 pt-12">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 shadow-lg border border-primary/20">
+                <ArrowRightLeft className="h-10 w-10 text-primary" />
+              </div>
+              <CardTitle className="text-3xl font-bold">{t("title")}</CardTitle>
+              <CardDescription className="text-lg mt-4 max-w-2xl mx-auto">
+                {t("description")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="px-12 pb-12">
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="recipient" className="text-base font-medium">
+                    {t("form.recipientLabel")}
+                  </Label>
+                  <Input
+                    id="recipient"
+                    type="text"
+                    placeholder={t("form.recipientPlaceholder")}
+                    value={recipientId}
+                    onChange={(e) => setRecipientId(e.target.value)}
+                    className="h-12 text-base"
+                    disabled={isLoading}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="amount" className="text-base font-medium">
+                    {t("form.amountLabel")}
+                  </Label>
+                  <Input
+                    id="amount"
+                    type="number"
+                    placeholder={t("form.amountPlaceholder")}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="h-12 text-base"
+                    disabled={isLoading}
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+                <Cover className="w-full block">
+                  <Button
+                    onClick={handleTransfer}
+                    disabled={isLoading || !recipientId.trim() || !amount}
+                    className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    {isLoading ? t("form.processing") : t("form.submit")}
+                  </Button>
+                </Cover>
+                <p className="text-xs text-center text-muted-foreground pt-2">
+                  {t("form.feeNotice")}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      <Dialog
+        open={successDialog.open}
+        onOpenChange={(open) => setSuccessDialog((prev) => ({ ...prev, open }))}
+      >
+        <DialogContent className="sm:max-w-lg border shadow-2xl bg-card">
+          <DialogHeader>
+            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40 shadow-xl border border-green-200 dark:border-green-800">
+              <ArrowRightLeft className="h-10 w-10 text-green-600 dark:text-green-400" />
+            </div>
+            <DialogTitle className="text-center text-2xl font-bold text-green-600 dark:text-green-400">
+              {t("success.title")}
+            </DialogTitle>
+            <DialogDescription className="text-center text-base mt-2">
+              {t("success.description")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-6 pt-4">
+            <div className="rounded-xl bg-green-50 dark:bg-green-900/20 p-6 text-center border border-green-200 dark:border-green-800 shadow-inner">
+              <div className="text-sm font-medium text-green-700 dark:text-green-300 mb-2">
+                {t("success.actualTransfer")}
+              </div>
+              <div className="text-3xl font-bold text-green-600 dark:text-green-400 flex items-center justify-center gap-2">
+                <Droplets className="h-7 w-7" />
+                {successDialog.actualTransfer.toFixed(2)}{" "}
+                {t("success.droplets")}
+              </div>
+            </div>
+
+            <div className="space-y-3 rounded-xl border-2 border-dashed border-muted-foreground/20 p-6 bg-muted/30">
+              <div className="text-center mb-4">
+                <div className="text-sm font-medium text-muted-foreground">
+                  {t("success.details")}
+                </div>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  {t("success.yourBalance")}:
+                </span>
+                <span className="text-sm font-mono flex items-center gap-1">
+                  <Droplets className="h-4 w-4" />
+                  {successDialog.from.toFixed(2)} {t("success.droplets")}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium">
+                  {t("success.recipientBalance")}:
+                </span>
+                <span className="text-sm font-mono flex items-center gap-1">
+                  <Droplets className="h-4 w-4" />
+                  {successDialog.to.toFixed(2)} {t("success.droplets")}
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center border-t pt-2">
+                <span className="text-sm font-medium">{t("success.fee")}:</span>
+                <span className="text-sm font-mono flex items-center gap-1">
+                  <Droplets className="h-4 w-4" />
+                  {successDialog.fee.toFixed(2)} {t("success.droplets")}
+                </span>
+              </div>
+            </div>
+
+            <Button
+              onClick={() =>
+                setSuccessDialog((prev) => ({ ...prev, open: false }))
+              }
+              size="lg"
+              className="w-full h-12 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+            >
+              <div className="flex items-center gap-2">
+                {t("success.close")}
+              </div>
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
